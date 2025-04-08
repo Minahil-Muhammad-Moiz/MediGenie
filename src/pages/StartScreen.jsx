@@ -6,7 +6,7 @@ export default function StartScreen() {
     const imageURI = require('../assets/plusSign.jpg')
     return (
         // <ImageBackground source={imageURI} className='flex-1 items-center justify-end'>
-            <View className='flex-1 items-center justify-center h-full w-full bg-blue-950 relative border border-white'>
+            <View className='flex-1 items-center justify-center h-full w-full bg-slate-950 relative border border-white'>
                 
                 <View className='flex items-center p-12 gap-4'>
                     <Text className='text-black text-5xl font-extrabold'>MediGenie</Text>
