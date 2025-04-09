@@ -14,15 +14,16 @@ export default function StartScreen() {
                 <Text className='text-center text-light text-xl font-poppins'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, facilis!</Text>
             </View>
 
-            <View className='px-10 pb-20 flex gap-5 w-full items-center absolute bottom-0 justify-center'>
+            <View className='mx-10 mb-20 flex flex-row w-[80%] items-center absolute bottom-0 justify-center bg-tertiary rounded-[3rem] overflow-hidden border-secondary border'>
 
-                <TouchableOpacity className='w-full rounded-2xl bg-tertiary p-4 '>
-                    <Text className='text-white text-center font-bold text-xl font-poppinsRegular'>Sing Up</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity className='rounded-2xl p-4 text-center bg-secondary w-full'>
+                <TouchableOpacity className='rounded-[3rem] p-4 text-center border-secondary border bg-secondary w-[50%]'>
                     <Text className='text-black text-center font-bold text-xl font-poppinsRegular'>LOG IN</Text>
                 </TouchableOpacity >
+
+                <TouchableOpacity className='w-[50%] rounded-3xl bg-tertiary p-4'>
+                    <Text className='text-white text-center font-bold text-xl font-poppinsRegular'>SIGN UP</Text>
+                </TouchableOpacity>
+
 
             </View>
         </View>
