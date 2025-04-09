@@ -2,14 +2,22 @@
 module.exports = {
   content: [
     "./App.{js,jsx,ts,tsx}",
-    "./src/**/*.{js,jsx,ts,tsx}", // ✅ Includes all files in src
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
       colors: {
-        highlight: "#CEFF00",
-        lime: "#EDFF00" // custom color
+        primary: "#09090b",
+        secondary: '#22d3ee',
+        tertiary: "#171717;",
+        light: '#d4d4d4',
+      },
+      fontFamily: {
+        poppins: ['Poppins-Medium'],
+        poppinsBold: ['Poppins-Bold'],
+        poppinsRegular: ['Poppins-Regular'],
+        poppinsSemiBold: ['Poppins-SemiBold'],
       },
     },
   },
