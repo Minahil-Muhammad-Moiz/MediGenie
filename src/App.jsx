@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground } from 'react-native'
+import { View, Text, ImageBackground, StatusBar } from 'react-native'
 import React from 'react';
 import '../global.css'
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,10 +13,16 @@ const App = () => {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="GettingStarted" 
-      // screenOptions={{
-      //   headerShown: false
-      // }}
+      <StatusBar
+        animated={true}
+        barStyle="dark-content"
+        showHideTransition="fade"
+        hidden={true}
+      />
+      <Stack.Navigator initialRouteName="GettingStarted"
+        screenOptions={{
+          headerShown: false
+        }}
       >
         <Stack.Screen name="GettingStarted" component={StartScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />

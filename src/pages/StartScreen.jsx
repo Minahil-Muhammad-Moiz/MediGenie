@@ -17,21 +17,21 @@ export default function StartScreen() {
 
     return (
         // <ImageBackground source={imageURI} className='flex-1 items-center justify-end'>
-        <View className='flex-1 items-center justify-center h-full w-full bg-primary relative'>
+        <View className='flex-1 items-center justify-center h-full w-full bg-black1 relative p-12'>
 
-            <View className='flex items-center px-12 pb-12 -pt-10 gap-4'>
+            <View className='flex items-center px-2 pb-12 -pt-10 gap-4'>
                 <Image source={imageURI} height={10} width={10} alt='logo' className='h-44 w-44' />
                 <Text className='text-white text-5xl font-extrabold font-poppinsBold'>MediGenie</Text>
-                <Text className='text-center text-light text-xl font-poppins'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, facilis!</Text>
+                <Text className='text-center text-lightText text-xl font-poppins'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, facilis!</Text>
             </View>
 
-            <View className='mx-10 mb-20 flex flex-row w-[80%] items-center absolute bottom-0 justify-center bg-tertiary rounded-[3rem] overflow-hidden border-secondary border'>
+            <View className='mb-20 flex flex-row w-[90%] items-center absolute bottom-0 justify-center bg-grey1 rounded-[3rem] overflow-hidden border-blue1 border'>
 
-                <TouchableOpacity className='rounded-[3rem] p-4 text-center border-secondary border bg-secondary w-[50%]' onPress={handleLogin}>
+                <TouchableOpacity className='rounded-[3rem] p-4 text-center border-blue1 border bg-blue1 w-[50%]' onPress={handleLogin}>
                     <Text className='text-black text-center font-bold text-xl font-poppinsRegular'>LOG IN</Text>
                 </TouchableOpacity >
 
-                <TouchableOpacity className='w-[50%] rounded-3xl bg-tertiary p-4' onPress={handleSignUp}>
+                <TouchableOpacity className='w-[50%] rounded-3xl bg-grey1 p-4' onPress={handleSignUp}>
                     <Text className='text-white text-center font-bold text-xl font-poppinsRegular'>SIGN UP</Text>
                 </TouchableOpacity>
 
