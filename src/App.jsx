@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import StartScreen from './pages/StartScreen';
 import LoginScreen from './pages/LoginScreen';
-import SignUpScreen from './SignUpScreen';
+import SignUpScreen from './pages/SignUpScreen';
 
 
 const App = () => {

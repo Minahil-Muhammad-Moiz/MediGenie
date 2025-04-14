@@ -2,14 +2,13 @@ import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'reac
 import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
-// import goglicon from '../assets/images/'
 
 export default function LoginScreen() {
   const [secureTextEntry, setSecureTextEntry] = useState(true)
-  const navigate = useNavigation()
+  const navigation = useNavigation()
 
   const handleBack = ()=>{
-    navigate.goBack()
+    navigation.goBack()
   }
 
   return (
@@ -96,7 +95,7 @@ export default function LoginScreen() {
           <Text className="text-center text-lightText text-lg font-poppins font-medium justify-center items-center flex ">
             Don't have an account?{' '}
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
             <Text className="font-poppinsBold font-bold text-lightText text-xl">Sign up</Text>
           </TouchableOpacity>
         </View>
