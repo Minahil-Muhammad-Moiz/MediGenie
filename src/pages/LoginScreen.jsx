@@ -13,7 +13,7 @@ export default function LoginScreen() {
 
   return (
     <View className='bg-black1 flex-1 p-12'>
-      <TouchableOpacity className='bg-grey1 p-4 rounded-full flex items-center justify-center w-16 h-16 mt-8' onPress={handleBack}>
+      <TouchableOpacity className='bg-grey1 p-4 rounded-full flex items-center justify-center w-16 h-16 mt-6' onPress={handleBack}>
         <Ionicons name={"arrow-back-outline"} color={'#ffffff'}
           size={25} />
       </TouchableOpacity>
@@ -37,7 +37,7 @@ export default function LoginScreen() {
             }}
           />
           <TextInput
-            className="border-blue1 border rounded-full pl-16 py-4 text-white text-lg"
+            className="border-blue1 border rounded-full pl-20 py-4 text-white text-lg"
             placeholder="Enter your Email"
             placeholderTextColor="grey"
             keyboardType="email-address"
@@ -81,7 +81,7 @@ export default function LoginScreen() {
           <Text className='font-poppinsBold font-bold text-xl p-4  text-center text-black1'>LOG IN</Text>
         </TouchableOpacity>
 
-        <Text className='text-center text-lightText text-lg font-poppins font-medium'>or conntinue with</Text>
+        <Text className='text-center text-lightText text-lg font-poppins font-medium'>or continue with</Text>
 
         <TouchableOpacity className=' border border-blue1 rounded-full flex flex-row items-center justify-center'>
           <Image

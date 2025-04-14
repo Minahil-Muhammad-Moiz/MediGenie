@@ -7,24 +7,25 @@ export default function StartScreen() {
     const imageURI = require('../assets/images/logo.png')
     const navigation = useNavigation();
 
-    const handleLogin = ()=>{
+    const handleLogin = () => {
         navigation.navigate('LoginScreen')
     };
 
-    const handleSignUp = ()=>{
+    const handleSignUp = () => {
         navigation.navigate('SignUpScreen')
     };
 
     return (
         // <ImageBackground source={imageURI} className='flex-1 items-center justify-end'>
         <View className='flex-1 items-center justify-center h-full w-full bg-black1 relative p-12'>
-
+            {/* logo header */}
             <View className='flex items-center px-2 pb-12 -pt-10 gap-4'>
                 <Image source={imageURI} height={10} width={10} alt='logo' className='h-44 w-44' />
                 <Text className='text-white text-5xl font-extrabold font-poppinsBold'>MediGenie</Text>
                 <Text className='text-center text-lightText text-xl font-poppins'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, facilis!</Text>
             </View>
 
+            {/* login/signup buttons */}
             <View className='mb-20 flex flex-row w-[90%] items-center absolute bottom-0 justify-center bg-grey1 rounded-[3rem] overflow-hidden border-blue1 border'>
 
                 <TouchableOpacity className='rounded-[3rem] p-4 text-center border-blue1 border bg-blue1 w-[50%]' onPress={handleLogin}>
