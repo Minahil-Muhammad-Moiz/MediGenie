@@ -2,6 +2,7 @@ import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'reac
 import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import { colors } from '../utils/colors';
 
 export default function LoginScreen() {
   const [secureTextEntry, setSecureTextEntry] = useState(true)
@@ -13,8 +14,8 @@ export default function LoginScreen() {
 
   return (
     <View className='bg-black1 flex-1 p-12'>
-      <TouchableOpacity className='bg-grey1 p-4 rounded-full flex items-center justify-center w-16 h-16 mt-6' onPress={handleBack}>
-        <Ionicons name={"arrow-back-outline"} color={'#ffffff'}
+      <TouchableOpacity className='bg-darkGrey p-4 rounded-full flex items-center justify-center w-16 h-16 mt-6' onPress={handleBack}>
+        <Ionicons name={"arrow-back-outline"} color={colors.lightText}
           size={25} />
       </TouchableOpacity>
 
@@ -29,7 +30,7 @@ export default function LoginScreen() {
           <Ionicons
             name="mail-outline"
             size={25}
-            color="grey"
+            color={colors.lightGrey}
             style={{
               position: 'absolute',
               left: 20,
@@ -37,9 +38,9 @@ export default function LoginScreen() {
             }}
           />
           <TextInput
-            className="border-blue1 border rounded-full pl-20 py-4 text-white text-lg"
+            className="border-blue1  border rounded-full pl-20 py-4 text-white text-lg"
             placeholder="Enter your Email"
-            placeholderTextColor="grey"
+            placeholderTextColor={colors.lightGrey}
             keyboardType="email-address"
             keyboardAppearance="default"
           />
@@ -49,7 +50,7 @@ export default function LoginScreen() {
           <Ionicons
             name={"lock-closed-outline"}
             size={25}
-            color={"grey"}
+            color={colors.lightGrey}
             style={{
               position: 'absolute',
               left: 20,
@@ -57,13 +58,13 @@ export default function LoginScreen() {
             }} />
           <TextInput className='border-blue1 border rounded-full pl-20 py-4 text-white text-lg z-10'
             placeholder='Enter your Password'
-            placeholderTextColor={'grey'}
+            placeholderTextColor={colors.lightGrey}
             secureTextEntry={secureTextEntry}
             keyboardAppearance='default' />
           <Ionicons
             name={"eye-outline"}
             size={25}
-            color={"grey"}
+            color={colors.lightGrey}
             style={{
               position: 'absolute',
               right: 20,
@@ -81,7 +82,7 @@ export default function LoginScreen() {
           <Text className='font-poppinsBold font-bold text-xl p-4  text-center text-black1'>LOG IN</Text>
         </TouchableOpacity>
 
-        <Text className='text-center text-lightText text-lg font-poppins font-medium'>or continue with</Text>
+        <Text className='text-center text-lightGrey text-lg font-poppins font-medium'>or continue with</Text>
 
         <TouchableOpacity className=' border border-blue1 rounded-full flex flex-row items-center justify-center'>
           <Image
@@ -92,7 +93,7 @@ export default function LoginScreen() {
         </TouchableOpacity>
 
         <View className='inline-flex flex-row justify-center items-center -mt-2'>
-          <Text className="text-center text-lightText text-lg font-poppins font-medium justify-center items-center flex ">
+          <Text className="text-center text-lightGrey text-lg font-poppins font-medium justify-center items-center flex ">
             Don't have an account?{' '}
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
