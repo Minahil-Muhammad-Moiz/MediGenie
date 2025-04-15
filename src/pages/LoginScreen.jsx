@@ -78,6 +78,7 @@ export default function LoginScreen() {
                   onBlur={handleBlur('email')}
                   autoCapitalize="none"
                   value={values.email}
+                  errorBorder={touched.email && errors.email}
                 />
                 {touched.email && errors.email && (
                   <Text className="text-fail text-sm ml-2 -my-6 ">{errors.email}</Text>
@@ -93,6 +94,7 @@ export default function LoginScreen() {
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
                   value={values.password}
+                  errorBorder={touched.password && errors.password}
                 />
 
                 {touched.password && errors.password && (
@@ -104,7 +106,9 @@ export default function LoginScreen() {
                 </TouchableOpacity>
 
                 {/* login button  */}
-                <DefaultButton onPress={handleSubmit} title="Submit" fill>LOG IN</DefaultButton>
+                <DefaultButton onPress={handleSubmit} title="Submit" fill>
+                  {isSubmitting ? 'logging in...' : 'LOG IN'}
+                </DefaultButton>
 
                 <Text className='text-center text-lightGrey text-lg font-poppins font-medium'>or continue with</Text>
 
