@@ -24,7 +24,7 @@ export default function StartScreen() {
                 <View className='flex items-center pb-12 -pt-10  gap-4'>
                     <Image source={imageURI} height={10} width={10} alt='logo' className='h-44 w-44' />
                     <Text className='text-white text-5xl font-extrabold font-poppinsBold'>MediGenie</Text>
-                    <Text className='text-center text-lightGrey text-xl font-poppins'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, facilis!</Text>
+                    <Text className='text-center text-lightGrey text-xl font-poppins'>Where AI Meets Personalized Healthcare</Text>
                 </View>
 
                 {/* login/signup buttons */}
