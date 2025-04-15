@@ -6,6 +6,18 @@ import { colors } from '../utils/colors';
 import MainContainer from '../components/MainContainer';
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer';
 import CustomInput from '../components/CustomInput';
+import { Formik } from 'formik';
+import DefaultButton from '../components/DefaultButton';
+import * as Yup from 'yup';
+
+const LoginSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Invalid email')
+    .required('Email is required'),
+  password: Yup.string()
+    .required('Password is required'),
+});
+
 
 export default function LoginScreen() {
   const [secureTextEntry, setSecureTextEntry] = useState(false)
@@ -15,6 +27,15 @@ export default function LoginScreen() {
     navigation.goBack()
   }
 
+  const handleLogin = () => {
+    try {
+      // Call your login API or auth logic here
+      // move to next page
+    }
+    catch (error) {
+      console.log('Login error:', error);
+    }
+  }
   return (
     <KeyboardAvoidingContainer
     >
@@ -31,43 +52,69 @@ export default function LoginScreen() {
         </View>
 
         <View className='relative mt-16 flex gap-8'>
-          <CustomInput leftIcon={"mail-outline"} keyboardType="email-address" placeholder="Enter your Email" />
-          <CustomInput
-            leftIcon="lock-closed-outline"
-            placeholder="Confirm Password"
-            secureTextEntry={!secureTextEntry}
-            rightIcon={secureTextEntry ? 'eye-off-outline' : 'eye-outline'}
-            onRightIconPress={() => setSecureTextEntry(!secureTextEntry)}
-          />
+          <Formik
+            initialValues={{ email: '', password: '' }}
+            validationSchema={LoginSchema}
+            onSubmit={(values) =>
+              handleLogin(values)
+            }>
+            {({ handleChange, handleBlur, handleSubmit, values, isSubmitting, errors, touched, }) =>
+              <>
+                <CustomInput leftIcon={"mail-outline"}
+                  keyboardType="email-address"
+                  placeholder="Enter your Email"
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  autoCapitalize="none"
+                  value={values.email}
+                />
+                {touched.email && errors.email && (
+                  <Text className="text-red-500 text-sm ml-2 -my-6 ">{errors.email}</Text>
+                )}
 
-          <TouchableOpacity>
-            <Text className='text-lightText font-poppinsBold font-bold text-lg text-right '>Forgot Password?</Text>
-          </TouchableOpacity>
+                <CustomInput
+                  leftIcon="lock-closed-outline"
+                  placeholder="Enter your Password"
+                  autoCapitalize="none"
+                  secureTextEntry={!secureTextEntry}
+                  rightIcon={secureTextEntry ? 'eye-off-outline' : 'eye-outline'}
+                  onRightIconPress={() => setSecureTextEntry(!secureTextEntry)}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  value={values.password}
+                />
 
-          <TouchableOpacity className='mt-4  rounded-full bg-blue1 
-        '>
-            <Text className='font-poppinsBold font-bold text-xl p-4  text-center text-black1'>LOG IN</Text>
-          </TouchableOpacity>
+                {touched.password && errors.password && (
+                  <Text className="text-red-500 text-sm ml-2 -my-6 ">{errors.password}</Text>
+                )}
 
-          <Text className='text-center text-lightGrey text-lg font-poppins font-medium'>or continue with</Text>
+                <TouchableOpacity>
+                  <Text className='text-lightText font-poppinsBold font-bold text-lg text-right border -mt-4'>Forgot Password?</Text>
+                </TouchableOpacity>
 
-          <TouchableOpacity className=' border border-blue1 rounded-full flex flex-row items-center justify-center'>
-            <Image
-              source={require('../assets/images/google_ic.png')}
-              className="h-8 w-8"
-            />
-            <Text className='font-poppinsBold font-bold text-xl p-4  text-center text-white'>Google</Text>
-          </TouchableOpacity>
+                {/* login button  */}
+                <DefaultButton onPress={handleSubmit} title="Submit" fill>LOG IN</DefaultButton>
 
-          <View className='inline-flex flex-row justify-center items-center -mt-2'>
-            <Text className="text-center text-lightGrey text-lg font-poppins font-medium justify-center items-center flex ">
-              Don't have an account?{' '}
-            </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
-              <Text className="font-poppinsBold font-bold text-lightText text-xl">Sign up</Text>
-            </TouchableOpacity>
-          </View>
+                <Text className='text-center text-lightGrey text-lg font-poppins font-medium'>or continue with</Text>
 
+                <TouchableOpacity className=' flex flex-row items-center justify-center rounded-full border border-blue1 '>
+                  <Image
+                    source={require('../assets/images/google_ic.png')}
+                    className="h-8 w-8"
+                  />
+                  <Text className='font-poppinsBold font-bold text-xl p-4  text-center text-white'>Google</Text>
+                </TouchableOpacity>
+
+                <View className='inline-flex flex-row justify-center items-center -mt-2'>
+                  <Text className="text-center text-lightGrey text-lg font-poppins font-medium justify-center items-center flex ">
+                    Don't have an account?{' '}
+                  </Text>
+                  <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
+                    <Text className="font-poppinsBold font-bold text-lightText text-xl">Sign up</Text>
+                  </TouchableOpacity>
+                </View>
+              </>}
+          </Formik>
         </View>
       </MainContainer>
     </KeyboardAvoidingContainer>
