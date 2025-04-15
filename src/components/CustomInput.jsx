@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../utils/colors';
@@ -12,7 +12,23 @@ const CustomInput = ({
   value,
   onChangeText,
   keyboardType = 'default',
+  onBlur,
+  onFocus,
+  errorBorder,
+  ...props
 }) => {
+  const [inputBgColor, setInputBgColor] = useState(colors.black1)
+
+  const customOnBlur = (e) => {
+    setInputBgColor(colors.black1);
+    if (onBlur) onBlur(e); // Notify parent
+  };
+
+  const customOnFocus = (e) => {
+    setInputBgColor('#262626');
+    if (onFocus) onFocus(e); // Notify parent
+  };
+  
   return (
     <View className="relative justify-center">
       {/* Left Icon */}
@@ -31,7 +47,7 @@ const CustomInput = ({
 
       {/* Input Field */}
       <TextInput
-        className="border-blue1 border rounded-full pl-20 pr-12 py-4 text-white text-lg "
+        className={`${errorBorder ? "border-fail":"border-blue1"} border rounded-full pl-20 pr-12 py-4 text-white text-lg`}
         placeholder={placeholder}
         placeholderTextColor={colors.lightGrey}
         secureTextEntry={secureTextEntry}
@@ -39,6 +55,11 @@ const CustomInput = ({
         onChangeText={onChangeText}
         keyboardType={keyboardType}
         keyboardAppearance="default"
+        style={{
+          backgroundColor: inputBgColor,
+        }}
+        onBlur={customOnBlur}
+        onFocus={customOnFocus}
       />
 
       {/* Right Icon */}
