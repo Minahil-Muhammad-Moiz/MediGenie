@@ -4,4 +4,5 @@ export const colors = {
     darkGrey: "#171717;",
     lightText: '#d4d4d4',
     lightGrey: "#9ca3af",
+    fail: "#ef4444",
 }

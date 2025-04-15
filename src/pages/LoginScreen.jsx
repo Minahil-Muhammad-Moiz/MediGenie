@@ -9,6 +9,8 @@ import CustomInput from '../components/CustomInput';
 import { Formik } from 'formik';
 import DefaultButton from '../components/DefaultButton';
 import * as Yup from 'yup';
+import StartScreen from './StartScreen';
+import SignUpScreen from './SignUpScreen';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -27,10 +29,19 @@ export default function LoginScreen() {
     navigation.goBack()
   }
 
-  const handleLogin = () => {
+  const handleLogin = (values) => {
     try {
       // Call your login API or auth logic here
       // move to next page
+      // test api
+      if (
+        values.email.toLowerCase() === 'test@example.com' &&
+        values.password === '123456'
+      ) {
+        navigation.navigate(SignUpScreen);
+      } else {
+        alert('Invalid email or password');
+      }
     }
     catch (error) {
       console.log('Login error:', error);
@@ -69,7 +80,7 @@ export default function LoginScreen() {
                   value={values.email}
                 />
                 {touched.email && errors.email && (
-                  <Text className="text-red-500 text-sm ml-2 -my-6 ">{errors.email}</Text>
+                  <Text className="text-fail text-sm ml-2 -my-6 ">{errors.email}</Text>
                 )}
 
                 <CustomInput
@@ -85,7 +96,7 @@ export default function LoginScreen() {
                 />
 
                 {touched.password && errors.password && (
-                  <Text className="text-red-500 text-sm ml-2 -my-6 ">{errors.password}</Text>
+                  <Text className="text-fail text-sm ml-2 -my-6 ">{errors.password}</Text>
                 )}
 
                 <TouchableOpacity>

@@ -13,6 +13,7 @@ module.exports = {
         darkGrey: "#171717;",
         lightText: '#d4d4d4',
         lightGrey: "#9ca3af",
+        fail: "#ef4444",
       },
       fontFamily: {
         poppins: ['Poppins-Medium'],
