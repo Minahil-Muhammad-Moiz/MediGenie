@@ -30,7 +30,7 @@ const CustomInput = ({
   };
   
   return (
-    <View className="relative justify-center">
+    <View className="relative justify-center mt-4">
       {/* Left Icon */}
       {leftIcon && (
         <Ionicons
@@ -47,7 +47,7 @@ const CustomInput = ({
 
       {/* Input Field */}
       <TextInput
-        className={`${errorBorder ? "border-fail":"border-blue1"} border rounded-full pl-20 pr-12 py-4 text-white text-lg`}
+        className={`${errorBorder ? "border-fail":"border-blue1"} border rounded-full pl-20 pr-12 py-4 text-white text-base`}
         placeholder={placeholder}
         placeholderTextColor={colors.lightGrey}
         secureTextEntry={secureTextEntry}

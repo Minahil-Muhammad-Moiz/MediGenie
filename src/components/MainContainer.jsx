@@ -5,7 +5,7 @@ import { colors } from '../utils/colors'
 
 const StyledView = styled.View`
     flex: 1;
-    padding: 48px;
+    padding: 30px;
     backgroundColor: ${colors.black1};
 `
 export default function MainContainer(props) {
