@@ -68,12 +68,12 @@ export default function SignUpScreen() {
           />
         </TouchableOpacity>
 
-        <View className='mt-[8%] flex gap-2'>
-          <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Let's,</Text>
-          <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Get Started</Text>
+        <View className='mt-[4%] flex gap-2'>
+          <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Let's, Get Started</Text>
+          {/* <Text className='text-white font-extrabold font-poppinsBold text-4xl'></Text> */}
         </View>
 
-        <View className='mt-[6%] flex-1 justify-around'>
+        <View className='flex-1 justify-around border-red-500 border'>
           <Formik
             initialValues={{
               username: '',
@@ -161,11 +161,11 @@ export default function SignUpScreen() {
 
                   {/* Terms and Conditions */}
                   <View className=' inline-flex flex-wrap flex-row justify-start items-center my-3'>
-                    <Text className='text-lightGrey text-base font-poppins font-medium'>
+                    <Text className='text-lightGrey  font-poppins font-medium'>
                       By continuing, you agree to MediGenie's{' '}
                     </Text>
                     <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-                      <Text className='font-poppinsBold font-bold text-lightText text-base text-left'>
+                      <Text className='font-poppinsBold font-bold text-lightText  text-left'>
                         Terms and Conditions
                       </Text>
                     </TouchableOpacity>
@@ -182,27 +182,27 @@ export default function SignUpScreen() {
                     {isSubmitting ? 'Signing up...' : 'SIGN UP'}
                   </DefaultButton>
 
-                  <Text className='text-center text-lightGrey text-base font-poppins font-medium my-2'>
+                  <Text className='text-center text-lightGrey  font-poppins font-medium my-2'>
                     or continue with
                   </Text>
 
                   {/* Google Signup */}
-                  <TouchableOpacity className='border border-blue1 rounded-full flex flex-row items-center justify-center'>
+                  <TouchableOpacity className='border border-blue1 rounded-full flex flex-row items-center justify-center py-3'>
                     <Image
                       source={require('../assets/images/google_ic.png')}
-                      className='h-6 w-6'
+                      className='h-6 w-6 mr-3'
                     />
-                    <Text className='font-poppinsBold font-bold text-base p-4 text-center text-white'>
+                    <Text className='font-poppinsBold font-bold text-center text-white text-base'>
                       Google
                     </Text>
                   </TouchableOpacity>
 
                   <View className='inline-flex flex-row justify-center items-center mt-2'>
-                    <Text className='text-lightGrey text-base font-poppins font-medium'>
+                    <Text className='text-lightGrey  font-poppins font-medium'>
                       Already have an account?{' '}
                     </Text>
                     <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-                      <Text className='font-poppinsBold font-bold text-lightText text-base'>
+                      <Text className='font-poppinsBold font-bold text-lightText '>
                         Log in
                       </Text>
                     </TouchableOpacity>
