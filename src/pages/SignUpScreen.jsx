@@ -58,7 +58,7 @@ export default function SignUpScreen() {
     <KeyboardAvoidingContainer>
       <MainContainer>
         <TouchableOpacity
-          className='bg-darkGrey p-4 rounded-full flex items-center justify-center w-16 h-16 mt-6'
+          className='bg-darkGrey p-2 rounded-full flex items-center justify-center w-14 h-14 mt-[2%]'
           onPress={handleBack}
         >
           <Ionicons
@@ -68,144 +68,150 @@ export default function SignUpScreen() {
           />
         </TouchableOpacity>
 
-        <View className='mt-8 flex gap-3'>
-          <Text className='text-white font-extrabold font-poppinsBold text-5xl'>Let's,</Text>
-          <Text className='text-white font-extrabold font-poppinsBold text-5xl'>Get Started</Text>
+        <View className='mt-[8%] flex gap-2'>
+          <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Let's,</Text>
+          <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Get Started</Text>
         </View>
 
-        <Formik
-          initialValues={{
-            username: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-          }}
-          validationSchema={SignUpSchema}
-          onSubmit={(values) => handleSignUp(values)}
-        >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            touched,
-            errors,
-            isSubmitting,
-          }) => (
-            <View className='relative mt-10 flex gap-6'>
-              <CustomInput
-                leftIcon={'person-outline'}
-                placeholder='Username'
-                onChangeText={handleChange('username')}
-                onBlur={handleBlur('username')}
-                value={values.username}
-                errorBorder={touched.username && errors.username}
-              />
-              {touched.username && errors.username && (
-                <Text className='text-red-500 text-sm ml-2 -my-5'>
-                  {errors.username}
-                </Text>
-              )}
+        <View className='mt-[6%] flex-1 justify-around'>
+          <Formik
+            initialValues={{
+              username: '',
+              email: '',
+              password: '',
+              confirmPassword: '',
+            }}
+            validationSchema={SignUpSchema}
+            onSubmit={(values) => handleSignUp(values)}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              touched,
+              errors,
+              isSubmitting,
+            }) => (
+              <>
+                <View>
+                  <CustomInput
+                    leftIcon={'person-outline'}
+                    placeholder='Username'
+                    onChangeText={handleChange('username')}
+                    onBlur={handleBlur('username')}
+                    value={values.username}
+                    errorBorder={touched.username && errors.username}
+                  />
+                  {touched.username && errors.username && (
+                    <Text className='text-red-500 text-sm ml-2 '>
+                      {errors.username}
+                    </Text>
+                  )}
 
-              <CustomInput
-                leftIcon={'mail-outline'}
-                placeholder='Email'
-                keyboardType='email-address'
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
-                autoCapitalize="none"
-                errorBorder={touched.email && errors.email}
-              />
-              {touched.email && errors.email && (
-                <Text className='text-red-500 text-sm ml-2 -my-5'>
-                  {errors.email}
-                </Text>
-              )}
+                  <CustomInput
+                    leftIcon={'mail-outline'}
+                    placeholder='Email'
+                    keyboardType='email-address'
+                    onChangeText={handleChange('email')}
+                    onBlur={handleBlur('email')}
+                    value={values.email}
+                    autoCapitalize="none"
+                    errorBorder={touched.email && errors.email}
+                  />
+                  {touched.email && errors.email && (
+                    <Text className='text-red-500 text-sm ml-2 '>
+                      {errors.email}
+                    </Text>
+                  )}
 
-              <CustomInput
-                leftIcon='lock-closed-outline'
-                placeholder='Enter Password'
-                secureTextEntry={!showPassword}
-                rightIcon={showPassword ? 'eye-off-outline' : 'eye-outline'}
-                onRightIconPress={() => setShowPassword(!showPassword)}
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                value={values.password}
-                autoCapitalize="none"
-                errorBorder= {touched.password && errors.password}
-              />
-              {touched.password && errors.password && (
-                <Text className='text-red-500 text-sm ml-2 -my-5'>
-                  {errors.password}
-                </Text>
-              )}
+                  <CustomInput
+                    leftIcon='lock-closed-outline'
+                    placeholder='Enter Password'
+                    secureTextEntry={!showPassword}
+                    rightIcon={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                    onRightIconPress={() => setShowPassword(!showPassword)}
+                    onChangeText={handleChange('password')}
+                    onBlur={handleBlur('password')}
+                    value={values.password}
+                    autoCapitalize="none"
+                    errorBorder={touched.password && errors.password}
+                  />
+                  {touched.password && errors.password && (
+                    <Text className='text-red-500 text-sm ml-2 '>
+                      {errors.password}
+                    </Text>
+                  )}
 
-              <CustomInput
-                leftIcon='lock-closed-outline'
-                placeholder='Confirm Password'
-                secureTextEntry={!showConfirmPassword}
-                onChangeText={handleChange('confirmPassword')}
-                onBlur={handleBlur('confirmPassword')}
-                value={values.confirmPassword}
-                autoCapitalize="none"
-                errorBorder={touched.confirmPassword && errors.confirmPassword}
-              />
-              {touched.confirmPassword && errors.confirmPassword && (
-                <Text className='text-red-500 text-sm ml-2 -mt-5 -mb-3'>
-                  {errors.confirmPassword}
-                </Text>
-              )}
+                  <CustomInput
+                    leftIcon='lock-closed-outline'
+                    placeholder='Confirm Password'
+                    secureTextEntry={!showConfirmPassword}
+                    onChangeText={handleChange('confirmPassword')}
+                    onBlur={handleBlur('confirmPassword')}
+                    value={values.confirmPassword}
+                    autoCapitalize="none"
+                    errorBorder={touched.confirmPassword && errors.confirmPassword}
+                  />
+                  {touched.confirmPassword && errors.confirmPassword && (
+                    <Text className='text-red-500 text-sm ml-2 '>
+                      {errors.confirmPassword}
+                    </Text>
+                  )}
 
-              {/* Terms and Conditions */}
-              <View className='-mb-4 inline-flex flex-wrap flex-row justify-start items-center'>
-                <Text className='text-lightGrey text-lg font-poppins font-medium'>
-                  By continuing, you agree to MediGenie's{' '}
-                </Text>
-                <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-                  <Text className='font-poppinsBold font-bold text-lightText text-lg text-left'>
-                    Terms and Conditions
+                  {/* Terms and Conditions */}
+                  <View className=' inline-flex flex-wrap flex-row justify-start items-center my-3'>
+                    <Text className='text-lightGrey text-base font-poppins font-medium'>
+                      By continuing, you agree to MediGenie's{' '}
+                    </Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+                      <Text className='font-poppinsBold font-bold text-lightText text-base text-left'>
+                        Terms and Conditions
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <View>
+                  {/* Submit Button */}
+                  <DefaultButton
+                    fill
+                    onPress={handleSubmit}
+                    title='Submit'
+                  >
+                    {isSubmitting ? 'Signing up...' : 'SIGN UP'}
+                  </DefaultButton>
+
+                  <Text className='text-center text-lightGrey text-base font-poppins font-medium my-2'>
+                    or continue with
                   </Text>
-                </TouchableOpacity>
-              </View>
 
-              {/* Submit Button */}
-              <DefaultButton
-                fill
-                onPress={handleSubmit}
-                title='Submit'
-              >
-                {isSubmitting ? 'Signing up...' : 'SIGN UP'}
-              </DefaultButton>
+                  {/* Google Signup */}
+                  <TouchableOpacity className='border border-blue1 rounded-full flex flex-row items-center justify-center'>
+                    <Image
+                      source={require('../assets/images/google_ic.png')}
+                      className='h-6 w-6'
+                    />
+                    <Text className='font-poppinsBold font-bold text-base p-4 text-center text-white'>
+                      Google
+                    </Text>
+                  </TouchableOpacity>
 
-              <Text className='text-center text-lightGrey text-lg font-poppins font-medium'>
-                or continue with
-              </Text>
-
-              {/* Google Signup */}
-              <TouchableOpacity className='border border-blue1 rounded-full flex flex-row items-center justify-center'>
-                <Image
-                  source={require('../assets/images/google_ic.png')}
-                  className='h-8 w-8'
-                />
-                <Text className='font-poppinsBold font-bold text-xl p-4 text-center text-white'>
-                  Google
-                </Text>
-              </TouchableOpacity>
-
-              <View className='inline-flex flex-row justify-center items-center -mt-2'>
-                <Text className='text-lightGrey text-lg font-poppins font-medium'>
-                  Already have an account?{' '}
-                </Text>
-                <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-                  <Text className='font-poppinsBold font-bold text-lightText text-xl'>
-                    Log in
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
-        </Formik>
+                  <View className='inline-flex flex-row justify-center items-center mt-2'>
+                    <Text className='text-lightGrey text-base font-poppins font-medium'>
+                      Already have an account?{' '}
+                    </Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+                      <Text className='font-poppinsBold font-bold text-lightText text-base'>
+                        Log in
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </>
+            )}
+          </Formik>
+        </View>
       </MainContainer>
     </KeyboardAvoidingContainer>
   );
