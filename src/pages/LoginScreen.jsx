@@ -59,7 +59,7 @@ export default function LoginScreen() {
     >
       <MainContainer>
         <TouchableOpacity
-          className='bg-darkGrey p-2 rounded-full w-14 h-14 mt-[2%] items-center justify-center'
+          className='bg-darkGrey p-2 rounded-full w-14 h-14 items-center justify-center'
           onPress={handleBack}
         >
           <Ionicons name="arrow-back-outline" color={colors.lightText} size={25} />

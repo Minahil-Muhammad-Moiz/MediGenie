@@ -58,7 +58,7 @@ export default function SignUpScreen() {
     <KeyboardAvoidingContainer>
       <MainContainer>
         <TouchableOpacity
-          className='bg-darkGrey p-2 rounded-full flex items-center justify-center w-14 h-14 mt-[2%]'
+          className='bg-darkGrey p-2 rounded-full flex items-center justify-center w-14 h-14 '
           onPress={handleBack}
         >
           <Ionicons
@@ -73,7 +73,7 @@ export default function SignUpScreen() {
           {/* <Text className='text-white font-extrabold font-poppinsBold text-4xl'></Text> */}
         </View>
 
-        <View className='flex-1 justify-around border-red-500 border'>
+        <View className='flex-1 justify-around'>
           <Formik
             initialValues={{
               username: '',
