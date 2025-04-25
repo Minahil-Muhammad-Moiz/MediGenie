@@ -5,4 +5,5 @@ export const colors = {
     lightText: '#d4d4d4',
     lightGrey: "#9ca3af",
     fail: "#ef4444",
+    success: "#22c55e"
 }

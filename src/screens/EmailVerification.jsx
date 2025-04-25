@@ -1,26 +1,61 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useRef, useState } from 'react'
+import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import MainContainer from '../components/MainContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { colors } from '../utils/colors';
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer';
 import DefaultButton from '../components/DefaultButton';
+import { OtpInput } from 'react-native-otp-entry';
 
 const EmailVerification = () => {
     const navigation = useNavigation()
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalSuccess, setModalSucess] = useState(false)
+    const [OTPtext, setOTPtext] = useState('')
+    const [resendDisabled, setResendDisabled] = useState(false);
+    const [timer, setTimer] = useState(0);
 
     const handleBack = () => {
         navigation.goBack()
     }
 
-    const textInputRef = useRef(null)
-    const MAX_CODE_LENGTH = 4;
-    const [code, setCode] = useState('')
-
-    const handleOnSubmitEditing = () => {
-
+    const handleVerification = (text) => {
+        if (text === "1234") {
+            setModalSucess(true)
+            setModalVisible(true);
+            setTimeout(() => {
+                setModalVisible(false);
+                // navigation.navigate('ResetPasswordScreen');
+            }, 1500);
+        } else {
+            setModalSucess(false)
+            setModalVisible(true);
+            setTimeout(() => {
+                setModalVisible(false);
+                // navigation.navigate('ResetPasswordScreen');
+            }, 1500);
+        }
     }
+
+    useEffect(() => {
+        let interval;
+        if (resendDisabled) {
+            setTimer(60); // 60 seconds
+            interval = setInterval(() => {
+                setTimer(prev => {
+                    if (prev <= 1) {
+                        clearInterval(interval);
+                        setResendDisabled(false);
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [resendDisabled]);
+
 
     return (
         <KeyboardAvoidingContainer>
@@ -38,24 +73,85 @@ const EmailVerification = () => {
                     <Text className='text-white'>Enter the 4-digit code sent to your email</Text>
                 </View>
 
-                <View className='border border-red-600 mt-[4%] flex gap-4'>
+                <View className='mt-[4%] flex gap-10'>
                     <View className='flex items-center justify-center'>
-                        <TextInput
-                            keyboardType='number-pad'
-                            reuturnKeyType='done'
-                            textContentType='oneTimeCode'
-                            ref={textInputRef}
-                            maxLength={MAX_CODE_LENGTH}
-                            value={code}
-                            onChangeText={setCode}
-                            onSubmitEditing={handleOnSubmitEditing} 
-                            className='border border-lightGrey max-w-[15%] p-3 rounded-lg font-poppinsBold text-center text-base '
-                            placeholder='1234'
-                            placeholderTextColor={colors.lightGrey}/>
+                        <OtpInput
+                            numberOfDigits={4}
+                            focusColor='#22d3ee'
+                            autoFocus={false}
+                            // hideStick={true}
+                            blurOnFilled={true}
+                            disabled={false}
+                            type="numeric"
+                            secureTextEntry={false}
+                            // focusStickBlinkingDuration={500}
+                            onFocus={() => console.log("Focused")}
+                            onBlur={() => console.log("Blurred")}
+                            onTextChange={(text) => console.log(text)}
+                            onFilled={(text) => {
+                                if (text) {
+                                    setOTPtext(text);
+                                    handleVerification(text);
+                                }
+                            }}
+                            textInputProps={{
+                                accessibilityLabel: "One-Time Password",
+                            }}
+                            textProps={{
+                                accessibilityRole: "text",
+                                accessibilityLabel: "OTP digit",
+                                allowFontScaling: false,
+                            }}
+                            theme={{
+                                containerStyle: {
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    paddingHorizontal: 6,
+                                    marginTop: 24,
+                                },
+                                pinCodeContainerStyle: {
+                                    borderWidth: 1,
+                                    borderColor: '#aaa',
+                                    borderRadius: 12,
+                                    width: 50,
+                                    height: 60,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    marginHorizontal: 4,
+                                },
+                                focusedPinCodeContainerStyle: {
+                                    borderColor: '#22d3ee',
+                                    borderWidth: 2,
+                                },
+                                // filledPinCodeContainerStyle: {
+                                //     backgroundColor: '#0f0',
+                                // },
+                                disabledPinCodeContainerStyle: {
+                                    backgroundColor: '#444',
+                                    opacity: 0.5,
+                                },
+                                pinCodeTextStyle: {
+                                    color: '#fff',
+                                    fontSize: 20,
+                                    fontWeight: 'bold',
+                                },
+                                placeholderTextStyle: {
+                                    color: '#888',
+                                    fontSize: 20,
+                                },
+                                focusStickStyle: {
+                                    height: 2,
+                                    width: 8,
+                                    backgroundColor: '#22d3ee',
+                                    marginTop: 4,
+                                    borderRadius: 4,
+                                },
+                            }}
+                        />
                     </View>
 
                     <View>
-                        <DefaultButton fill border title='Verify'>
+                        <DefaultButton fill border title='Verify' onPress={() => handleVerification(OTPtext)}>
                             Verify
                         </DefaultButton>
 
@@ -63,14 +159,32 @@ const EmailVerification = () => {
                             <Text className='text-lightGrey  font-poppins font-medium'>
                                 Didn't recieve code?{' '}
                             </Text>
-                            <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+                            <TouchableOpacity onPress={() => setResendDisabled(true)} disabled={resendDisabled}>
                                 <Text className='font-poppinsBold font-bold text-lightText '>
                                     Resend
                                 </Text>
                             </TouchableOpacity>
                         </View>
+                        {resendDisabled && (
+                            <Text className='text-sm text-lightText text-center mt-1'>
+                                You can resend code in {timer}s
+                            </Text>
+                        )}
                     </View>
                 </View>
+
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={modalVisible}
+                >
+                    <View className="flex-1 items-center justify-center bg-black/60 ">
+                        <View className="bg-darkGrey p-6 rounded-2xl items-center shadow-lg w-[60%] ">
+                            <Ionicons name={modalSuccess ? "checkmark-circle":'close-circle'} size={64} color={modalSuccess ? colors.success :colors.fail} />
+                            <Text className="text-white text-xl font-bold mt-4">{modalSuccess ?  'OTP Verified':'Invalid OTP'}</Text>
+                        </View>
+                    </View>
+                </Modal>
             </MainContainer>
         </KeyboardAvoidingContainer>
     )
