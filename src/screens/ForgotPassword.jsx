@@ -59,7 +59,7 @@ const ForgotPassword = () => {
                             <Text className="text-fail text-sm ml-2 mt-1">{emailError}</Text>
                         )}
                     </View>
-                    {/* <DefaultButton fill border onPress={() => navigation.navigate('EmailVerification')}>Send Code</DefaultButton> */}
+
                     <DefaultButton
                         fill
                         border

@@ -35,7 +35,6 @@ const SignUpSchema = Yup.object().shape({
 
 export default function SignUpScreen() {
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigation = useNavigation();
 
@@ -146,7 +145,7 @@ export default function SignUpScreen() {
                   <CustomInput
                     leftIcon='lock-closed-outline'
                     placeholder='Confirm Password'
-                    secureTextEntry={!showConfirmPassword}
+                    secureTextEntry={true}
                     onChangeText={handleChange('confirmPassword')}
                     onBlur={handleBlur('confirmPassword')}
                     value={values.confirmPassword}
