@@ -2,8 +2,8 @@ import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'reac
 import React, { useEffect, useRef, useState } from 'react'
 import MainContainer from '../components/MainContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
 import { colors } from '../utils/colors';
+import { useNavigation } from '@react-navigation/native';
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer';
 import DefaultButton from '../components/DefaultButton';
 import { OtpInput } from 'react-native-otp-entry';
@@ -16,24 +16,19 @@ const EmailVerification = () => {
     const [resendDisabled, setResendDisabled] = useState(false);
     const [timer, setTimer] = useState(0);
 
-    const handleBack = () => {
-        navigation.goBack()
-    }
-
     const handleVerification = (text) => {
         if (text === "1234") {
             setModalSucess(true)
             setModalVisible(true);
             setTimeout(() => {
                 setModalVisible(false);
-                // navigation.navigate('ResetPasswordScreen');
+                navigation.navigate('ResetPassword');
             }, 1500);
         } else {
             setModalSucess(false)
             setModalVisible(true);
             setTimeout(() => {
                 setModalVisible(false);
-                // navigation.navigate('ResetPasswordScreen');
             }, 1500);
         }
     }
@@ -63,7 +58,7 @@ const EmailVerification = () => {
 
                 <TouchableOpacity
                     className='bg-darkGrey p-2 rounded-full w-14 h-14 items-center justify-center'
-                    onPress={handleBack}
+                    onPress={()=>navigation.goBack()}
                 >
                     <Ionicons name="arrow-back-outline" color={colors.lightText} size={25} />
                 </TouchableOpacity>

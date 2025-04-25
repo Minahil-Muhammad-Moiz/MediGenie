@@ -7,6 +7,8 @@ import StartScreen from './screens/StartScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import EmailVerification from './screens/EmailVerification';
+import ForgotPassword from './screens/ForgotPassword';
+import ResetPassword from './screens/ResetPassword';
 
 
 const App = () => {
@@ -20,17 +22,19 @@ const App = () => {
         showHideTransition="fade"
         hidden={true}
       />
-      <EmailVerification />
-      {/* <Stack.Navigator initialRouteName="GettingStarted"
+      {/* <EmailVerification /> */}
+      <Stack.Navigator initialRouteName="GettingStarted"
         screenOptions={{
           headerShown: false
         }}
       >
         <Stack.Screen name="GettingStarted" component={StartScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name='EmailVerification' component={EmailVerification} />
+        <Stack.Screen name='ResetPassword' component={ResetPassword} />
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-      </Stack.Navigator> */}
+      </Stack.Navigator>
     </NavigationContainer>
   )
 }
