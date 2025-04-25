@@ -44,7 +44,10 @@ export default function LoginScreen() {
         values.email.toLowerCase() === 'test@example.com' &&
         values.password === '123456'
       ) {
-        navigation.navigate('SignUpScreen');
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'HomeScreen' }],
+        });
       } else {
         alert('Invalid email or password');
       }
@@ -118,7 +121,7 @@ export default function LoginScreen() {
                     <Text className="text-fail text-sm ml-2  ">{errors.password}</Text>
                   )}
 
-                  <TouchableOpacity className='self-end mt-1  my-4' onPress={()=>navigation.navigate('ForgotPassword')}>
+                  <TouchableOpacity className='self-end mt-1  my-4' onPress={() => navigation.navigate('ForgotPassword')}>
                     <Text className='text-lightText font-bold text-base'>Forgot Password?</Text>
                   </TouchableOpacity>
                 </View>

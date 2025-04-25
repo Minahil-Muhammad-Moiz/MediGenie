@@ -9,6 +9,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import EmailVerification from './screens/EmailVerification';
 import ForgotPassword from './screens/ForgotPassword';
 import ResetPassword from './screens/ResetPassword';
+import HomeScreen from './screens/HomeScreen';
 
 
 const App = () => {
@@ -29,11 +30,12 @@ const App = () => {
         }}
       >
         <Stack.Screen name="GettingStarted" component={StartScreen} />
+        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name='EmailVerification' component={EmailVerification} />
         <Stack.Screen name='ResetPassword' component={ResetPassword} />
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+        <Stack.Screen name='HomeScreen' component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )
