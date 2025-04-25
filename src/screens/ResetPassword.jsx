@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import React, { useState } from 'react';
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer';
 import MainContainer from '../components/MainContainer';
@@ -13,6 +13,7 @@ import * as Yup from 'yup';
 const ResetPassword = () => {
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const validationSchema = Yup.object().shape({
     password: Yup.string()
@@ -31,8 +32,21 @@ const ResetPassword = () => {
     validationSchema,
     onSubmit: (values) => {
       console.log('Password Reset:', values);
-      // Perform reset logic here
-      navigation.navigate('HomeScreen'); // or any screen you want after reset
+
+      // Show modal
+      setModalVisible(true);
+
+      // Simulate reset process then redirect
+      setTimeout(() => {
+        setModalVisible(false);
+        navigation.reset({
+          index: 1,
+          routes: [
+            { name: 'GettingStarted' }, 
+            { name: 'LoginScreen' }    
+          ],
+        });
+      }, 1500);
     },
   });
 
@@ -53,41 +67,55 @@ const ResetPassword = () => {
         </View>
 
         <View className='my-8 flex'>
-            <CustomInput
-              leftIcon='lock-closed-outline'
-              placeholder='Enter Password'
-              secureTextEntry={!showPassword}
-              rightIcon={showPassword ? 'eye-off-outline' : 'eye-outline'}
-              onRightIconPress={() => setShowPassword(!showPassword)}
-              onChangeText={handleChange('password')}
-              onBlur={handleBlur('password')}
-              value={values.password}
-              autoCapitalize="none"
-              errorBorder={touched.password && errors.password}
-            />
-            {touched.password && errors.password && (
-              <Text className='text-red-500 text-sm ml-2'>{errors.password}</Text>
-            )}
+          <CustomInput
+            leftIcon='lock-closed-outline'
+            placeholder='Enter Password'
+            secureTextEntry={!showPassword}
+            rightIcon={showPassword ? 'eye-off-outline' : 'eye-outline'}
+            onRightIconPress={() => setShowPassword(!showPassword)}
+            onChangeText={handleChange('password')}
+            onBlur={handleBlur('password')}
+            value={values.password}
+            autoCapitalize="none"
+            errorBorder={touched.password && errors.password}
+          />
+          {touched.password && errors.password && (
+            <Text className='text-red-500 text-sm ml-2'>{errors.password}</Text>
+          )}
 
-            <CustomInput
-              leftIcon='lock-closed-outline'
-              placeholder='Confirm Password'
-              onChangeText={handleChange('confirmPassword')}
-              onBlur={handleBlur('confirmPassword')}
-              value={values.confirmPassword}
-              autoCapitalize="none"
-              errorBorder={touched.confirmPassword && errors.confirmPassword}
-              secureTextEntry={true}
-            />
-            {touched.confirmPassword && errors.confirmPassword && (
-              <Text className='text-red-500 text-sm ml-2'>{errors.confirmPassword}</Text>
-            )}
-
+          <CustomInput
+            leftIcon='lock-closed-outline'
+            placeholder='Confirm Password'
+            onChangeText={handleChange('confirmPassword')}
+            onBlur={handleBlur('confirmPassword')}
+            value={values.confirmPassword}
+            autoCapitalize="none"
+            errorBorder={touched.confirmPassword && errors.confirmPassword}
+            secureTextEntry={true}
+          />
+          {touched.confirmPassword && errors.confirmPassword && (
+            <Text className='text-red-500 text-sm ml-2'>{errors.confirmPassword}</Text>
+          )}
         </View>
 
         <DefaultButton fill border onPress={handleSubmit}>
           Reset Password
         </DefaultButton>
+
+        {/* Modal for success message */}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+        >
+          <View className="flex-1 items-center justify-center bg-black/60">
+            <View className="bg-darkGrey p-6 rounded-2xl items-center shadow-lg w-[70%]">
+              <Ionicons name="checkmark-circle" size={64} color="#22c55e" />
+              <Text className="text-white text-xl font-bold mt-4">Password Reset Successfully</Text>
+            </View>
+          </View>
+        </Modal>
+
       </MainContainer>
     </KeyboardAvoidingContainer>
   );
