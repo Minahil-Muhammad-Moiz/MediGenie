@@ -63,7 +63,7 @@ const EmailVerification = () => {
                     <Ionicons name="arrow-back-outline" color={colors.lightText} size={25} />
                 </TouchableOpacity>
 
-                <View className='mt-[8%] flex gap-2 justify-center items-center'>
+                <View className='mt-[8%] flex gap-2 justify-center items-start'>
                     <Text className='text-white font-extrabold text-4xl'>OTP Verification</Text>
                     <Text className='text-white'>Enter the 4-digit code sent to your email</Text>
                 </View>
