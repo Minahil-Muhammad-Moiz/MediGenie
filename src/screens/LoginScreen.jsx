@@ -21,6 +21,8 @@ import CustomInput from '../components/CustomInput';
 import { Formik } from 'formik';
 import DefaultButton from '../components/DefaultButton';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/slices/authSlice';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -33,10 +35,7 @@ const LoginSchema = Yup.object().shape({
 export default function LoginScreen() {
   const [secureTextEntry, setSecureTextEntry] = useState(false)
   const navigation = useNavigation()
-
-  const handleBack = () => {
-    navigation.goBack()
-  }
+  const dispatch = useDispatch()
 
   const handleLogin = (values) => {
     try {
@@ -44,6 +43,7 @@ export default function LoginScreen() {
         values.email.toLowerCase() === 'test@example.com' &&
         values.password === '123456'
       ) {
+        dispatch(login({ user: values.email, token: 'fake-token', loginMethod: 'email' }));
         navigation.reset({
           index: 0,
           routes: [{ name: 'HomeScreen' }],
@@ -63,7 +63,7 @@ export default function LoginScreen() {
       <MainContainer>
         <TouchableOpacity
           className='bg-darkGrey p-2 rounded-full w-14 h-14 items-center justify-center'
-          onPress={handleBack}
+          onPress={() => navigation.goBack()}
         >
           <Ionicons name="arrow-back-outline" color={colors.lightText} size={25} />
         </TouchableOpacity>

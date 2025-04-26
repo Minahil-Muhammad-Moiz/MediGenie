@@ -58,7 +58,7 @@ const EmailVerification = () => {
 
                 <TouchableOpacity
                     className='bg-darkGrey p-2 rounded-full w-14 h-14 items-center justify-center'
-                    onPress={()=>navigation.goBack()}
+                    onPress={() => navigation.goBack()}
                 >
                     <Ionicons name="arrow-back-outline" color={colors.lightText} size={25} />
                 </TouchableOpacity>
@@ -82,7 +82,7 @@ const EmailVerification = () => {
                             // focusStickBlinkingDuration={500}
                             onFocus={() => console.log("Focused")}
                             onBlur={() => console.log("Blurred")}
-                            onTextChange={(text) => console.log(text)}
+                            // onTextChange={(text) => setOTPtext(text)}
                             onFilled={(text) => {
                                 if (text) {
                                     setOTPtext(text);
@@ -168,18 +168,17 @@ const EmailVerification = () => {
                     </View>
                 </View>
 
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={modalVisible}
-                >
-                    <View className="flex-1 items-center justify-center bg-black/60 ">
-                        <View className="bg-darkGrey p-6 rounded-2xl items-center shadow-lg w-[60%] ">
-                            <Ionicons name={modalSuccess ? "checkmark-circle":'close-circle'} size={64} color={modalSuccess ? colors.success :colors.fail} />
-                            <Text className="text-white text-xl font-bold mt-4">{modalSuccess ?  'OTP Verified':'Invalid OTP'}</Text>
+                <Modal visible={modalVisible} transparent animationType="fade">
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.6)' }}>
+                        <View style={{ backgroundColor: colors.darkGrey, padding: 24, borderRadius: 20, alignItems: 'center', width: '60%' }}>
+                            <Ionicons name={modalSuccess ? "checkmark-circle" : "close-circle"} size={64} color={modalSuccess ? colors.success : colors.fail} />
+                            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginTop: 16, textAlign: 'center' }}>
+                                {modalSuccess ? 'OTP Verified' : 'Invalid OTP'}
+                            </Text>
                         </View>
                     </View>
                 </Modal>
+
             </MainContainer>
         </KeyboardAvoidingContainer>
     )

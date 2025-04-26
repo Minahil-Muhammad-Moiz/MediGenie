@@ -111,7 +111,7 @@ const ResetPassword = () => {
           <View className="flex-1 items-center justify-center bg-black/60">
             <View className="bg-darkGrey p-6 rounded-2xl items-center shadow-lg w-[70%]">
               <Ionicons name="checkmark-circle" size={64} color="#22c55e" />
-              <Text className="text-white text-xl font-bold mt-4">Password Reset Successfully</Text>
+              <Text className="text-white text-xl font-bold mt-4 text-center">Password Reset Successfully</Text>
             </View>
           </View>
         </Modal>

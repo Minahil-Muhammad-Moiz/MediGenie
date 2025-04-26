@@ -10,34 +10,37 @@ import EmailVerification from './screens/EmailVerification';
 import ForgotPassword from './screens/ForgotPassword';
 import ResetPassword from './screens/ResetPassword';
 import HomeScreen from './screens/HomeScreen';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 
 const App = () => {
 
   const Stack = createNativeStackNavigator();
   return (
-    <NavigationContainer>
-      <StatusBar
-        animated={true}
-        barStyle="dark-content"
-        showHideTransition="fade"
-        hidden={true}
-      />
-      {/* <EmailVerification /> */}
-      <Stack.Navigator initialRouteName="GettingStarted"
-        screenOptions={{
-          headerShown: false
-        }}
-      >
-        <Stack.Screen name="GettingStarted" component={StartScreen} />
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-        <Stack.Screen name='EmailVerification' component={EmailVerification} />
-        <Stack.Screen name='ResetPassword' component={ResetPassword} />
-        <Stack.Screen name='HomeScreen' component={HomeScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <StatusBar
+          animated={true}
+          barStyle="dark-content"
+          showHideTransition="fade"
+          hidden={true}
+        />
+        <Stack.Navigator initialRouteName="GettingStarted"
+          screenOptions={{
+            headerShown: false
+          }}
+        >
+          <Stack.Screen name="GettingStarted" component={StartScreen} />
+          <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+          <Stack.Screen name='EmailVerification' component={EmailVerification} />
+          <Stack.Screen name='ResetPassword' component={ResetPassword} />
+          <Stack.Screen name='HomeScreen' component={HomeScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   )
 }
 

@@ -16,6 +16,8 @@ import DefaultButton from '../components/DefaultButton';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import LoginScreen from './LoginScreen';
+import { useDispatch } from 'react-redux';
+import { register } from '../redux/slices/authSlice';
 
 // ✅ Validation schema
 const SignUpSchema = Yup.object().shape({
@@ -35,20 +37,20 @@ const SignUpSchema = Yup.object().shape({
 
 export default function SignUpScreen() {
   const [showPassword, setShowPassword] = useState(false);
-
   const navigation = useNavigation();
-
-  const handleBack = () => {
-    navigation.goBack();
-  };
+  const dispatch = useDispatch();
 
   const handleSignUp = (values) => {
     try {
       // 🚀 Call your sign-up API or logic here
-      console.log('Sign up values:', values);
-      navigation.navigate(LoginScreen); // if signup successful
+      dispatch(register({ user: values }));
+
+      // Option 1: move to HomeScreen immediately
+      // navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }] });
+
+      // Option 2: move to LoginScreen (ask user to login)
+      navigation.reset({ index: 0, routes: [{ name: 'LoginScreen' }] });
     } catch (error) {
-      console.log('Sign up error:', error);
       Alert.alert('Sign up failed', 'Something went wrong. Try again.');
     }
   };
@@ -58,7 +60,7 @@ export default function SignUpScreen() {
       <MainContainer>
         <TouchableOpacity
           className='bg-darkGrey p-2 rounded-full flex items-center justify-center w-14 h-14 '
-          onPress={handleBack}
+          onPress={() => navigation.goBack()}
         >
           <Ionicons
             name={'arrow-back-outline'}
