@@ -12,6 +12,7 @@ import ResetPassword from './screens/ResetPassword';
 import HomeScreen from './screens/HomeScreen';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import ProfileScreen from './screens/ProfileScreen';
 
 
 const App = () => {
@@ -26,19 +27,21 @@ const App = () => {
           showHideTransition="fade"
           hidden={true}
         />
-        <Stack.Navigator initialRouteName="GettingStarted"
+        <ProfileScreen/>
+        {/* <Stack.Navigator initialRouteName="GettingStarted"
           screenOptions={{
             headerShown: false
           }}
         >
           <Stack.Screen name="GettingStarted" component={StartScreen} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           <Stack.Screen name='EmailVerification' component={EmailVerification} />
           <Stack.Screen name='ResetPassword' component={ResetPassword} />
           <Stack.Screen name='HomeScreen' component={HomeScreen} />
-        </Stack.Navigator>
+        </Stack.Navigator> */}
       </NavigationContainer>
     </Provider>
   )
