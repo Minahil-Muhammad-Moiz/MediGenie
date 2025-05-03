@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../utils/colors';
+import { Text } from '@react-navigation/elements';
 
 const CustomInput = ({
   placeholder,
@@ -15,6 +16,9 @@ const CustomInput = ({
   onBlur,
   onFocus,
   errorBorder,
+  legendText,
+  startLeft,
+  minLength,
   ...props
 }) => {
   const [inputBgColor, setInputBgColor] = useState(colors.black1)
@@ -28,58 +32,67 @@ const CustomInput = ({
     setInputBgColor('#262626');
     if (onFocus) onFocus(e); // Notify parent
   };
-  
+
   return (
-    <View className="relative justify-center mt-4">
-      {/* Left Icon */}
-      {leftIcon && (
-        <Ionicons
-          name={leftIcon}
-          size={25}
-          color={colors.lightGrey}
-          style={{
-            position: 'absolute',
-            left: 20,
-            zIndex: 1,
-          }}
-        />
+    <View className='justify-center mt-4'>
+      {legendText && (
+        <View className='pl-6'>
+          <Text className='font-poppinsSemiBold' style={{ color: '#fff' }} >{legendText}</Text>
+        </View>
       )}
-
-      {/* Input Field */}
-      <TextInput
-        className={`${errorBorder ? "border-fail":"border-blue1"} border rounded-full pl-20 pr-12 py-4 text-white text-base`}
-        placeholder={placeholder}
-        placeholderTextColor={colors.lightGrey}
-        secureTextEntry={secureTextEntry}
-        value={value}
-        onChangeText={onChangeText}
-        keyboardType={keyboardType}
-        keyboardAppearance="default"
-        style={{
-          backgroundColor: inputBgColor,
-        }}
-        onBlur={customOnBlur}
-        onFocus={customOnFocus}
-      />
-
-      {/* Right Icon */}
-      {rightIcon && (
-        <TouchableOpacity
-          onPress={onRightIconPress}
-          style={{
-            position: 'absolute',
-            right: 20,
-            zIndex: 2,
-          }}
-        >
+      <View className="relative flex flex-row  items-center justify-stretch">
+        {/* Left Icon */}
+        {leftIcon && (
           <Ionicons
-            name={rightIcon}
+            name={leftIcon}
             size={25}
             color={colors.lightGrey}
+            style={{
+              position: 'absolute',
+              left: 20,
+              // top: '50%',
+              zIndex: 1,
+            }}
           />
-        </TouchableOpacity>
-      )}
+        )}
+        {/* Input Field */}
+        <TextInput
+          className={`${errorBorder ? "border-fail" : "border-blue1"} border rounded-full w-full ${startLeft ? 'pl-6' : 'pl-20'}  pr-12 py-4 text-white text-base`}
+          placeholder={placeholder}
+          placeholderTextColor={colors.lightGrey}
+          secureTextEntry={secureTextEntry}
+          value={value}
+          onChangeText={onChangeText}
+          keyboardType={keyboardType}
+          keyboardAppearance="default"
+          minLength={minLength}
+          style={{
+            backgroundColor: inputBgColor,
+          }}
+          onBlur={customOnBlur}
+          onFocus={customOnFocus}
+        />
+
+        {/* Right Icon */}
+        {rightIcon && (
+          <TouchableOpacity
+            onPress={onRightIconPress}
+            style={{
+              position: 'absolute',
+              right: 20,
+              zIndex: 2,
+            }}
+          >
+            <Ionicons
+              name={rightIcon}
+              size={25}
+              color={colors.lightGrey}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
+
   );
 };
 

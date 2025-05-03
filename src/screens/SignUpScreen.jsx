@@ -15,7 +15,7 @@ import CustomInput from '../components/CustomInput';
 import DefaultButton from '../components/DefaultButton';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import LoginScreen from './LoginScreen';
+import ProfileScreen from './ProfileScreen';
 import { useDispatch } from 'react-redux';
 import { register } from '../redux/slices/authSlice';
 
@@ -49,7 +49,7 @@ export default function SignUpScreen() {
       // navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }] });
 
       // Option 2: move to LoginScreen (ask user to login)
-      navigation.reset({ index: 0, routes: [{ name: 'LoginScreen' }] });
+      navigation.reset({ index: 0, routes: [{ name: 'ProfileScreen' }] });
     } catch (error) {
       Alert.alert('Sign up failed', 'Something went wrong. Try again.');
     }
