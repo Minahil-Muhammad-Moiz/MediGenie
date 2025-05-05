@@ -15,6 +15,7 @@ import {
   removeProfileImage,
 } from '../redux/slices/profileSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import DropdownComponent from '../components/DropdownComponent';
 
 const ProfileScreen = () => {
   const imageURI = require('../assets/images/dummy-profile.png')
@@ -58,6 +59,13 @@ const ProfileScreen = () => {
                 />
               </TouchableOpacity>
             </View>
+
+            <DropdownComponent
+              label="Gender"
+              placeholder="Select your gender"
+              onSelect={(val) => console.log('Selected:', val)}
+            />
+
 
             <CustomInput
               placeholder="Enter your name"
