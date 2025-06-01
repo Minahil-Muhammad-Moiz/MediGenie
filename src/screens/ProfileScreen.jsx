@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer'
 import MainContainer from '../components/MainContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { colors } from '../utils/colors';
+import { ageOptions, colors, langs } from '../utils/constants';
+import { genders } from '../utils/constants';
 import CustomInput from '../components/CustomInput';
 import DefaultButton from '../components/DefaultButton';
 import { requestCameraPermission } from '../utils/Permissions';
@@ -16,9 +17,11 @@ import {
 } from '../redux/slices/profileSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import DropdownComponent from '../components/DropdownComponent';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = () => {
   const imageURI = require('../assets/images/dummy-profile.png')
+  const navigation = useNavigation();
   const [profileUploadModal, setProfileUploadModal] = useState(false)
   // const [profileImage, setProfileImage] = useState(imageURI);
   const dispatch = useDispatch();
@@ -42,6 +45,9 @@ const ProfileScreen = () => {
     setProfileUploadModal(false);
   };
 
+  const handleNext = () => {
+    navigation.navigate('MedicalHistory')
+  }
 
   return (
     <KeyboardAvoidingContainer>
@@ -49,7 +55,7 @@ const ProfileScreen = () => {
         <View className='flex-1 items-center justify-between w-full'>
           <View className='w-full flex-1 justify-center'>
 
-            <View className=' relative mb-[4%]  w-28 h-28 mx-auto overflow-hidden flex items-center justify-center'>
+            <View className=' relative  w-28 h-28 mx-auto overflow-hidden flex items-center justify-center'>
               <Image source={profileImage} height={10} width={10} alt='dummy-profile' className='w-full h-full rounded-full border-4 border-blue1 ' />
               <TouchableOpacity className='absolute bottom-0 right-0 p-2 rounded-full bg-blue1 z-10' onPress={() => setProfileUploadModal(true)}>
                 <Ionicons
@@ -61,49 +67,42 @@ const ProfileScreen = () => {
             </View>
 
 
-
-
+            {/* name */}
             <CustomInput
               placeholder="Enter your name"
               legendText="Name"
               keyboardType="default"
-              leftIcon='person'
+              startLeft={true}
             />
             <Text className="text-fail text-sm ml-2 ">error</Text>
 
-            {/* Age */}
-            <CustomInput
-              placeholder="Enter your age"
-              legendText="Age"
-              keyboardType="number-pad"
-              leftIcon='person'
-              minLength={18}
-            />
-            <Text className="text-fail text-sm ml-2 ">error</Text>
-
+            {/* gender */}
             <DropdownComponent
               label="Gender"
               placeholder="Select your gender"
               onSelect={(val) => console.log('Selected:', val)}
               startLeft={true}
-            />
-            
-            {/* Gender */}
-            <CustomInput
-              placeholder="Enter your gender"
-              legendText="Gender"
-              leftIcon='person'
-              keyboardType="default"
+              data={genders}
             />
             <Text className="text-fail text-sm ml-2 ">error</Text>
 
+            {/* Age */}
+            <DropdownComponent
+              label="Age"
+              placeholder="Select your gender"
+              onSelect={(val) => console.log('Selected:', val)}
+              startLeft={true}
+              data={ageOptions}
+            />
+            <Text className="text-fail text-sm ml-2 ">error</Text>
 
             {/* Language */}
-            <CustomInput
-              placeholder="Enter your preferred language"
-              legendText="Language"
-              keyboardType="default"
-              leftIcon='language-outline'
+            <DropdownComponent
+              label="Preferred Language"
+              placeholder="Select your gender"
+              onSelect={(val) => console.log('Selected:', val)}
+              startLeft={true}
+              data={langs}
             />
             <Text className="text-fail text-sm ml-2 ">error</Text>
 
@@ -113,12 +112,20 @@ const ProfileScreen = () => {
               placeholder="Enter your city/Country"
               legendText="City, Country"
               keyboardType="default"
-              leftIcon='location-outline'
+              startLeft={true}
             />
             <Text className="text-fail text-sm ml-2 ">error</Text>
 
           </View>
-          <DefaultButton fill border className=''>Next</DefaultButton>
+          {/* <DefaultButton fill border className=''>Next</DefaultButton> */}
+          <DefaultButton
+            fill
+            border
+            onPress={handleNext}
+            title='Submit'
+          >
+            Nex
+          </DefaultButton>
         </View>
         <Modal visible={profileUploadModal} transparent animationType='fade'>
           <TouchableWithoutFeedback onPress={() => setProfileUploadModal(false)}>

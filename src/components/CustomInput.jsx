@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { colors } from '../utils/colors';
+import { colors } from '../utils/constants';
 import { Text } from '@react-navigation/elements';
 
 const CustomInput = ({

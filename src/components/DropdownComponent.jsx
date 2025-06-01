@@ -2,20 +2,16 @@ import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { colors } from '../utils/colors';
+import { colors } from '../utils/constants';
 
-const data = [
-  { label: 'Male', value: '1' },
-  { label: 'Female', value: '2' },
-  { label: 'Prefer not to say', value: '3' },
-];
+// const data = 
 
-const DropdownComponent = ({ label = 'Dropdown Label', placeholder = 'Select item', onSelect, errorBorder, startLeft }) => {
+const DropdownComponent = ({ label = 'Dropdown Label', placeholder = 'Select item', onSelect, errorBorder, startLeft, data }) => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
   return (
-    <View className="w-full mb-4 px-2">
+    <View className="w-full mt-4">
 
       {label && (
         <View className='pl-6'>
