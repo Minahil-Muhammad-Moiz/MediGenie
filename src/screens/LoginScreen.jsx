@@ -14,7 +14,7 @@ import {
 import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
-import { colors } from '../utils/colors';
+import { colors } from '../utils/constants';
 import MainContainer from '../components/MainContainer';
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer';
 import CustomInput from '../components/CustomInput';

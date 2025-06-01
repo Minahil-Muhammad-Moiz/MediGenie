@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer';
 import MainContainer from '../components/MainContainer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { colors } from '../utils/colors';
+import { colors } from '../utils/constants';
 import { useNavigation } from '@react-navigation/native';
 import DefaultButton from '../components/DefaultButton';
 import CustomInput from '../components/CustomInput';

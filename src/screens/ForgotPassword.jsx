@@ -5,7 +5,7 @@ import MainContainer from '../components/MainContainer'
 import DefaultButton from '../components/DefaultButton'
 import { useNavigation } from '@react-navigation/native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { colors } from '../utils/colors';
+import { colors } from '../utils/constants';
 import CustomInput from '../components/CustomInput'
 
 const ForgotPassword = () => {

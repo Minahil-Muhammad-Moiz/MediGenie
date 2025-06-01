@@ -2,7 +2,7 @@ import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'reac
 import React, { useEffect, useRef, useState } from 'react'
 import MainContainer from '../components/MainContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { colors } from '../utils/colors';
+import { colors } from '../utils/constants';
 import { useNavigation } from '@react-navigation/native';
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer';
 import DefaultButton from '../components/DefaultButton';
