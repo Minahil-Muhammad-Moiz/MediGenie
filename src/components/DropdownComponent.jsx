@@ -5,14 +5,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../utils/colors';
 
 const data = [
-  { label: 'Item 1', value: '1' },
-  { label: 'Item 2', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
-  { label: 'Item 5', value: '5' },
-  { label: 'Item 6', value: '6' },
-  { label: 'Item 7', value: '7' },
-  { label: 'Item 8', value: '8' },
+  { label: 'Male', value: '1' },
+  { label: 'Female', value: '2' },
+  { label: 'Prefer not to say', value: '3' },
 ];
 
 const DropdownComponent = ({ label = 'Dropdown Label', placeholder = 'Select item', onSelect, errorBorder, startLeft }) => {
@@ -21,11 +16,6 @@ const DropdownComponent = ({ label = 'Dropdown Label', placeholder = 'Select ite
 
   return (
     <View className="w-full mb-4 px-2">
-      {/* {(value || isFocus) && (
-        <Text className={`absolute left-4 top-0 z-10 bg-white px-1 text-sm ${isFocus ? 'text-blue-500' : 'text-gray-500'}`}>
-          {label}
-        </Text>
-      )} */}
 
       {label && (
         <View className='pl-6'>
@@ -40,25 +30,46 @@ const DropdownComponent = ({ label = 'Dropdown Label', placeholder = 'Select ite
           borderWidth: 1,
           backgroundColor: isFocus ? '#262626' : colors.black1,
           borderRadius: 100,
-          borderColor:`${errorBorder ? colors.fail : colors.blue1}`,
-          paddingLeft:` ${startLeft ? '24px' : '80px'}`,
-          paddingRight: '48px',
-          paddingVertical: '16px',
-          color: "#ffffff",
-          fontSize: '16px'
+          borderColor: errorBorder ? colors.fail : colors.blue1,
+          paddingLeft: 24,
+          paddingRight: 24,
         }}
-        placeholderStyle={{ fontSize: 16 }}
-        selectedTextStyle={{ fontSize: 16 }}
-        inputSearchStyle={{ fontSize: 16, height: 40 }}
-        
+        placeholderStyle={{
+          fontSize: 16,
+          color: colors.lightGrey,
+          paddingLeft: startLeft ? 8 : 56,
+        }}
+        selectedTextStyle={{
+          fontSize: 16,
+          color: '#ffffff',
+          paddingLeft: startLeft ? 8 : 56,
+        }}
+
+        containerStyle={{
+          // backgroundColor: '#1f1f1f',
+          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: '#3B82F6',
+        }}
+
+        itemTextStyle={{
+          // color: colors,
+          fontSize: 16,
+        }}
+
+        itemContainerStyle={{
+          paddingHorizontal: 12,
+          borderBottomWidth: 1,
+          borderBottomColor: '#2c2c2c',
+          // backgroundColor: colors?.darkGrey,
+        }}
+
         iconStyle={{ width: 20, height: 20 }}
         data={data}
-        search
         maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder={!isFocus ? placeholder : '...'}
-        searchPlaceholder="Search..."
+        placeholder={placeholder}
         value={value}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
@@ -72,7 +83,7 @@ const DropdownComponent = ({ label = 'Dropdown Label', placeholder = 'Select ite
             name="chevron-down-outline"
             size={20}
             color={isFocus ? '#3B82F6' : '#6B7280'}
-            style={{ marginRight: 10 }}
+          // style={{ marginRight: 10 }}
           />
         )}
       />

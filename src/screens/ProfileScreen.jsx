@@ -60,11 +60,7 @@ const ProfileScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <DropdownComponent
-              label="Gender"
-              placeholder="Select your gender"
-              onSelect={(val) => console.log('Selected:', val)}
-            />
+
 
 
             <CustomInput
@@ -85,7 +81,13 @@ const ProfileScreen = () => {
             />
             <Text className="text-fail text-sm ml-2 ">error</Text>
 
-
+            <DropdownComponent
+              label="Gender"
+              placeholder="Select your gender"
+              onSelect={(val) => console.log('Selected:', val)}
+              startLeft={true}
+            />
+            
             {/* Gender */}
             <CustomInput
               placeholder="Enter your gender"
