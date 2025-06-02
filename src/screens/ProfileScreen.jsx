@@ -124,7 +124,7 @@ const ProfileScreen = () => {
             onPress={handleNext}
             title='Submit'
           >
-            Nex
+            Next
           </DefaultButton>
         </View>
         <Modal visible={profileUploadModal} transparent animationType='fade'>
