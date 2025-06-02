@@ -24,3 +24,11 @@ export const ageOptions = Array.from({ length: 83 }, (_, i) => ({
     label: `${i + 18}`,
     value: `${i + 18}`,
 }));
+
+export const goalOptions = [
+  'Lose Weight',
+  'Control BP',
+  'Improve Sleep',
+  'Eat Healthy',
+  'Understand Medication'
+];

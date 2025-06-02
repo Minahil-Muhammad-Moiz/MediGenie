@@ -1,24 +1,32 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MainContainer from '../components/MainContainer'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { colors } from '../utils/constants';
+import { colors, goalOptions } from '../utils/constants';
 import CustomInput from '../components/CustomInput';
 import DefaultButton from '../components/DefaultButton';
 
 const PersonalGoals = () => {
     const navigation = useNavigation();
     const profileImage = useSelector((state) => state.profile.profileImage);
+    const [selectedGoal, setSelectedGoal] = useState(null);
+
+    const handleSelect = (goal) => {
+        setSelectedGoal(goal);
+        onSelect && onSelect(goal);
+    };
+
 
     const handleNext = () => {
-         navigation.reset({
-          index: 0,
-          routes: [{ name: 'HomeScreen' }],
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'HomeScreen' }],
         });
     }
+
 
     return (
         <KeyboardAvoidingContainer>
@@ -45,32 +53,32 @@ const PersonalGoals = () => {
                     <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Your Goals Tag</Text>
                 </View>
 
-                <View className='flex-1 justify-center w-full'>
+                <View className='flex-1 justify-center '>
 
-                    <CustomInput
-                        placeholder="e.g. frequent headache , joint pain  etc"
-                        legendText="Symptoms pattern"
-                        keyboardType="default"
-                        startLeft={true}
-                    />
-                    <Text className="text-fail text-sm ml-2 ">error</Text>
-
-                    <CustomInput
-                        placeholder="Good/Average/Poor"
-                        legendText="Sleep quality"
-                        keyboardType="default"
-                        startLeft={true}
-                    />
-                    <Text className="text-fail text-sm ml-2 ">error</Text>
-
-                    <CustomInput
-                        placeholder="vegeterian/High protein /Junk food etc"
-                        legendText="Diet Type"
-                        keyboardType="default"
-                        startLeft={true}
-                    />
-                    <Text className="text-fail text-sm ml-2 ">error</Text>
-
+                        {goalOptions.map((goal) => {
+                            const isActive = selectedGoal === goal;
+                            return (
+                                <TouchableOpacity
+                                    key={goal}
+                                    onSelect={(value) => {
+                                        console.log('User selected goal:', value);
+                                    }}
+                                    onPress={() => handleSelect(goal)}
+                                    style={{
+                                        backgroundColor: isActive ? colors.blue1 : "#333",
+                                        paddingVertical: 16,
+                                        paddingHorizontal: 18,
+                                        borderRadius: 25,
+                                        marginRight: 10,
+                                        marginBottom: 10,
+                                    }}
+                                >
+                                    <Text style={{ color: isActive ? colors.black1 : colors.lightText, fontWeight: '600' }}>
+                                        {goal}
+                                    </Text>
+                                </TouchableOpacity>
+                            );
+                        })}
                 </View>
 
                 <DefaultButton
