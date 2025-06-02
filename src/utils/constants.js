@@ -25,10 +25,37 @@ export const ageOptions = Array.from({ length: 83 }, (_, i) => ({
     value: `${i + 18}`,
 }));
 
-export const goalOptions = [
-  'Lose Weight',
-  'Control BP',
-  'Improve Sleep',
-  'Eat Healthy',
-  'Understand Medication'
+export const cityCountry = [
+    
+]
+
+export const sleepQuality = ['Good', 'Average', 'Poor']
+
+export const availableTags = [
+    'Lose Weight',
+    'Control Blood Pressure',
+    'Improve Sleep Quality',
+    'Eat Healthy',
+    'Reduce Stress',
+    'Stay Hydrated',
+    'Build Muscle',
+    'Quit Smoking',
+    'Reduce Alcohol Intake',
+    'Manage Medication',
+    'Boost Energy',
+    'Improve Mental Health',
+    'Enhance Focus',
+    'Improve Digestion',
+    'Control Blood Sugar',
+    'Monitor Vitals',
+    'Be More Active',
+    'Improve Skin Health',
+    'Healthy Aging',
+    'Track Menstrual Cycle',
+    'Improve Immunity',
+    'Manage Chronic Illness',
+    'Balanced Diet Plans',
+    'Fix Sleep Schedule',
+    'Lower Cholesterol',
+    'Detox Support',
 ];

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer'
 import MainContainer from '../components/MainContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { ageOptions, colors, langs } from '../utils/constants';
+import { ageOptions, cityCountry, colors, langs } from '../utils/constants';
 import { genders } from '../utils/constants';
 import CustomInput from '../components/CustomInput';
 import DefaultButton from '../components/DefaultButton';
@@ -109,10 +109,11 @@ const ProfileScreen = () => {
 
             {/* City */}
             <CustomInput
-              placeholder="Enter your city/Country"
+              placeholder="Select your city/Country"
               legendText="City, Country"
               keyboardType="default"
               startLeft={true}
+              data={cityCountry}
             />
             <Text className="text-fail text-sm ml-2 ">error</Text>
 

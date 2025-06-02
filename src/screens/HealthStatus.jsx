@@ -5,10 +5,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MainContainer from '../components/MainContainer'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { colors } from '../utils/constants';
+import { colors, sleepQuality } from '../utils/constants';
 import CustomInput from '../components/CustomInput';
 import DefaultButton from '../components/DefaultButton';
 import LifeStyle from './LifeStyle';
+import DropdownComponent from '../components/DropdownComponent';
 
 const HealthStatus = () => {
     const navigation = useNavigation();
@@ -53,11 +54,12 @@ const HealthStatus = () => {
                     />
                     <Text className="text-fail text-sm ml-2 ">error</Text>
 
-                    <CustomInput
-                        placeholder="Good/Average/Poor"
-                        legendText="Sleep quality"
-                        keyboardType="default"
+                    <DropdownComponent
+                        label="Sleep Quality"
+                        placeholder="Select your sleep quality."
+                        onSelect={(val) => console.log('Selected:', val)}
                         startLeft={true}
+                        data={sleepQuality}
                     />
                     <Text className="text-fail text-sm ml-2 ">error</Text>
 

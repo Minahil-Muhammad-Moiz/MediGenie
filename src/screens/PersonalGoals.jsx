@@ -5,20 +5,22 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MainContainer from '../components/MainContainer'
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { colors, goalOptions } from '../utils/constants';
+import { availableTags, colors } from '../utils/constants';
 import CustomInput from '../components/CustomInput';
 import DefaultButton from '../components/DefaultButton';
 
 const PersonalGoals = () => {
+    const [selectedTags, setSelectedTags] = useState([]);
     const navigation = useNavigation();
     const profileImage = useSelector((state) => state.profile.profileImage);
-    const [selectedGoal, setSelectedGoal] = useState(null);
 
-    const handleSelect = (goal) => {
-        setSelectedGoal(goal);
-        onSelect && onSelect(goal);
+    const toggleTag = (tag) => {
+        setSelectedTags((prev) =>
+            prev.includes(tag)
+                ? prev.filter((t) => t !== tag)
+                : [...prev, tag]
+        );
     };
-
 
     const handleNext = () => {
         navigation.reset({
@@ -53,32 +55,30 @@ const PersonalGoals = () => {
                     <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Your Goals Tag</Text>
                 </View>
 
-                <View className='flex-1 justify-center '>
+                <View className='flex-1 justify-center w-full'>
 
-                        {goalOptions.map((goal) => {
-                            const isActive = selectedGoal === goal;
+                    <View className="flex-row flex-wrap gap-2 mb-10">
+                        {availableTags.map((tag) => {
+                            const isSelected = selectedTags.includes(tag);
                             return (
                                 <TouchableOpacity
-                                    key={goal}
-                                    onSelect={(value) => {
-                                        console.log('User selected goal:', value);
-                                    }}
-                                    onPress={() => handleSelect(goal)}
+                                    key={tag}
+                                    onPress={() => toggleTag(tag)}
                                     style={{
-                                        backgroundColor: isActive ? colors.blue1 : "#333",
-                                        paddingVertical: 16,
-                                        paddingHorizontal: 18,
-                                        borderRadius: 25,
-                                        marginRight: 10,
-                                        marginBottom: 10,
+                                        backgroundColor: isSelected ? colors.blue1 : colors.darkGrey,
+                                        paddingVertical: 8,
+                                        paddingHorizontal: 16,
+                                        borderRadius: 20,
+                                        marginBottom: 8,
                                     }}
                                 >
-                                    <Text style={{ color: isActive ? colors.black1 : colors.lightText, fontWeight: '600' }}>
-                                        {goal}
+                                    <Text style={{ color: isSelected ? '#fff' : colors.lightText, fontWeight: '600' }}>
+                                        {tag}
                                     </Text>
                                 </TouchableOpacity>
                             );
                         })}
+                    </View>
                 </View>
 
                 <DefaultButton

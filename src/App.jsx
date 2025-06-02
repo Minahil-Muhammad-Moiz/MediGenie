@@ -32,7 +32,7 @@ const App = () => {
           hidden={true}
         />
         <Stack.Navigator
-          // initialRouteName="GettingStarted"
+          initialRouteName="GettingStarted"
           screenOptions={{
             headerShown: false
           }}
