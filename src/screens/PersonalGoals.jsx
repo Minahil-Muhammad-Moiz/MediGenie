@@ -8,14 +8,16 @@ import { useSelector } from 'react-redux';
 import { colors } from '../utils/constants';
 import CustomInput from '../components/CustomInput';
 import DefaultButton from '../components/DefaultButton';
-import PersonalGoals from './PersonalGoals';
 
-const LifeStyle = () => {
+const PersonalGoals = () => {
     const navigation = useNavigation();
     const profileImage = useSelector((state) => state.profile.profileImage);
 
     const handleNext = () => {
-        navigation.navigate(PersonalGoals)
+         navigation.reset({
+          index: 0,
+          routes: [{ name: 'HomeScreen' }],
+        });
     }
 
     return (
@@ -40,38 +42,30 @@ const LifeStyle = () => {
                 </View>
 
                 <View className='mt-[4%] flex gap-2'>
-                    <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Your Lifestyle & habits</Text>
+                    <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Your Goals Tag</Text>
                 </View>
 
                 <View className='flex-1 justify-center w-full'>
 
                     <CustomInput
-                        placeholder="Active/Sedentary"
-                        legendText="Lifestyle Habits"
+                        placeholder="e.g. frequent headache , joint pain  etc"
+                        legendText="Symptoms pattern"
                         keyboardType="default"
                         startLeft={true}
                     />
                     <Text className="text-fail text-sm ml-2 ">error</Text>
 
                     <CustomInput
-                        placeholder="Desk Job/ Field Work/Student/HouseWife/ "
-                        legendText="Occupation"
+                        placeholder="Good/Average/Poor"
+                        legendText="Sleep quality"
                         keyboardType="default"
                         startLeft={true}
                     />
                     <Text className="text-fail text-sm ml-2 ">error</Text>
 
                     <CustomInput
-                        placeholder="Yes / No"
-                        legendText="Smoking Habits"
-                        keyboardType="default"
-                        startLeft={true}
-                    />
-                    <Text className="text-fail text-sm ml-2 ">error</Text>
-
-                    <CustomInput
-                        placeholder="Yes / No"
-                        legendText="Alchohol consumption"
+                        placeholder="vegeterian/High protein /Junk food etc"
+                        legendText="Diet Type"
                         keyboardType="default"
                         startLeft={true}
                     />
@@ -85,11 +79,11 @@ const LifeStyle = () => {
                     onPress={handleNext}
                     title='Submit'
                 >
-                    Next
+                    Submit
                 </DefaultButton>
             </MainContainer>
         </KeyboardAvoidingContainer>
     )
 }
 
-export default LifeStyle
+export default PersonalGoals
