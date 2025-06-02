@@ -39,30 +39,38 @@ const LifeStyle = () => {
                 </View>
 
                 <View className='mt-[4%] flex gap-2'>
-                    <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Your  Health  Status</Text>
+                    <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Your Life style & habits</Text>
                 </View>
 
                 <View className='flex-1 justify-center w-full'>
 
                     <CustomInput
-                        placeholder="e.g. frequent headache , joint pain  etc"
-                        legendText="Symptoms pattern"
+                        placeholder="Active/Sedentary"
+                        legendText="Lifestyle Habits"
                         keyboardType="default"
                         startLeft={true}
                     />
                     <Text className="text-fail text-sm ml-2 ">error</Text>
 
                     <CustomInput
-                        placeholder="Good/Average/Poor"
-                        legendText="Sleep quality"
+                        placeholder="Desk Job/ Field Work/Student/HouseWife/ "
+                        legendText="Occupation"
                         keyboardType="default"
                         startLeft={true}
                     />
                     <Text className="text-fail text-sm ml-2 ">error</Text>
 
                     <CustomInput
-                        placeholder="vegeterian/High protein /Junk food etc"
-                        legendText="Diet Type"
+                        placeholder="Yes / No"
+                        legendText="Smoking Habits"
+                        keyboardType="default"
+                        startLeft={true}
+                    />
+                    <Text className="text-fail text-sm ml-2 ">error</Text>
+
+                    <CustomInput
+                        placeholder="Yes / No"
+                        legendText="Alchohol consumption"
                         keyboardType="default"
                         startLeft={true}
                     />

@@ -37,8 +37,8 @@ const App = () => {
           }}
         >
           {/* <Stack.Screen name="GettingStarted" component={StartScreen} /> */}
-          {/* <Stack.Screen name="SignUpScreen" component={SignUpScreen} /> */}
-          {/* <Stack.Screen name="ProfileScreen" component={ProfileScreen} /> */}
+          <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
           <Stack.Screen name="MedicalHistory" component={MedicalHistory} />
           <Stack.Screen name="HealthStatus" component={HealthStatus} />
           <Stack.Screen name="LifeStyle" component={LifeStyle} />
