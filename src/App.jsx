@@ -14,6 +14,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import ProfileScreen from './screens/ProfileScreen';
 import MedicalHistory from './screens/MedicalHistory';
+import HealthStatus from './screens/HealthStatus';
 
 
 const App = () => {
@@ -28,16 +29,17 @@ const App = () => {
           showHideTransition="fade"
           hidden={true}
         />
-        <Stack.Navigator 
-        // initialRouteName="GettingStarted"
+        <Stack.Navigator
+          // initialRouteName="GettingStarted"
           screenOptions={{
             headerShown: false
           }}
         >
           {/* <Stack.Screen name="GettingStarted" component={StartScreen} /> */}
           {/* <Stack.Screen name="SignUpScreen" component={SignUpScreen} /> */}
-          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+          {/* <Stack.Screen name="ProfileScreen" component={ProfileScreen} /> */}
           <Stack.Screen name="MedicalHistory" component={MedicalHistory} />
+          <Stack.Screen name="HealthStatus" component={HealthStatus} />
           {/* <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           <Stack.Screen name='EmailVerification' component={EmailVerification} />
