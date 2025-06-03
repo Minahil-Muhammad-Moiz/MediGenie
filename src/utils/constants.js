@@ -26,36 +26,33 @@ export const ageOptions = Array.from({ length: 83 }, (_, i) => ({
 }));
 
 export const cityCountry = [
-    
+    { label: 'Karachi, Pakistan', value: '1' },
+    { label: 'Lahore, Pakistan', value: '2' },
+    { label: 'Islamabad, Pakistan', value: '3' },
 ]
 
-export const sleepQuality = ['Good', 'Average', 'Poor']
+export const sleepQuality = [
+    { label: 'Good', value: '1' },
+    { label: 'Average', value: '2' },
+    { label: 'Poor', value: '3' },]
 
 export const availableTags = [
-    'Lose Weight',
-    'Control Blood Pressure',
-    'Improve Sleep Quality',
-    'Eat Healthy',
-    'Reduce Stress',
-    'Stay Hydrated',
-    'Build Muscle',
-    'Quit Smoking',
-    'Reduce Alcohol Intake',
-    'Manage Medication',
-    'Boost Energy',
-    'Improve Mental Health',
-    'Enhance Focus',
-    'Improve Digestion',
-    'Control Blood Sugar',
-    'Monitor Vitals',
-    'Be More Active',
-    'Improve Skin Health',
-    'Healthy Aging',
-    'Track Menstrual Cycle',
-    'Improve Immunity',
-    'Manage Chronic Illness',
-    'Balanced Diet Plans',
-    'Fix Sleep Schedule',
-    'Lower Cholesterol',
-    'Detox Support',
+  { label: 'Lose Weight', value: 'lose_weight' },
+  { label: 'Control Blood Pressure', value: 'control_bp' },
+  { label: 'Improve Sleep Quality', value: 'sleep_quality' },
+  { label: 'Eat Healthy', value: 'eat_healthy' },
+  { label: 'Reduce Stress', value: 'reduce_stress' },
+  { label: 'Stay Hydrated', value: 'stay_hydrated' },
+  { label: 'Build Muscle', value: 'build_muscle' },
+  { label: 'Quit Smoking', value: 'quit_smoking' },
+  { label: 'Reduce Alcohol Intake', value: 'reduce_alcohol' },
+  { label: 'Manage Medication', value: 'manage_medication' },
+  { label: 'Boost Energy', value: 'boost_energy' },
+  { label: 'Improve Mental Health', value: 'mental_health' },
+  { label: 'Enhance Focus', value: 'enhance_focus' },
+  { label: 'Improve Digestion', value: 'digestion' },
+  { label: 'Control Blood Sugar', value: 'blood_sugar' },
+  { label: 'Monitor Vitals', value: 'monitor_vitals' },
+  { label: 'Be More Active', value: 'be_active' },
+  { label: 'Improve Skin Health', value: 'skin_health' },
 ];

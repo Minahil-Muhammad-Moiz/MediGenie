@@ -16,11 +16,12 @@ const PersonalGoals = () => {
 
     const toggleTag = (tag) => {
         setSelectedTags((prev) =>
-            prev.includes(tag)
-                ? prev.filter((t) => t !== tag)
-                : [...prev, tag]
+            prev.includes(tag.value)
+                ? prev.filter((t) => t !== tag.value)
+                : [...prev, tag.value]
         );
     };
+    // console.log(selectedTags)
 
     const handleNext = () => {
         navigation.reset({
@@ -29,10 +30,9 @@ const PersonalGoals = () => {
         });
     }
 
-
     return (
         <KeyboardAvoidingContainer>
-            <MainContainer>
+            <MainContainer >
 
                 <View className='flex flex-row items-center justify-between w-full mt-[4%]'>
 
@@ -47,7 +47,7 @@ const PersonalGoals = () => {
                         />
                     </TouchableOpacity>
 
-                    <Image source={profileImage} height={10} width={10} alt='dummy-profile' className='w-14 h-14 rounded-full border-4 border-blue1 ' />
+                    <Image source={profileImage} height={10} width={10} alt='dummy-profile' className='w-14 h-14 rounded-full border-2 border-blue1 ' />
 
                 </View>
 
@@ -59,21 +59,15 @@ const PersonalGoals = () => {
 
                     <View className="flex-row flex-wrap gap-2 mb-10">
                         {availableTags.map((tag) => {
-                            const isSelected = selectedTags.includes(tag);
+                            const isSelected = selectedTags.includes(tag.value);
                             return (
                                 <TouchableOpacity
-                                    key={tag}
+                                    key={tag?.value}
                                     onPress={() => toggleTag(tag)}
-                                    style={{
-                                        backgroundColor: isSelected ? colors.blue1 : colors.darkGrey,
-                                        paddingVertical: 8,
-                                        paddingHorizontal: 16,
-                                        borderRadius: 20,
-                                        marginBottom: 8,
-                                    }}
+                                    className={` ${isSelected ? 'bg-blue1' : 'bg-darkGrey'} rounded-xl p-3 `}
                                 >
-                                    <Text style={{ color: isSelected ? '#fff' : colors.lightText, fontWeight: '600' }}>
-                                        {tag}
+                                    <Text style={{ color: isSelected ? colors.black1 : colors.lightText, fontWeight: '600' }}>
+                                        {tag?.label}
                                     </Text>
                                 </TouchableOpacity>
                             );
@@ -86,6 +80,7 @@ const PersonalGoals = () => {
                     border
                     onPress={handleNext}
                     title='Submit'
+                // className=' bottom-0'
                 >
                     Submit
                 </DefaultButton>

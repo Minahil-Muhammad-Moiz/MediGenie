@@ -47,7 +47,7 @@ const MedicalHistory = () => {
                 <View className='flex-1 justify-center w-full'>
 
                     <CustomInput
-                        placeholder="e.g. Diabetes,Hypertension etc"
+                        placeholder="e.g. Diabetes etc"
                         legendText="Chronic conditions"
                         keyboardType="default"
                         startLeft={true}
@@ -55,7 +55,7 @@ const MedicalHistory = () => {
                     <Text className="text-fail text-sm ml-2 ">error</Text>
 
                     <CustomInput
-                        placeholder="e.g. Paracetamol, Ibuprofen, or type 'None'"
+                        placeholder="e.g. Paracetamol or type 'None'"
                         legendText="Current Medication ( if any )"
                         keyboardType="default"
                         startLeft={true}
@@ -63,7 +63,7 @@ const MedicalHistory = () => {
                     <Text className="text-fail text-sm ml-2 ">error</Text>
 
                     <CustomInput
-                        placeholder="e.g. Penicillin, nuts, pollen, or type 'None'"
+                        placeholder="e.g. Penicillin, or type 'None'"
                         legendText="Known allergies ( if any )"
                         keyboardType="default"
                         startLeft={true}
@@ -71,7 +71,7 @@ const MedicalHistory = () => {
                     <Text className="text-fail text-sm ml-2 ">error</Text>
 
                     <CustomInput
-                        placeholder="e.g. Asthma, diabetes, surgery history, or type 'None'"
+                        placeholder="e.g. Asthma, or type 'None'"
                         legendText="Past Major illnesses ( if any )"
                         keyboardType="default"
                         startLeft={true}

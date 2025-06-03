@@ -63,6 +63,7 @@ const HealthStatus = () => {
                     />
                     <Text className="text-fail text-sm ml-2 ">error</Text>
 
+
                     <CustomInput
                         placeholder="vegeterian/High protein /Junk food etc"
                         legendText="Diet Type"

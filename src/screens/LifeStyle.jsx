@@ -54,7 +54,7 @@ const LifeStyle = () => {
                     <Text className="text-fail text-sm ml-2 ">error</Text>
 
                     <CustomInput
-                        placeholder="Desk Job/ Field Work/Student/HouseWife/ "
+                        placeholder="Desk Job/ Field Work/Student "
                         legendText="Occupation"
                         keyboardType="default"
                         startLeft={true}

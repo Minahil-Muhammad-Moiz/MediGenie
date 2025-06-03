@@ -11,7 +11,7 @@ const DropdownComponent = ({ label = 'Dropdown Label', placeholder = 'Select ite
   const [isFocus, setIsFocus] = useState(false);
 
   return (
-    <View className="w-full mt-4">
+    <View className="w-full mt-2">
 
       {label && (
         <View className='pl-6'>

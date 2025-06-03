@@ -55,8 +55,8 @@ const ProfileScreen = () => {
         <View className='flex-1 items-center justify-between w-full'>
           <View className='w-full flex-1 justify-center'>
 
-            <View className=' relative  w-28 h-28 mx-auto overflow-hidden flex items-center justify-center'>
-              <Image source={profileImage} height={10} width={10} alt='dummy-profile' className='w-full h-full rounded-full border-4 border-blue1 ' />
+            <View className='-mt-2 relative w-28 h-28 mx-auto overflow-hidden flex items-center justify-center'>
+              <Image source={profileImage} height={10} width={10} alt='profile' className='w-full h-full rounded-full border-4 border-blue1 ' />
               <TouchableOpacity className='absolute bottom-0 right-0 p-2 rounded-full bg-blue1 z-10' onPress={() => setProfileUploadModal(true)}>
                 <Ionicons
                   name={'camera-outline'}
@@ -89,7 +89,7 @@ const ProfileScreen = () => {
             {/* Age */}
             <DropdownComponent
               label="Age"
-              placeholder="Select your gender"
+              placeholder="Select your age"
               onSelect={(val) => console.log('Selected:', val)}
               startLeft={true}
               data={ageOptions}
@@ -99,26 +99,24 @@ const ProfileScreen = () => {
             {/* Language */}
             <DropdownComponent
               label="Preferred Language"
-              placeholder="Select your gender"
+              placeholder="Select your language"
               onSelect={(val) => console.log('Selected:', val)}
               startLeft={true}
               data={langs}
             />
             <Text className="text-fail text-sm ml-2 ">error</Text>
 
-
             {/* City */}
-            <CustomInput
+            <DropdownComponent
               placeholder="Select your city/Country"
-              legendText="City, Country"
-              keyboardType="default"
+              label="City, Country"
+              onSelect={(val) => console.log('Selected:', val)}
               startLeft={true}
               data={cityCountry}
             />
             <Text className="text-fail text-sm ml-2 ">error</Text>
 
           </View>
-          {/* <DefaultButton fill border className=''>Next</DefaultButton> */}
           <DefaultButton
             fill
             border
