@@ -46,6 +46,7 @@ const DropdownComponent = ({ label = 'Dropdown Label', placeholder = 'Select ite
           borderRadius: 10,
           borderWidth: 1,
           borderColor: '#3B82F6',
+          marginTop: 0,
         }}
 
         itemTextStyle={{
@@ -57,6 +58,7 @@ const DropdownComponent = ({ label = 'Dropdown Label', placeholder = 'Select ite
           paddingHorizontal: 12,
           borderBottomWidth: 1,
           borderBottomColor: '#2c2c2c',
+          // marginTop: -12,
           // backgroundColor: colors?.darkGrey,
         }}
 
