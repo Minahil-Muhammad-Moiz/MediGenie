@@ -56,7 +56,7 @@ const ProfileScreen = () => {
           <View className='w-full flex-1 justify-center'>
 
             <View className='-mt-2 relative w-28 h-28 mx-auto overflow-hidden flex items-center justify-center'>
-              <Image source={profileImage} height={10} width={10} alt='profile' className='w-full h-full rounded-full border-4 border-blue1 ' />
+              <Image source={profileImage} height={10} width={10} alt='profile' className='w-full h-full rounded-full border-2 border-blue1 ' />
               <TouchableOpacity className='absolute bottom-0 right-0 p-2 rounded-full bg-blue1 z-10' onPress={() => setProfileUploadModal(true)}>
                 <Ionicons
                   name={'camera-outline'}
