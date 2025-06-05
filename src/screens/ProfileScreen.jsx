@@ -126,13 +126,14 @@ const ProfileScreen = () => {
             Next
           </DefaultButton>
         </View>
+
         <Modal visible={profileUploadModal} transparent animationType='fade'>
           <TouchableWithoutFeedback onPress={() => setProfileUploadModal(false)}>
             <View className='mx-auto flex-1 items-center justify-center bg-darkGrey/60 w-full'>
-              <View className=' bg-darkGrey rounded-3xl p-4 w-[85%] items-center'>
+              <View className=' bg-darkGrey rounded-3xl p-4 w-[90%] items-center'>
                 <Text className='text-white font-poppinsBold text-2xl font-bold'>Profile Photo</Text>
-                <View className='flex flex-row items-center w-full justify-center mt-6'>
-                  <TouchableOpacity className='p-3 w-[25%] border border-blue1 rounded-xl flex items-center' onPress={handleCamera}>
+                <View className='flex flex-row items-center w-full justify-evenly mt-6'>
+                  <TouchableOpacity className='p-3  border border-blue1 rounded-xl flex items-center' onPress={handleCamera}>
                     <Ionicons
                       name={'camera-outline'}
                       size={25}
@@ -140,7 +141,7 @@ const ProfileScreen = () => {
                     />
                     <Text className='text-white'>Camera</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity className='p-3 w-[25%] border border-blue1 rounded-xl flex items-center' onPress={handleGallery}>
+                  <TouchableOpacity className='p-3  border border-blue1 rounded-xl flex items-center' onPress={handleGallery}>
                     <Ionicons
                       name={'image-outline'}
                       size={25}
@@ -148,7 +149,7 @@ const ProfileScreen = () => {
                     />
                     <Text className='text-white'>Gallery</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity className='p-3 w-[25%] border border-blue1 rounded-xl flex items-center' onPress={handleRemove}>
+                  <TouchableOpacity className='p-3  border border-blue1 rounded-xl flex items-center' onPress={handleRemove}>
                     <Ionicons
                       name={'trash-outline'}
                       size={25}
