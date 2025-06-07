@@ -7,14 +7,19 @@ import { useNavigation } from '@react-navigation/native';
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer';
 import DefaultButton from '../components/DefaultButton';
 import { OtpInput } from 'react-native-otp-entry';
+import { useRoute } from '@react-navigation/native'; // <-- Add this
 
 const EmailVerification = () => {
     const navigation = useNavigation()
+    const route = useRoute(); // <-- Get route params
     const [modalVisible, setModalVisible] = useState(false);
     const [modalSuccess, setModalSucess] = useState(false)
     const [OTPtext, setOTPtext] = useState('')
     const [resendDisabled, setResendDisabled] = useState(false);
     const [timer, setTimer] = useState(0);
+    const routeName = route?.params?.from; // <-- 'signup' or 'forgotPassword'
+
+    console.log(routeName);
 
     const handleVerification = (text) => {
         if (text === "1234") {
@@ -22,7 +27,14 @@ const EmailVerification = () => {
             setModalVisible(true);
             setTimeout(() => {
                 setModalVisible(false);
-                navigation.navigate('ResetPassword');
+                // ✅ Conditionally navigate based on origin
+                if (routeName === 'SignUpScreen') {
+                    // navigation.navigate('ProfileScreen');
+                    navigation.reset({ index: 0, routes: [{ name: 'ProfileScreen' }] });
+
+                } else {
+                    navigation.navigate('ResetPassword');
+                }
             }, 1500);
         } else {
             setModalSucess(false)

@@ -49,7 +49,9 @@ export default function SignUpScreen() {
       // navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }] });
 
       // Option 2: move to LoginScreen (ask user to login)
-      navigation.reset({ index: 0, routes: [{ name: 'ProfileScreen' }] });
+      // navigation.navigate('EmailVerification', { from: 'SignUpScreen' });
+      navigation.navigate('EmailVerification', { from: 'SignUpScreen' });
+      // navigation.navigate('EmailVerification', { from: 'signup' });
     } catch (error) {
       Alert.alert('Sign up failed', 'Something went wrong. Try again.');
     }

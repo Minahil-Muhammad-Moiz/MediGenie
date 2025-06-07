@@ -24,9 +24,10 @@ const ForgotPassword = () => {
             return;
         }
 
-        navigation.navigate('EmailVerification');
+        // navigation.navigate('EmailVerification');
+        navigation.navigate('EmailVerification', { from: 'ForgotPassword' });
     }
-    
+
     return (
         <KeyboardAvoidingContainer>
             <MainContainer>
