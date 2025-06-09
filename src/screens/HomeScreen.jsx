@@ -3,6 +3,7 @@ import React from 'react'
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer'
 import MainContainer from '../components/MainContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '../utils/constants';
 import { useSelector } from 'react-redux';
 import DefaultButton from '../components/DefaultButton';
@@ -16,7 +17,7 @@ const HomeScreen = () => {
         <>
             <View className='bg-black1 relative'>
 
-                <View className='flex flex-row items-center justify-between w-full  p-6 rounded-b-3xl'>
+                <View className='flex flex-row items-center justify-between w-full  px-6 pt-6'>
                     <View className='flex flex-row items-center justify-center gap-4 '>
                         <Image source={profileImage} height={10} width={10} alt='dummy-profile' className=' w-16 h-16 rounded-full ' />
                         <View className='flex justify-center'>
@@ -31,59 +32,79 @@ const HomeScreen = () => {
                     >
                         <Ionicons
                             name={'ellipsis-vertical'}
-                            color={colors.blue1}
+                            color={'#ffffff'}
                             size={25}
                         />
                     </TouchableOpacity>
 
 
                 </View>
-
-                {/* absolute top-[100%] -translate-y-[30%] -translate-x-[50%] left-[50%]  */}
             </View>
 
             <KeyboardAvoidingContainer>
                 <MainContainer>
 
-                    <View className='p-10  mb-6 mx-auto font-poppinsRegular w-[90%] rounded-xl bg-blue1 overflow-hidden z-10 relative'>
-                        <Text className='z-10 text-3xl font-poppinsBold font-extrabold'>MediGenie</Text>
-                        <Text className='z-10 text italic max-w-[60%]'>Your Health, simplifiied with AI.</Text>
-                        <Image source={imageURI} height={10} width={10} alt='dummy-profile' className=' w-24 h-24 absolute right-0 bottom-0  z-0' />
+                    <View className='p-4  mb-6 mx-auto font-poppinsRegular w-[90%] rounded-xl bg-blue1 overflow-hidden z-10 relative flex-row items-center justify-between'>
+                        <View className='max-w-[65%]'>
+                        <Text className='z-10 text-2xl font-poppinsBold font-extrabold'>MediGenie</Text>
+                        <Text className='z-10 text italic '>Your Health, simplifiied with AI.</Text>
+                        </View>
+                        <View className=''>
+                        <Image source={imageURI} height={10} width={10} alt='dummy-profile' className=' w-20 h-20  z-0' />
+                        </View>
                     </View>
 
                     <View className='flex gap-4 items-center justify-start border bord'>
 
-                        <View className=' h-52 border border-blue1 mx-auto p-5 rounded-2xl flex items-start justify-around'>
-                            <View className='max-w-[90%] flex gap-2'>
+                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto p-5 rounded-2xl flex items-start justify-around'>
+                            <View className=' relative flex gap-2'>
                                 <Text className='font-poppins text-white font-bold text-2xl'>Symptom Checker</Text>
-                                <Text className='font-poppins text-white'>Upload an image or type your  symptoms to get an instant analysis.</Text>
+                                <Text className='font-poppins text-white pr-32'>Upload an image or type your  symptoms to get an instant analysis.</Text>
+                                <MaterialIcons
+                                    name={'health-and-safety'}
+                                    color={colors?.lightText}
+                                    size={70}
+                                    className='absolute right-0 top-0'
+                                />
                             </View>
                             <View className='self-end w-40 '>
-                                <DefaultButton border fill thinPadding icon={'arrow-forward-circle'}>
+                                <DefaultButton border fill thinPadding icon={'arrow-forward'}>
                                     Try Now
                                 </DefaultButton>
                             </View>
                         </View>
 
-                        <View className=' h-52 border border-blue1 mx-auto p-5 rounded-2xl flex items-start justify-around'>
-                            <View className='max-w-[90%] flex gap-2'>
+                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto p-5 rounded-2xl flex items-start justify-around'>
+                            <View className=' relative flex gap-2'>
                                 <Text className='font-poppins text-white font-bold text-2xl'>Report Scanner</Text>
-                                <Text className='font-poppins text-white'>Scan and organize your health records with ease.</Text>
+                                <Text className='font-poppins text-white pr-32'>Scan and organize your health records with ease.</Text>
+                                <MaterialIcons
+                                    name={'document-scanner'}
+                                    color={colors?.lightText}
+                                    size={70}
+                                    className='absolute right-0 top-0'
+                                />
                             </View>
                             <View className='self-end w-40 '>
-                                <DefaultButton border fill thinPadding icon={'arrow-forward-circle'}>
+                                <DefaultButton border fill thinPadding icon={'arrow-forward'}>
                                     Try Now
                                 </DefaultButton>
                             </View>
                         </View>
 
-                        <View className=' h-52 border border-blue1 mx-auto p-5 rounded-2xl flex items-start justify-around'>
-                            <View className='max-w-[90%] flex gap-2'>
+                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto p-5 rounded-2xl flex items-start justify-around'>
+                            <View className=' relative flex gap-2'>
                                 <Text className='font-poppins text-white font-bold text-2xl'>PDF Analyzer</Text>
-                                <Text className='font-poppins text-white'>Upload medical reports and get a summarized overview instantly.</Text>
+                                <Text className='font-poppins text-white pr-32'>Upload medical reports and get a summarized overview instantly.</Text>
+                                <MaterialIcons
+                                    name={'picture-as-pdf'}
+                                    color={colors?.lightText}
+                                    size={70}
+                                    className='absolute right-0 top-0'
+                                />
                             </View>
                             <View className='self-end w-40 '>
-                                <DefaultButton border fill thinPadding icon={'arrow-forward-circle'}>
+                                <DefaultButton border fill thinPadding icon={'arrow-forward'}>
                                     Try Now
                                 </DefaultButton>
                             </View>
@@ -92,6 +113,10 @@ const HomeScreen = () => {
 
                 </MainContainer>
             </KeyboardAvoidingContainer>
+
+            {/* <View className='bg-white w-full h-40 flex items-center justify-center'>
+                <Text className='text-center text-2xl font-bold'>This is Hadia's Phone.</Text>
+            </View> */}
         </>
     )
 }

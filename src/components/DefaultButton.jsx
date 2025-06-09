@@ -10,8 +10,8 @@ const DefaultButton = ({ ...props }) => {
             {props?.icon ?
                 <Ionicons
                     name={props?.icon}
-                    color={colors.black1}
-                    size={25}
+                    color={colors?.black1}
+                    size={20}
                 /> : null}
         </TouchableOpacity>
     )
