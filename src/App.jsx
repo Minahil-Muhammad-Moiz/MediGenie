@@ -21,6 +21,8 @@ import MainScreen from './screens/MainScreen';
 import TermsConditions from './screens/TermsConditions';
 import AboutUs from './screens/AboutUs';
 import SymptomCheckerScreen from './screens/SymptomCheckerScreen';
+import PDFAnalyzer from './screens/PDFAnalyzer';
+import ReportScan from './screens/ReportScan';
 
 
 const App = () => {
@@ -52,10 +54,12 @@ const App = () => {
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           <Stack.Screen name='EmailVerification' component={EmailVerification} />
-          <Stack.Screen name='MainScreen' component={MainScreen} />
           <Stack.Screen name='AboutUs' component={AboutUs} />
           <Stack.Screen name='ResetPassword' component={ResetPassword} /> */}
           <Stack.Screen name='SymptomCheckerScreen' component={SymptomCheckerScreen} />
+          <Stack.Screen name='MainScreen' component={MainScreen} />
+          <Stack.Screen name='PDFAnalyzer' component={PDFAnalyzer} />
+          <Stack.Screen name='ReportScan' component={ReportScan} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

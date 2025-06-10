@@ -15,7 +15,7 @@ import MainContainer from '../components/MainContainer';
 import { colors } from '../utils/constants';
 import { useNavigation } from '@react-navigation/native';
 
-export default function SymptomCheckerScreen() {
+export default function ReportScan() {
     const navigation = useNavigation()
     const [messages, setMessages] = useState([
         { id: '1', text: 'Hello! How can I help you today?', isUser: false },
@@ -50,7 +50,7 @@ export default function SymptomCheckerScreen() {
                         size={25}
                     />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle} className='font-bold text-xl text-white  '>Symptom Checker</Text>
+                <Text style={styles.headerTitle} className='font-bold text-xl text-white  '>Report Scanner</Text>
             </View>
 
             <SafeAreaView className='flex-1 '>

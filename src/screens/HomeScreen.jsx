@@ -108,7 +108,7 @@ const HomeScreen = () => {
                                 />
                             </View>
                             <View className='self-end w-40 '>
-                                <DefaultButton border textWhite thinPadding icon={'arrow-forward'}>
+                                <DefaultButton border textWhite thinPadding icon={'arrow-forward'} onPress={()=>navigation.navigate('ReportScan')}>
                                     Try Now
                                 </DefaultButton>
                             </View>
@@ -126,7 +126,7 @@ const HomeScreen = () => {
                                 />
                             </View>
                             <View className='self-end w-40 '>
-                                <DefaultButton border textWhite thinPadding icon={'arrow-forward'}>
+                                <DefaultButton border textWhite thinPadding icon={'arrow-forward'} onPress={()=>navigation.navigate('PDFAnalyzer')}>
                                     Try Now
                                 </DefaultButton>
                             </View>
