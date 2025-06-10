@@ -15,7 +15,6 @@ import CustomInput from '../components/CustomInput';
 import DefaultButton from '../components/DefaultButton';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import ProfileScreen from './ProfileScreen';
 import { useDispatch } from 'react-redux';
 import { register } from '../redux/slices/authSlice';
 
@@ -167,7 +166,7 @@ export default function SignUpScreen() {
                     <Text className='text-lightGrey  font-poppins font-medium'>
                       By continuing, you agree to MediGenie's{' '}
                     </Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('TermsConditions')}>
                       <Text className='font-poppinsBold font-bold text-lightText  text-left'>
                         Terms and Conditions
                       </Text>

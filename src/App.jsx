@@ -18,6 +18,7 @@ import HealthStatus from './screens/HealthStatus';
 import LifeStyle from './screens/LifeStyle';
 import PersonalGoals from './screens/PersonalGoals';
 import MainScreen from './screens/MainScreen';
+import TermsConditions from './screens/TermsConditions';
 
 
 const App = () => {
@@ -38,8 +39,9 @@ const App = () => {
             headerShown: false
           }}
         >
-          {/* <Stack.Screen name="GettingStarted" component={StartScreen} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+          <Stack.Screen name="TermsConditions" component={TermsConditions} />
+          {/* <Stack.Screen name="GettingStarted" component={StartScreen} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
           <Stack.Screen name="MedicalHistory" component={MedicalHistory} />
           <Stack.Screen name="HealthStatus" component={HealthStatus} />
@@ -48,13 +50,13 @@ const App = () => {
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           <Stack.Screen name='EmailVerification' component={EmailVerification} />
-          <Stack.Screen name='ResetPassword' component={ResetPassword} /> */}
-          <Stack.Screen name='MainScreen' component={MainScreen} />
+          <Stack.Screen name='ResetPassword' component={ResetPassword} />
+          <Stack.Screen name='MainScreen' component={MainScreen} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   )
 }
-{/* <Stack.Screen name='HomeScreen' component={HomeScreen} /> */}
+{/* <Stack.Screen name='HomeScreen' component={HomeScreen} /> */ }
 
 export default App
