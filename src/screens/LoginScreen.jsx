@@ -46,7 +46,7 @@ export default function LoginScreen() {
         dispatch(login({ user: values.email, token: 'fake-token', loginMethod: 'email' }));
         navigation.reset({
           index: 0,
-          routes: [{ name: 'HomeScreen' }],
+          routes: [{ name: 'MainScreen' }],
         });
       } else {
         alert('Invalid email or password');

@@ -45,8 +45,8 @@ export default function SignUpScreen() {
       // 🚀 Call your sign-up API or logic here
       dispatch(register({ user: values }));
 
-      // Option 1: move to HomeScreen immediately
-      // navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }] });
+      // Option 1: move to MainScreen immediately
+      // navigation.reset({ index: 0, routes: [{ name: 'MainScreen' }] });
 
       // Option 2: move to LoginScreen (ask user to login)
       // navigation.navigate('EmailVerification', { from: 'SignUpScreen' });
