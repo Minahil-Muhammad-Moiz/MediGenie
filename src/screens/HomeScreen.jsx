@@ -8,7 +8,6 @@ import { colors } from '../utils/constants';
 import { useSelector } from 'react-redux';
 import DefaultButton from '../components/DefaultButton';
 
-
 const HomeScreen = () => {
     const imageURI = require('../assets/images/logoBlack.png')
     const profileImage = useSelector((state) => state.profile.profileImage);
@@ -44,7 +43,7 @@ const HomeScreen = () => {
             <KeyboardAvoidingContainer>
                 <MainContainer>
 
-                    <View className='p-4  mb-6 mx-auto font-poppinsRegular w-[90%] rounded-xl bg-blue1 overflow-hidden z-10 relative flex-row items-center justify-between'>
+                    <View className='p-4 mb-6 mx-auto font-poppinsRegular w-[90%] rounded-xl bg-blue1 overflow-hidden z-10 relative flex-row items-center justify-between'>
                         <View className='max-w-[65%]'>
                         <Text className='z-10 text-2xl font-poppinsBold font-extrabold'>MediGenie</Text>
                         <Text className='z-10 text italic '>Your Health, simplifiied with AI.</Text>
@@ -54,7 +53,7 @@ const HomeScreen = () => {
                         </View>
                     </View>
 
-                    <View className='flex gap-4 items-center justify-start border bord'>
+                    <View className='flex gap-4 items-center justify-start'>
 
                         <View className='max-w-[90%] h-52 border border-blue1 mx-auto p-5 rounded-2xl flex items-start justify-around'>
                             <View className=' relative flex gap-2'>
@@ -113,10 +112,6 @@ const HomeScreen = () => {
 
                 </MainContainer>
             </KeyboardAvoidingContainer>
-
-            {/* <View className='bg-white w-full h-40 flex items-center justify-center'>
-                <Text className='text-center text-2xl font-bold'>This is Hadia's Phone.</Text>
-            </View> */}
         </>
     )
 }
