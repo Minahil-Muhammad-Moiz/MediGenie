@@ -17,6 +17,7 @@ import MedicalHistory from './screens/MedicalHistory';
 import HealthStatus from './screens/HealthStatus';
 import LifeStyle from './screens/LifeStyle';
 import PersonalGoals from './screens/PersonalGoals';
+import MainScreen from './screens/MainScreen';
 
 
 const App = () => {
@@ -48,11 +49,12 @@ const App = () => {
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           <Stack.Screen name='EmailVerification' component={EmailVerification} />
           <Stack.Screen name='ResetPassword' component={ResetPassword} /> */}
-          <Stack.Screen name='HomeScreen' component={HomeScreen} />
+          <Stack.Screen name='MainScreen' component={MainScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   )
 }
+{/* <Stack.Screen name='HomeScreen' component={HomeScreen} /> */}
 
 export default App
