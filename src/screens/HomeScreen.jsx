@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer'
 import MainContainer from '../components/MainContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -7,14 +7,17 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '../utils/constants';
 import { useSelector } from 'react-redux';
 import DefaultButton from '../components/DefaultButton';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
     const imageURI = require('../assets/images/logoBlack.png')
     const profileImage = useSelector((state) => state.profile.profileImage);
+    const [modal, setModal] = useState(false)
+    const navigation = useNavigation();
 
     return (
         <>
-            <View className='bg-black1 relative'>
+            <View className='bg-black1 z-20 relative'>
 
                 <View className='flex flex-row items-center justify-between w-full  px-6 pt-6'>
                     <View className='flex flex-row items-center justify-center gap-4 '>
@@ -27,7 +30,8 @@ const HomeScreen = () => {
 
                     <TouchableOpacity
                         className=' p-2 rounded-full flex items-center justify-center w-14 h-14 '
-                    // onPress={() => navigation.goBack()}
+                        onPress={() => setModal((prv) => !prv)}
+
                     >
                         <Ionicons
                             name={'ellipsis-vertical'}
@@ -36,8 +40,27 @@ const HomeScreen = () => {
                         />
                     </TouchableOpacity>
 
-
                 </View>
+
+                {modal ? <View className='bg-[#171717] p-2 absolute right-10 top-24 rounded-xl flex gap-2'>
+                    <TouchableOpacity className='flex-row gap-2 items-center justify-center p-2' onPress={()=>navigation.navigate('AboutUs')}>
+                        <Ionicons
+                            name={'information-circle-outline'}
+                            color={'#ffffff'}
+                            size={25}
+                        />
+                        <Text className='text-white'>About Us</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity className='flex-row gap-2 items-center justify-center p-2' onPress={()=>navigation.navigate('LoginScreen')}>
+                        <Ionicons
+                            name={'log-out-outline'}
+                            color={colors.fail}
+                            size={25}
+                        />
+                        <Text className='text-white'>Log Out</Text>
+                    </TouchableOpacity>
+                </View> : null}
             </View>
 
             <KeyboardAvoidingContainer>
@@ -45,17 +68,17 @@ const HomeScreen = () => {
 
                     <View className='p-4 mb-6 mx-auto font-poppinsRegular w-[90%] rounded-xl bg-blue1 overflow-hidden z-10 relative flex-row items-center justify-between'>
                         <View className='max-w-[65%]'>
-                        <Text className='z-10 text-2xl font-poppinsBold font-extrabold'>MediGenie</Text>
-                        <Text className='z-10 text italic '>Your Health, simplifiied with AI.</Text>
+                            <Text className='z-10 text-2xl font-poppinsBold font-extrabold'>MediGenie</Text>
+                            <Text className='z-10 text italic '>Your Health, simplifiied with AI.</Text>
                         </View>
                         <View className=''>
-                        <Image source={imageURI} height={10} width={10} alt='dummy-profile' className=' w-20 h-20  z-0' />
+                            <Image source={imageURI} height={10} width={10} alt='dummy-profile' className=' w-20 h-20  z-0' />
                         </View>
                     </View>
 
                     <View className='flex gap-4 items-center justify-start'>
 
-                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto px-6 rounded-2xl flex items-start justify-around'>
+                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto px-6 rounded-xl flex items-start justify-around'>
                             <View className=' relative flex gap-2'>
                                 <Text className='font-poppins text-white font-bold text-2xl'>Symptom Checker</Text>
                                 <Text className='font-poppins text-white pr-32'>Upload an image or type your  symptoms to get an instant analysis.</Text>
@@ -73,7 +96,7 @@ const HomeScreen = () => {
                             </View>
                         </View>
 
-                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto px-6 rounded-2xl flex items-start justify-around'>
+                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto px-6 rounded-xl flex items-start justify-around'>
                             <View className=' relative flex gap-2'>
                                 <Text className='font-poppins text-white font-bold text-2xl'>Report Scanner</Text>
                                 <Text className='font-poppins text-white pr-32'>Scan and organize your health records with ease.</Text>
@@ -91,7 +114,7 @@ const HomeScreen = () => {
                             </View>
                         </View>
 
-                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto px-6 rounded-2xl flex items-start justify-around'>
+                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto px-6 rounded-xl flex items-start justify-around'>
                             <View className=' relative flex gap-2'>
                                 <Text className='font-poppins text-white font-bold text-2xl'>PDF Analyzer</Text>
                                 <Text className='font-poppins text-white pr-32'>Upload medical reports and get a summarized overview instantly.</Text>
