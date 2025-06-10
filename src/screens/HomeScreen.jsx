@@ -55,55 +55,55 @@ const HomeScreen = () => {
 
                     <View className='flex gap-4 items-center justify-start'>
 
-                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto p-5 rounded-2xl flex items-start justify-around'>
+                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto px-6 rounded-2xl flex items-start justify-around'>
                             <View className=' relative flex gap-2'>
                                 <Text className='font-poppins text-white font-bold text-2xl'>Symptom Checker</Text>
                                 <Text className='font-poppins text-white pr-32'>Upload an image or type your  symptoms to get an instant analysis.</Text>
                                 <MaterialIcons
                                     name={'health-and-safety'}
-                                    color={colors?.lightText}
-                                    size={70}
+                                    color={colors?.blue1}
+                                    size={50}
                                     className='absolute right-0 top-0'
                                 />
                             </View>
                             <View className='self-end w-40 '>
-                                <DefaultButton border fill thinPadding icon={'arrow-forward'}>
+                                <DefaultButton border textWhite thinPadding icon={'arrow-forward'}>
                                     Try Now
                                 </DefaultButton>
                             </View>
                         </View>
 
-                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto p-5 rounded-2xl flex items-start justify-around'>
+                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto px-6 rounded-2xl flex items-start justify-around'>
                             <View className=' relative flex gap-2'>
                                 <Text className='font-poppins text-white font-bold text-2xl'>Report Scanner</Text>
                                 <Text className='font-poppins text-white pr-32'>Scan and organize your health records with ease.</Text>
                                 <MaterialIcons
                                     name={'document-scanner'}
-                                    color={colors?.lightText}
-                                    size={70}
+                                    color={colors?.blue1}
+                                    size={50}
                                     className='absolute right-0 top-0'
                                 />
                             </View>
                             <View className='self-end w-40 '>
-                                <DefaultButton border fill thinPadding icon={'arrow-forward'}>
+                                <DefaultButton border textWhite thinPadding icon={'arrow-forward'}>
                                     Try Now
                                 </DefaultButton>
                             </View>
                         </View>
 
-                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto p-5 rounded-2xl flex items-start justify-around'>
+                        <View className='max-w-[90%] h-52 border border-blue1 mx-auto px-6 rounded-2xl flex items-start justify-around'>
                             <View className=' relative flex gap-2'>
                                 <Text className='font-poppins text-white font-bold text-2xl'>PDF Analyzer</Text>
                                 <Text className='font-poppins text-white pr-32'>Upload medical reports and get a summarized overview instantly.</Text>
                                 <MaterialIcons
                                     name={'picture-as-pdf'}
-                                    color={colors?.lightText}
-                                    size={70}
+                                    color={colors?.blue1}
+                                    size={50}
                                     className='absolute right-0 top-0'
                                 />
                             </View>
                             <View className='self-end w-40 '>
-                                <DefaultButton border fill thinPadding icon={'arrow-forward'}>
+                                <DefaultButton border textWhite thinPadding icon={'arrow-forward'}>
                                     Try Now
                                 </DefaultButton>
                             </View>
