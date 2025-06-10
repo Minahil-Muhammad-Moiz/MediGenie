@@ -20,6 +20,7 @@ import PersonalGoals from './screens/PersonalGoals';
 import MainScreen from './screens/MainScreen';
 import TermsConditions from './screens/TermsConditions';
 import AboutUs from './screens/AboutUs';
+import SymptomCheckerScreen from './screens/SymptomCheckerScreen';
 
 
 const App = () => {
@@ -51,9 +52,10 @@ const App = () => {
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           <Stack.Screen name='EmailVerification' component={EmailVerification} />
-          <Stack.Screen name='ResetPassword' component={ResetPassword} /> */}
           <Stack.Screen name='MainScreen' component={MainScreen} />
           <Stack.Screen name='AboutUs' component={AboutUs} />
+          <Stack.Screen name='ResetPassword' component={ResetPassword} /> */}
+          <Stack.Screen name='SymptomCheckerScreen' component={SymptomCheckerScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
