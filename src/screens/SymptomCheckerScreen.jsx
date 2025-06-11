@@ -32,7 +32,7 @@ export default function SymptomCheckerScreen() {
 
     const renderItem = ({ item }) => (
         <View style={[styles.messageBubble, item.isUser ? styles.userBubble : styles.botBubble]}>
-            <Text style={styles.messageText}>{item.text}</Text>
+            <Text className='text-base'>{item.text}</Text>
         </View>
     );
 
@@ -61,7 +61,7 @@ export default function SymptomCheckerScreen() {
                         data={messages}
                         keyExtractor={(item) => item.id}
                         renderItem={renderItem}
-                        contentContainerStyle={styles.chatContainer}
+                        className='flex-1'
                     />
 
                 </MainContainer>
@@ -73,7 +73,7 @@ export default function SymptomCheckerScreen() {
                         onChangeText={setInputText}
                         placeholder="Type your message"
                         placeholderTextColor='#171717'
-                        className='bg-lightText flex-1 rounded-3xl mx-2 p-4 '
+                        className='bg-lightText flex-1 rounded-3xl mx-2 py-2 px-4 text-base'
                     />
                     <TouchableOpacity>
                         <Icon name="attach" size={30} color={colors.lightGrey} className='mx-1 ' />
@@ -92,10 +92,6 @@ export default function SymptomCheckerScreen() {
 }
 
 const styles = StyleSheet.create({
-    chatContainer: {
-        padding: 10,
-        flexGrow: 1,
-    },
     messageBubble: {
         padding: 10,
         borderRadius: 12,
@@ -109,8 +105,5 @@ const styles = StyleSheet.create({
     botBubble: {
         backgroundColor: '#EEE',
         alignSelf: 'flex-start',
-    },
-    messageText: {
-        fontSize: 16,
     },
 });
