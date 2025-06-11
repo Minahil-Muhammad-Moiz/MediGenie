@@ -55,10 +55,10 @@ const App = () => {
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           <Stack.Screen name='EmailVerification' component={EmailVerification} />
           <Stack.Screen name='AboutUs' component={AboutUs} />
+          <Stack.Screen name='ResetPassword' component={ResetPassword} /> */}
           <Stack.Screen name='MainScreen' component={MainScreen} />
           <Stack.Screen name='PDFAnalyzer' component={PDFAnalyzer} />
           <Stack.Screen name='ReportScan' component={ReportScan} />
-          <Stack.Screen name='ResetPassword' component={ResetPassword} /> */}
           <Stack.Screen name='SymptomCheckerScreen' component={SymptomCheckerScreen} />
         </Stack.Navigator>
       </NavigationContainer>
