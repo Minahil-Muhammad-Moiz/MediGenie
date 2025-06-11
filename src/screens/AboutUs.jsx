@@ -1,19 +1,16 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer'
 import MainContainer from '../components/MainContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '../utils/constants';
-import { useSelector } from 'react-redux';
-import DefaultButton from '../components/DefaultButton';
 import { useNavigation } from '@react-navigation/native';
+// import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated';
 
 const AboutUs = () => {
   const imageURI = require('../assets/images/logoBlack.png')
-  const profileImage = useSelector((state) => state.profile.profileImage);
-  const [modal, setModal] = useState(false)
+  const profileImage = require('../assets/images/dummy-profile.png')
   const navigation = useNavigation();
 
   return (
@@ -101,6 +98,36 @@ const AboutUs = () => {
               </View>
 
               <View className='rounded-full w-[70%] h-[70%] z-0 absolute top-[50%] -translate-y-[50%] -right-40 shadow-2xl shadow-blue1 '></View>
+            </View>
+
+            <Text className='text-white text-center text-2xl font-bold '>Our Team</Text>
+            <View className=' mb-4 flex-row items-center justify-center gap-4 flex-wrap relative shadow-3xl shadow-blue1 max-w-[90%] mx-auto p-4'>
+
+              <View className='flex items-center justify-center shadow-3xl shadow-blue1'>
+                <Image source={profileImage} height={10} width={10} alt='dummy-profile' className=' w-20 h-20 rounded-full z-0 mb-4 border border-blue1' />
+                <Text className='text-white text-center font-poppinsBold'>Dr. John Smith</Text>
+                <Text className='text-white text-center font-poppinsBold'>General physician</Text>
+              </View>
+
+              <View className='flex items-center justify-center shadow-3xl shadow-blue1'>
+                <Image source={profileImage} height={10} width={10} alt='dummy-profile' className=' w-20 h-20 rounded-full z-0 mb-4 border border-blue1' />
+                <Text className='text-white text-center font-poppinsBold'>Dr. John Smith</Text>
+                <Text className='text-white text-center font-poppinsBold'>General physician</Text>
+              </View>
+
+              <View className='flex items-center justify-center shadow-3xl shadow-blue1'>
+                <Image source={profileImage} height={10} width={10} alt='dummy-profile' className=' w-20 h-20 rounded-full z-0 mb-4 border border-blue1' />
+                <Text className='text-white text-center font-poppinsBold'>Dr. John Smith</Text>
+                <Text className='text-white text-center font-poppinsBold'>General physician</Text>
+              </View>
+
+              <View className='flex items-center justify-center shadow-3xl shadow-blue1'>
+                <Image source={profileImage} height={10} width={10} alt='dummy-profile' className=' w-20 h-20 rounded-full z-0 mb-4 border border-blue1' />
+                <Text className='text-white text-center font-poppinsBold'>Dr. John Smith</Text>
+                <Text className='text-white text-center font-poppinsBold'>General physician</Text>
+              </View>
+
+              <View className='rounded-full w-[70%] h-[70%] z-0 absolute top-[50%] -translate-y-[50%] -left-40 shadow-2xl shadow-blue1 '></View>
             </View>
 
           </View>
