@@ -80,7 +80,7 @@ export default function PDFAnalyzer() {
                         <Ionicons name="mic" size={30} color={colors.lightGrey} className="mx-1" />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={sendMessage}>
-                        <Ionicons name="send" size={24} color={colors.blue1} className="mx-2" />
+                        <Ionicons name="paper-plane-outline" size={24} color={colors.blue1} className="mx-2" />
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
