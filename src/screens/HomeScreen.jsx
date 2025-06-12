@@ -52,7 +52,7 @@ const HomeScreen = () => {
                         <Text className='text-white'>About Us</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity className='flex-row gap-2 items-center justify-center p-2' onPress={()=>navigation.navigate('LoginScreen')}>
+                    <TouchableOpacity className='flex-row gap-2 items-center justify-center p-2' onPress={()=>navigation.reset({index: 0, routes: [{ name: 'LoginScreen' }]})}>
                         <Ionicons
                             name={'log-out-outline'}
                             color={colors.fail}
