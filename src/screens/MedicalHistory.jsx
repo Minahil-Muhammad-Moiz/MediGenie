@@ -47,7 +47,7 @@ const MedicalHistory = () => {
                 <View className='flex-1 justify-center w-full'>
 
                     <CustomInput
-                        placeholder="e.g. Diabetes etc"
+                        placeholder="e.g. Diabetes or type None"
                         legendText="Chronic conditions"
                         keyboardType="default"
                         startLeft={true}
