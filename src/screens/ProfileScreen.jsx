@@ -18,14 +18,20 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import DropdownComponent from '../components/DropdownComponent';
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native'; // <-- Add this
+
 
 const ProfileScreen = () => {
+  const route = useRoute(); // <-- Get route params
+  const routeName = route?.from;
   const imageURI = require('../assets/images/dummy-profile.png')
   const navigation = useNavigation();
   const [profileUploadModal, setProfileUploadModal] = useState(false)
   // const [profileImage, setProfileImage] = useState(imageURI);
   const dispatch = useDispatch();
   const profileImage = useSelector((state) => state.profile.profileImage);
+
+  console.log(routeName);
 
 
   const handleCamera = async () => {
@@ -46,7 +52,13 @@ const ProfileScreen = () => {
   };
 
   const handleNext = () => {
-    navigation.navigate('MedicalHistory')
+    if (routeName === 'EmailVerification') {
+      // navigation.navigate('ProfileScreen');
+      navigation.navigate('MedicalHistory')
+    } else {
+      navigation.goBack();
+    }
+
   }
 
   return (

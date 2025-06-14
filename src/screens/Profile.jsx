@@ -54,6 +54,11 @@ const Profile = () => {
     <KeyboardAvoidingContainer>
       <MainContainer>
         <View className='flex-1 items-center justify-start w-full'>
+          {/* Header */}
+          <View className=' flex-row  gap-2 justify-center items-center'>
+            <Text className='text-lightText font-extrabold text-4xl'>User profile</Text>
+          </View>
+
           <View className='relative w-28 h-28 mx-auto overflow-hidden flex items-center justify-center my-4'>
             <Image source={profileImage} height={10} width={10} alt='profile' className='w-full h-full rounded-full border-2 border-blue1 ' />
             <TouchableOpacity className='absolute bottom-0 right-0 p-2 rounded-full bg-blue1 z-10' onPress={() => setProfileUploadModal(true)}>
@@ -67,7 +72,7 @@ const Profile = () => {
 
           {/* Profile Screen */}
           <View className='border border-lightGrey p-4 rounded-2xl my-2 w-full flex relative'>
-            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => setProfileUploadModal(true)}>
+            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('ProfileScreen')}>
               <Text className='text-white'>Edit</Text>
               <AntDesign
                 name={'edit'}
@@ -105,7 +110,7 @@ const Profile = () => {
           {/* Medical History */}
           <View className='border border-lightGrey p-4 rounded-2xl my-2 w-full'>
 
-            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => setProfileUploadModal(true)}>
+            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('MedicalHistory')}>
               <Text className='text-white'>Edit</Text>
               <AntDesign
                 name={'edit'}
@@ -138,7 +143,7 @@ const Profile = () => {
           {/* Health Status */}
           <View className='border border-lightGrey p-4 rounded-2xl w-full my-2'>
 
-            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => setProfileUploadModal(true)}>
+            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('HealthStatus')}>
               <Text className='text-white'>Edit</Text>
               <AntDesign
                 name={'edit'}
@@ -166,7 +171,7 @@ const Profile = () => {
           {/* Life Style */}
           <View className='border border-lightGrey w-full p-4 rounded-2xl my-2'>
 
-            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => setProfileUploadModal(true)}>
+            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('LifeStyle')}>
               <Text className='text-white'>Edit</Text>
               <AntDesign
                 name={'edit'}
@@ -198,7 +203,7 @@ const Profile = () => {
 
           {/* Personal Goals */}
           <View className='border border-lightGrey p-4 w-full rounded-2xl my-2 flex items-start justify-start'>
-            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => setProfileUploadModal(true)}>
+            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('PersonalGoals')}>
               <Text className='text-white'>Edit</Text>
               <AntDesign
                 name={'edit'}

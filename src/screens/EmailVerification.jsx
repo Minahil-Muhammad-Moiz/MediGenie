@@ -19,7 +19,7 @@ const EmailVerification = () => {
     const [timer, setTimer] = useState(0);
     const routeName = route?.params?.from; // <-- 'signup' or 'forgotPassword'
 
-    console.log(routeName);
+    // console.log(routeName);
 
     const handleVerification = (text) => {
         if (text === "1234") {
@@ -30,7 +30,7 @@ const EmailVerification = () => {
                 // ✅ Conditionally navigate based on origin
                 if (routeName === 'SignUpScreen') {
                     // navigation.navigate('ProfileScreen');
-                    navigation.reset({ index: 0, routes: [{ name: 'ProfileScreen' }] });
+                    navigation.reset({ index: 0, routes: [{ name: 'ProfileScreen', from: 'EmailVerification' }] });
 
                 } else {
                     navigation.navigate('ResetPassword');
