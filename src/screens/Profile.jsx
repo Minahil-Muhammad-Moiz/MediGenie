@@ -163,7 +163,7 @@ const Profile = () => {
               <View className={` bg-blue1 rounded-xl p-3 `}
               >
                 <Text style={{ color: colors.black1, fontWeight: '600' }}>
-                  Eat <Healthy></Healthy>
+                  Eat Healthy 
                 </Text>
               </View>
             </View>

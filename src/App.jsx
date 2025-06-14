@@ -23,6 +23,7 @@ import AboutUs from './screens/AboutUs';
 import SymptomCheckerScreen from './screens/SymptomCheckerScreen';
 import PDFAnalyzer from './screens/PDFAnalyzer';
 import ReportScan from './screens/ReportScan';
+import Profile from './screens/Profile';
 
 
 const App = () => {
@@ -43,7 +44,7 @@ const App = () => {
             headerShown: false
           }}
         >
-          <Stack.Screen name="GettingStarted" component={StartScreen} />
+          {/* <Stack.Screen name="GettingStarted" component={StartScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
           <Stack.Screen name='EmailVerification' component={EmailVerification} />
@@ -58,8 +59,8 @@ const App = () => {
           <Stack.Screen name='MainScreen' component={MainScreen} />
           <Stack.Screen name='AboutUs' component={AboutUs} />
           <Stack.Screen name='PDFAnalyzer' component={PDFAnalyzer} />
-          <Stack.Screen name='ReportScan' component={ReportScan} />
-          <Stack.Screen name='SymptomCheckerScreen' component={SymptomCheckerScreen} />
+          <Stack.Screen name='SymptomCheckerScreen' component={SymptomCheckerScreen} /> */}
+          <Stack.Screen name='Profile' component={Profile} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
