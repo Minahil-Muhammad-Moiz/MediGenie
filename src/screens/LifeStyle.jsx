@@ -14,8 +14,15 @@ const LifeStyle = () => {
     const navigation = useNavigation();
     const profileImage = useSelector((state) => state.profile.profileImage);
 
+    const route = useRoute(); // <-- Get route params
+    const routeName = route?.params?.from;
+    console.log(routeName)
     const handleNext = () => {
-        navigation.navigate(PersonalGoals)
+        if (routeName === 'HealthStatus') {
+            navigation.navigate('PersonalGoals', { from: 'LifeSyle' })
+        } else {
+            navigation.goBack();
+        }
     }
 
     return (

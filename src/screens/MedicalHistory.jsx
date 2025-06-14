@@ -3,7 +3,7 @@ import React from 'react'
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MainContainer from '../components/MainContainer'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { colors } from '../utils/constants';
 import CustomInput from '../components/CustomInput';
@@ -14,8 +14,15 @@ const MedicalHistory = () => {
     const navigation = useNavigation();
     const profileImage = useSelector((state) => state.profile.profileImage);
 
+    const route = useRoute(); // <-- Get route params
+    const routeName = route?.params?.from;
+    console.log(routeName)
     const handleNext = () => {
-        navigation.navigate(HealthStatus)
+        if (routeName === 'ProfileScreen') {
+            navigation.navigate('HealthStatus', { from: 'MedicalHistory' })
+        } else {
+            navigation.goBack();
+        }
     }
 
     return (

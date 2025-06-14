@@ -54,7 +54,7 @@ const ProfileScreen = () => {
   const handleNext = () => {
     if (routeName === 'EmailVerification') {
       // navigation.navigate('ProfileScreen');
-      navigation.navigate('MedicalHistory')
+      navigation.navigate('MedicalHistory',{from: 'ProfileScreen'})
     } else {
       navigation.goBack();
     }

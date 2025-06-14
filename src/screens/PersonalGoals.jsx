@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MainContainer from '../components/MainContainer'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { availableTags, colors } from '../utils/constants';
 import CustomInput from '../components/CustomInput';
@@ -23,11 +23,19 @@ const PersonalGoals = () => {
     };
     // console.log(selectedTags)
 
+
+    const route = useRoute(); // <-- Get route params
+    const routeName = route?.params?.from;
+    console.log(routeName)
     const handleNext = () => {
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'MainScreen' }],
-        });
+        if (routeName === 'LifeStyle') {
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'MainScreen' }],
+            });
+        } else {
+            navigation.goBack();
+        }
     }
 
     return (
