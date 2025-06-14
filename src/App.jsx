@@ -24,6 +24,7 @@ import SymptomCheckerScreen from './screens/SymptomCheckerScreen';
 import PDFAnalyzer from './screens/PDFAnalyzer';
 import ReportScan from './screens/ReportScan';
 import Profile from './screens/Profile';
+import SettingsScreen from './screens/SettingsScreen';
 
 
 const App = () => {
@@ -56,11 +57,12 @@ const App = () => {
           <Stack.Screen name="HealthStatus" component={HealthStatus} />
           <Stack.Screen name="LifeStyle" component={LifeStyle} />
           <Stack.Screen name="PersonalGoals" component={PersonalGoals} />
-          <Stack.Screen name='MainScreen' component={MainScreen} />
           <Stack.Screen name='AboutUs' component={AboutUs} />
           <Stack.Screen name='PDFAnalyzer' component={PDFAnalyzer} />
           <Stack.Screen name='SymptomCheckerScreen' component={SymptomCheckerScreen} /> */}
-          <Stack.Screen name='Profile' component={Profile} />
+          <Stack.Screen name='MainScreen' component={MainScreen} />
+          {/* <Stack.Screen name='SettingsScreen' component={SettingsScreen} /> */}
+          {/* <Stack.Screen name='Profile' component={Profile} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
