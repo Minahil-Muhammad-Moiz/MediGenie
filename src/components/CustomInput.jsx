@@ -45,7 +45,7 @@ const CustomInput = ({
         {leftIcon && (
           <Ionicons
             name={leftIcon}
-            size={25}
+            size={22}
             color={colors.lightGrey}
             style={{
               position: 'absolute',
@@ -57,7 +57,7 @@ const CustomInput = ({
         )}
         {/* Input Field */}
         <TextInput
-          className={`${errorBorder ? "border-fail" : "border-blue1"} border rounded-full w-full ${startLeft ? 'pl-6' : 'pl-20'}  pr-12 py-4 text-white text-base`}
+          className={`${errorBorder ? "border-fail" : "border-blue1"} border rounded-full w-full ${startLeft ? 'pl-6' : 'pl-20'}  pr-12 py-2 text-white text-base`}
           placeholder={placeholder}
           placeholderTextColor={colors.lightGrey}
           secureTextEntry={secureTextEntry}
@@ -85,7 +85,7 @@ const CustomInput = ({
           >
             <Ionicons
               name={rightIcon}
-              size={25}
+              size={22}
               color={colors.lightGrey}
             />
           </TouchableOpacity>

@@ -31,7 +31,7 @@ const PersonalGoals = () => {
         if (routeName === 'LifeStyle') {
             navigation.reset({
                 index: 0,
-                routes: [{ name: 'MainScreen' }],
+                routes: [{ name: 'MainScreen', from: 'PersonalGoals' }],
             });
         } else {
             navigation.goBack();

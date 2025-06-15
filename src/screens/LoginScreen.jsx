@@ -68,13 +68,13 @@ export default function LoginScreen() {
           <Ionicons name="arrow-back-outline" color={colors.lightText} size={25} />
         </TouchableOpacity>
 
-        <View className='mt-[8%] flex gap-2'>
-          <Text className='text-white font-extrabold text-5xl'>Hey,</Text>
-          <Text className='text-white font-extrabold text-5xl'>Welcome</Text>
-          <Text className='text-white font-extrabold text-5xl'>Back</Text>
+        <View className='mt-[4%] flex gap-2'>
+          <Text className='text-white font-extrabold text-3xl'>Hey,</Text>
+          <Text className='text-white font-extrabold text-3xl'>Welcome back!</Text>
+          {/* <Text className='text-white font-extrabold text-5xl'>Back</Text> */}
         </View>
 
-        <View className='mt-[4%] flex-1 justify-around'>
+        <View className='mt-[2%] flex-1 justify-around'>
           <Formik
             initialValues={{ email: '', password: '' }}
             validationSchema={LoginSchema}
@@ -90,7 +90,7 @@ export default function LoginScreen() {
               touched,
             }) => (
               <>
-                <View className='flex gap-2'>
+                <View className='flex gap-1'>
                   <CustomInput
                     leftIcon="mail-outline"
                     keyboardType="email-address"
@@ -118,25 +118,25 @@ export default function LoginScreen() {
                     errorBorder={touched.password && errors.password}
                   />
                   {touched.password && errors.password && (
-                    <Text className="text-fail text-sm ml-2  ">{errors.password}</Text>
+                    <Text className="text-fail text-sm ml-2 ">{errors.password}</Text>
                   )}
 
-                  <TouchableOpacity className='self-end mt-1  my-4' onPress={() => navigation.navigate('ForgotPassword')}>
+                  <TouchableOpacity className='self-end mt-1 my-4' onPress={() => navigation.navigate('ForgotPassword')}>
                     <Text className='text-lightText font-bold text-base'>Forgot Password?</Text>
                   </TouchableOpacity>
                 </View>
 
                 <View className=''>
                   <DefaultButton onPress={handleSubmit} title="Submit" fill>
-                    {isSubmitting ? 'Logging in...' : 'LOG IN'}
+                    LOG IN
                   </DefaultButton>
 
                   <Text className='text-center text-lightGrey text-base font-medium my-2'>or continue with</Text>
 
-                  <TouchableOpacity className='flex flex-row items-center justify-center rounded-full border border-blue1 py-3'>
+                  <TouchableOpacity className='flex flex-row items-center justify-center rounded-full border border-blue1 py-2'>
                     <Image
                       source={require('../assets/images/google_ic.png')}
-                      className="h-6 w-6 mr-3"
+                      className="h-5 w-5 mr-2"
                     />
                     <Text className='font-bold text-base text-white'>Google</Text>
                   </TouchableOpacity>
