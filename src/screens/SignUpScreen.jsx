@@ -60,18 +60,18 @@ export default function SignUpScreen() {
     <KeyboardAvoidingContainer>
       <MainContainer>
         <TouchableOpacity
-          className='bg-darkGrey p-2 rounded-full flex items-center justify-center w-14 h-14 '
+          className='bg-darkGrey p-2 rounded-full flex items-center justify-center w-12 h-12 '
           onPress={() => navigation.goBack()}
         >
           <Ionicons
             name={'arrow-back-outline'}
             color={colors.lightText}
-            size={25}
+            size={22}
           />
         </TouchableOpacity>
 
-        <View className='mt-[4%] flex gap-2'>
-          <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Let's, Get Started</Text>
+        <View className='mt-[2%] flex gap-2'>
+          <Text className='text-white font-extrabold font-poppinsBold text-3xl'>Let's, Get Started</Text>
           {/* <Text className='text-white font-extrabold font-poppinsBold text-4xl'></Text> */}
         </View>
 
@@ -189,10 +189,10 @@ export default function SignUpScreen() {
                   </Text>
 
                   {/* Google Signup */}
-                  <TouchableOpacity className='border border-blue1 rounded-full flex flex-row items-center justify-center py-3'>
+                  <TouchableOpacity className='border border-blue1 rounded-full flex flex-row items-center justify-center py-2'>
                     <Image
                       source={require('../assets/images/google_ic.png')}
-                      className='h-6 w-6 mr-3'
+                      className='h-5 w-5 mr-2'
                     />
                     <Text className='font-poppinsBold font-bold text-center text-white text-base'>
                       Google
