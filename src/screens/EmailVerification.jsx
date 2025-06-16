@@ -69,18 +69,18 @@ const EmailVerification = () => {
             <MainContainer>
 
                 <TouchableOpacity
-                    className='bg-darkGrey p-2 rounded-full w-14 h-14 items-center justify-center'
+                    className='bg-darkGrey p-2 rounded-full w-12 h-12 items-center justify-center'
                     onPress={() => navigation.goBack()}
                 >
-                    <Ionicons name="arrow-back-outline" color={colors.lightText} size={25} />
+                    <Ionicons name="arrow-back-outline" color={colors.lightText} size={22} />
                 </TouchableOpacity>
 
-                <View className='mt-[8%] flex gap-2 justify-center items-start'>
-                    <Text className='text-white font-extrabold text-4xl'>OTP Verification</Text>
+                <View className='mt-[4%] flex gap-2 justify-center items-start'>
+                    <Text className='text-white font-extrabold text-3xl'>OTP Verification</Text>
                     <Text className='text-white'>Enter the 4-digit code sent to your email</Text>
                 </View>
 
-                <View className='mt-[4%] flex gap-10'>
+                <View className='mt-[2%] flex gap-10'>
                     <View className='flex items-center justify-center'>
                         <OtpInput
                             numberOfDigits={4}
@@ -114,7 +114,7 @@ const EmailVerification = () => {
                                     flexDirection: 'row',
                                     justifyContent: 'space-between',
                                     paddingHorizontal: 6,
-                                    marginTop: 24,
+                                    marginTop: 20,
                                 },
                                 pinCodeContainerStyle: {
                                     borderWidth: 1,

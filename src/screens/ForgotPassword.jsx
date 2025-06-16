@@ -32,18 +32,18 @@ const ForgotPassword = () => {
         <KeyboardAvoidingContainer>
             <MainContainer>
                 <TouchableOpacity
-                    className='bg-darkGrey p-2 rounded-full w-14 h-14 items-center justify-center'
+                    className='bg-darkGrey p-2 rounded-full w-12 h-12 items-center justify-center'
                     onPress={() => navigation.goBack()}
                 >
-                    <Ionicons name="arrow-back-outline" color={colors.lightText} size={25} />
+                    <Ionicons name="arrow-back-outline" color={colors.lightText} size={22} />
                 </TouchableOpacity>
 
-                <View className='mt-[8%] flex gap-2 justify-center items-start'>
-                    <Text className='text-white font-extrabold text-4xl'>Forgot Password?</Text>
+                <View className='mt-[4%] flex gap-2 justify-center items-start'>
+                    <Text className='text-white font-extrabold text-3xl'>Forgot Password?</Text>
                     <Text className='text-white'>Don't worry! It occurs. Please enter the email address linked with your account.</Text>
                 </View>
 
-                <View className='mt-[8%] flex gap-6'>
+                <View className='mt-[2%] flex gap-6'>
                     <View>
                         <CustomInput
                             leftIcon="mail-outline"

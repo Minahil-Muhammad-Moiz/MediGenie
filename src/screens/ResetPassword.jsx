@@ -55,18 +55,18 @@ const ResetPassword = () => {
       <MainContainer>
 
         <TouchableOpacity
-          className='bg-darkGrey p-2 rounded-full w-14 h-14 items-center justify-center'
+          className='bg-darkGrey p-2 rounded-full w-12 h-12 items-center justify-center'
           onPress={() => navigation.goBack()}
         >
-          <Ionicons name="arrow-back-outline" color={colors.lightText} size={25} />
+          <Ionicons name="arrow-back-outline" color={colors.lightText} size={22} />
         </TouchableOpacity>
 
-        <View className='mt-[8%] flex gap-2 justify-center items-start'>
-          <Text className='text-white font-extrabold text-4xl'>Reset Password</Text>
+        <View className='mt-[4%] flex gap-2 justify-center items-start'>
+          <Text className='text-white font-extrabold text-3xl'>Reset Password</Text>
           <Text className='text-white'>Your new password must be unique from those previously used.</Text>
         </View>
 
-        <View className='my-8 flex'>
+        <View className='my-6 flex'>
           <CustomInput
             leftIcon='lock-closed-outline'
             placeholder='Enter Password'

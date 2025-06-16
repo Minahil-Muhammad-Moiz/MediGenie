@@ -40,23 +40,24 @@ const App = () => {
           hidden={true}
         />
         <Stack.Navigator
-          initialRouteName="GettingStarted"
+          // initialRouteName="GettingStarted"
           screenOptions={{
             headerShown: false
           }}
         >
-          <Stack.Screen name="GettingStarted" component={StartScreen} />
+          {/* done */}
+          {/* <Stack.Screen name="GettingStarted" component={StartScreen} />  
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-          <Stack.Screen name='EmailVerification' component={EmailVerification} />
           <Stack.Screen name='ResetPassword' component={ResetPassword} />
-          <Stack.Screen name="TermsConditions" component={TermsConditions} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+          <Stack.Screen name="TermsConditions" component={TermsConditions} />
+          <Stack.Screen name='EmailVerification' component={EmailVerification} />
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} /> 
           <Stack.Screen name="MedicalHistory" component={MedicalHistory} />
           <Stack.Screen name="HealthStatus" component={HealthStatus} />
           <Stack.Screen name="LifeStyle" component={LifeStyle} />
-          <Stack.Screen name="PersonalGoals" component={PersonalGoals} />
+          <Stack.Screen name="PersonalGoals" component={PersonalGoals} />*/}
           <Stack.Screen name='MainScreen' component={MainScreen} />
           <Stack.Screen name='AboutUs' component={AboutUs} />
           <Stack.Screen name='PDFAnalyzer' component={PDFAnalyzer} />

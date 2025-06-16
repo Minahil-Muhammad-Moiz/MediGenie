@@ -21,7 +21,7 @@ const DropdownComponent = ({ label = 'Dropdown Label', placeholder = 'Select ite
 
       <Dropdown
         style={{
-          height: 50,
+          height: 36,
           width: '100%',
           borderWidth: 1,
           backgroundColor: isFocus ? '#262626' : colors.black1,
@@ -29,16 +29,17 @@ const DropdownComponent = ({ label = 'Dropdown Label', placeholder = 'Select ite
           borderColor: errorBorder ? colors.fail : colors.blue1,
           paddingLeft: 24,
           paddingRight: 24,
+          zIndex:1,
         }}
         placeholderStyle={{
           fontSize: 16,
           color: colors.lightGrey,
-          paddingLeft: startLeft ? 8 : 56,
+          paddingLeft: startLeft ? 0 : 56,
         }}
         selectedTextStyle={{
           fontSize: 16,
           color: '#ffffff',
-          paddingLeft: startLeft ? 8 : 56,
+          paddingLeft: startLeft ? 0 : 56,
         }}
 
         containerStyle={{
@@ -46,16 +47,17 @@ const DropdownComponent = ({ label = 'Dropdown Label', placeholder = 'Select ite
           borderRadius: 10,
           borderWidth: 1,
           borderColor: '#3B82F6',
-          marginTop: 0,
+          marginTop: -10,
+          zIndex: -1,
         }}
 
         itemTextStyle={{
           // color: colors,
-          fontSize: 16,
+          fontSize: 14,
         }}
 
         itemContainerStyle={{
-          paddingHorizontal: 12,
+          paddingHorizontal: 6,
           borderBottomWidth: 1,
           borderBottomColor: '#2c2c2c',
           // marginTop: -12,

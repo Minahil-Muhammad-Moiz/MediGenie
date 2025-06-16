@@ -17,7 +17,7 @@ const HealthStatus = () => {
 
     const route = useRoute(); // <-- Get route params
     const routeName = route?.params?.from;
-    console.log(routeName)
+    // console.log(routeName)
     const handleNext = () => {
         if (routeName === 'MedicalHistory') {
             navigation.navigate('LifeStyle', { from: 'HealthStatus' })
@@ -30,36 +30,36 @@ const HealthStatus = () => {
         <KeyboardAvoidingContainer>
             <MainContainer>
 
-                <View className='flex flex-row items-center justify-between w-full mt-[4%]'>
+                <View className='flex flex-row items-center justify-between w-full'>
 
                     <TouchableOpacity
-                        className='bg-darkGrey p-2 rounded-full flex items-center justify-center w-14 h-14 '
+                        className='bg-darkGrey p-2 rounded-full flex items-center justify-center w-12 h-12 '
                         onPress={() => navigation.goBack()}
                     >
                         <Ionicons
                             name={'arrow-back-outline'}
                             color={colors.lightText}
-                            size={25}
+                            size={22}
                         />
                     </TouchableOpacity>
 
-                    <Image source={profileImage} height={10} width={10} alt='dummy-profile' className='w-14 h-14 rounded-full border-2 border-blue1 ' />
+                    <Image source={profileImage} height={10} width={10} alt='dummy-profile' className='w-12 h-12 rounded-full border-2 border-blue1 ' />
 
                 </View>
 
-                <View className='mt-[4%] flex gap-2'>
-                    <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Your  Health  Status</Text>
+                <View className='mt-[2%] flex'>
+                    <Text className='text-white font-extrabold font-poppinsBold text-3xl'>Your  Health  Status</Text>
                 </View>
 
-                <View className='flex-1 justify-center w-full'>
+                <View className='flex-1 justify-center w-full gap-1'>
 
                     <CustomInput
-                        placeholder="e.g. frequent headache , joint pain  etc"
+                        placeholder="E.g. frequent headache , joint pain  etc"
                         legendText="Symptoms pattern"
                         keyboardType="default"
                         startLeft={true}
                     />
-                    <Text className="text-fail text-sm ml-2 ">error</Text>
+                    {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
                     <DropdownComponent
                         label="Sleep Quality"
@@ -68,16 +68,16 @@ const HealthStatus = () => {
                         startLeft={true}
                         data={sleepQuality}
                     />
-                    <Text className="text-fail text-sm ml-2 ">error</Text>
+                    {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
 
                     <CustomInput
-                        placeholder="vegeterian/High protein /Junk food etc"
+                        placeholder="Vegeterian/High protein /Junk food etc"
                         legendText="Diet Type"
                         keyboardType="default"
                         startLeft={true}
                     />
-                    <Text className="text-fail text-sm ml-2 ">error</Text>
+                    {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
                 </View>
 

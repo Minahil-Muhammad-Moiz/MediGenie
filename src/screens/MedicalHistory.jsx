@@ -16,7 +16,7 @@ const MedicalHistory = () => {
 
     const route = useRoute(); // <-- Get route params
     const routeName = route?.params?.from;
-    console.log(routeName)
+    // console.log(routeName)
     const handleNext = () => {
         if (routeName === 'ProfileScreen') {
             navigation.navigate('HealthStatus', { from: 'MedicalHistory' })
@@ -29,25 +29,25 @@ const MedicalHistory = () => {
         <KeyboardAvoidingContainer>
             <MainContainer>
 
-                <View className='flex flex-row items-center justify-between w-full mt-[4%]'>
+                <View className='flex flex-row items-center justify-between w-full '>
 
                     <TouchableOpacity
-                        className='bg-darkGrey p-2 rounded-full flex items-center justify-center w-14 h-14 '
+                        className='bg-darkGrey p-2 rounded-full flex items-center justify-center w-12 h-12 '
                         onPress={() => navigation.goBack()}
                     >
                         <Ionicons
                             name={'arrow-back-outline'}
                             color={colors.lightText}
-                            size={25}
+                            size={22}
                         />
                     </TouchableOpacity>
 
-                    <Image source={profileImage} height={10} width={10} alt='dummy-profile' className='w-14 h-14 rounded-full border-2 border-blue1 ' />
+                    <Image source={profileImage} height={10} width={10} alt='dummy-profile' className='w-12 h-12 rounded-full border-2 border-blue1 ' />
 
                 </View>
 
-                <View className='mt-[4%] flex gap-2'>
-                    <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Your Medical History </Text>
+                <View className='mt-[2%] flex gap-2'>
+                    <Text className='text-white font-extrabold font-poppinsBold text-3xl'>Your Medical History </Text>
                     {/* <Text className='text-white font-extrabold font-poppinsBold text-4xl'></Text> */}
                 </View>
 
@@ -59,7 +59,7 @@ const MedicalHistory = () => {
                         keyboardType="default"
                         startLeft={true}
                     />
-                    <Text className="text-fail text-sm ml-2 ">error</Text>
+                    {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
                     <CustomInput
                         placeholder="e.g. Paracetamol or type 'None'"
@@ -67,7 +67,7 @@ const MedicalHistory = () => {
                         keyboardType="default"
                         startLeft={true}
                     />
-                    <Text className="text-fail text-sm ml-2 ">error</Text>
+                    {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
                     <CustomInput
                         placeholder="e.g. Penicillin, or type 'None'"
@@ -75,7 +75,7 @@ const MedicalHistory = () => {
                         keyboardType="default"
                         startLeft={true}
                     />
-                    <Text className="text-fail text-sm ml-2 ">error</Text>
+                    {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
                     <CustomInput
                         placeholder="e.g. Asthma, or type 'None'"
@@ -83,7 +83,7 @@ const MedicalHistory = () => {
                         keyboardType="default"
                         startLeft={true}
                     />
-                    <Text className="text-fail text-sm ml-2 ">error</Text>
+                    {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
                 </View>
 

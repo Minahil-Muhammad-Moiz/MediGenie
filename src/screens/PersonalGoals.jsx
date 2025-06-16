@@ -42,25 +42,25 @@ const PersonalGoals = () => {
         <KeyboardAvoidingContainer>
             <MainContainer >
 
-                <View className='flex flex-row items-center justify-between w-full mt-[4%]'>
+                <View className='flex flex-row items-center justify-between w-full'>
 
                     <TouchableOpacity
-                        className='bg-darkGrey p-2 rounded-full flex items-center justify-center w-14 h-14 '
+                        className='bg-darkGrey p-2 rounded-full flex items-center justify-center w-12 h-12 '
                         onPress={() => navigation.goBack()}
                     >
                         <Ionicons
                             name={'arrow-back-outline'}
                             color={colors.lightText}
-                            size={25}
+                            size={22}
                         />
                     </TouchableOpacity>
 
-                    <Image source={profileImage} height={10} width={10} alt='dummy-profile' className='w-14 h-14 rounded-full border-2 border-blue1 ' />
+                    <Image source={profileImage} height={10} width={10} alt='dummy-profile' className='w-12 h-12 rounded-full border-2 border-blue1 ' />
 
                 </View>
 
-                <View className='mt-[4%] flex gap-2'>
-                    <Text className='text-white font-extrabold font-poppinsBold text-4xl'>Your Goals Tag</Text>
+                <View className='mt-[2%] flex '>
+                    <Text className='text-white font-extrabold font-poppinsBold text-3xl'>Your Goals Tag</Text>
                 </View>
 
                 <View className='flex-1 justify-center w-full'>
@@ -72,7 +72,7 @@ const PersonalGoals = () => {
                                 <TouchableOpacity
                                     key={tag?.value}
                                     onPress={() => toggleTag(tag)}
-                                    className={` ${isSelected ? 'bg-blue1' : 'bg-darkGrey'} rounded-xl p-3 `}
+                                    className={` ${isSelected ? 'bg-blue1' : 'bg-darkGrey'} rounded-xl p-2 `}
                                 >
                                     <Text style={{ color: isSelected ? colors.black1 : colors.lightText, fontWeight: '600' }}>
                                         {tag?.label}

@@ -31,7 +31,7 @@ const ProfileScreen = () => {
   const dispatch = useDispatch();
   const profileImage = useSelector((state) => state.profile.profileImage);
 
-  console.log(routeName);
+  // console.log(routeName);
 
 
   const handleCamera = async () => {
@@ -65,14 +65,14 @@ const ProfileScreen = () => {
     <KeyboardAvoidingContainer>
       <MainContainer>
         <View className='flex-1 items-center justify-between w-full'>
-          <View className='w-full flex-1 justify-center'>
+          <View className='w-full flex-1 justify-center gap-1'>
 
             <View className='-mt-2 relative w-28 h-28 mx-auto overflow-hidden flex items-center justify-center'>
               <Image source={profileImage} height={10} width={10} alt='profile' className='w-full h-full rounded-full border-2 border-blue1 ' />
               <TouchableOpacity className='absolute bottom-0 right-0 p-2 rounded-full bg-blue1 z-10' onPress={() => setProfileUploadModal(true)}>
                 <Ionicons
                   name={'camera-outline'}
-                  size={24}
+                  size={22}
                   color={colors.black1}
                 />
               </TouchableOpacity>
@@ -86,7 +86,7 @@ const ProfileScreen = () => {
               keyboardType="default"
               startLeft={true}
             />
-            <Text className="text-fail text-sm ml-2 ">error</Text>
+            {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
             {/* gender */}
             <DropdownComponent
@@ -96,7 +96,7 @@ const ProfileScreen = () => {
               startLeft={true}
               data={genders}
             />
-            <Text className="text-fail text-sm ml-2 ">error</Text>
+            {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
             {/* Age */}
             <DropdownComponent
@@ -106,7 +106,7 @@ const ProfileScreen = () => {
               startLeft={true}
               data={ageOptions}
             />
-            <Text className="text-fail text-sm ml-2 ">error</Text>
+            {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
             {/* Language */}
             <DropdownComponent
@@ -116,7 +116,7 @@ const ProfileScreen = () => {
               startLeft={true}
               data={langs}
             />
-            <Text className="text-fail text-sm ml-2 ">error</Text>
+            {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
             {/* City */}
             <DropdownComponent
@@ -126,7 +126,7 @@ const ProfileScreen = () => {
               startLeft={true}
               data={cityCountry}
             />
-            <Text className="text-fail text-sm ml-2 ">error</Text>
+            {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
           </View>
           <DefaultButton
