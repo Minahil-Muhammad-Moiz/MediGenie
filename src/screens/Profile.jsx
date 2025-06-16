@@ -54,17 +54,15 @@ const Profile = () => {
     <KeyboardAvoidingContainer>
       <MainContainer>
         <View className='flex-1 items-center justify-start w-full'>
-          {/* Header */}
-          <View className=' flex-row  gap-2 justify-center items-center'>
-            <Text className='text-lightText font-extrabold text-4xl'>User profile</Text>
-          </View>
 
-          <View className='relative w-28 h-28 mx-auto overflow-hidden flex items-center justify-center my-4'>
+          <Text className='text-lightText font-extrabold text-2xl text-center'>User profile</Text>
+
+          <View className='relative w-20 h-20 mx-auto overflow-hidden flex items-center justify-center my-4'>
             <Image source={profileImage} height={10} width={10} alt='profile' className='w-full h-full rounded-full border-2 border-blue1 ' />
             <TouchableOpacity className='absolute bottom-0 right-0 p-2 rounded-full bg-blue1 z-10' onPress={() => setProfileUploadModal(true)}>
               <Ionicons
                 name={'camera-outline'}
-                size={24}
+                size={16}
                 color={colors.black1}
               />
             </TouchableOpacity>
@@ -72,11 +70,11 @@ const Profile = () => {
 
           {/* Profile Screen */}
           <View className='border border-lightGrey p-4 rounded-2xl my-2 w-full flex relative'>
-            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('ProfileScreen')}>
-              <Text className='text-white'>Edit</Text>
+            <TouchableOpacity className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('ProfileScreen')}>
+              <Text className='text-white text-sm'>Edit</Text>
               <AntDesign
                 name={'edit'}
-                size={16}
+                size={12}
                 color={'#ffffff'}
               />
             </TouchableOpacity>
@@ -110,11 +108,11 @@ const Profile = () => {
           {/* Medical History */}
           <View className='border border-lightGrey p-4 rounded-2xl my-2 w-full'>
 
-            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('MedicalHistory')}>
-              <Text className='text-white'>Edit</Text>
+            <TouchableOpacity className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('MedicalHistory')}>
+              <Text className='text-white text-sm'>Edit</Text>
               <AntDesign
                 name={'edit'}
-                size={16}
+                size={12}
                 color={'#ffffff'}
               />
             </TouchableOpacity>
@@ -143,11 +141,11 @@ const Profile = () => {
           {/* Health Status */}
           <View className='border border-lightGrey p-4 rounded-2xl w-full my-2'>
 
-            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('HealthStatus')}>
-              <Text className='text-white'>Edit</Text>
+            <TouchableOpacity className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('HealthStatus')}>
+              <Text className='text-white text-sm'>Edit</Text>
               <AntDesign
                 name={'edit'}
-                size={16}
+                size={12}
                 color={'#ffffff'}
               />
             </TouchableOpacity>
@@ -171,11 +169,11 @@ const Profile = () => {
           {/* Life Style */}
           <View className='border border-lightGrey w-full p-4 rounded-2xl my-2'>
 
-            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('LifeStyle')}>
-              <Text className='text-white'>Edit</Text>
+            <TouchableOpacity className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('LifeStyle')}>
+              <Text className='text-white text-sm'>Edit</Text>
               <AntDesign
                 name={'edit'}
-                size={16}
+                size={12}
                 color={'#ffffff'}
               />
             </TouchableOpacity>
@@ -203,11 +201,11 @@ const Profile = () => {
 
           {/* Personal Goals */}
           <View className='border border-lightGrey p-4 w-full rounded-2xl my-2 flex items-start justify-start'>
-            <TouchableOpacity className='p-2 gap-2 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('PersonalGoals')}>
-              <Text className='text-white'>Edit</Text>
+            <TouchableOpacity className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('PersonalGoals')}>
+              <Text className='text-white text-sm'>Edit</Text>
               <AntDesign
                 name={'edit'}
-                size={16}
+                size={12}
                 color={'#ffffff'}
               />
             </TouchableOpacity>
@@ -215,16 +213,16 @@ const Profile = () => {
             <Text className='text-white font-bold'>Personal Goals</Text>
 
             <View className='flex-row flex-wrap gap-2 my-1 items-center justify-start'>
-              <Text className='p-2 rounded-2xl font-semibold bg-blue1'>
+              <Text className='p-2 rounded-2xl font-semibold bg-blue1 text-sm'>
                 Eat Healthy
               </Text>
-              <Text className='p-2 rounded-2xl font-semibold  bg-blue1'>
+              <Text className='p-2 rounded-2xl font-semibold  bg-blue1 text-sm'>
                 Eat Healthy
               </Text>
-              <Text className='p-2 rounded-2xl font-semibold  bg-blue1'>
+              <Text className='p-2 rounded-2xl font-semibold  bg-blue1 text-sm'>
                 Eat Healthy
               </Text>
-              <Text className='p-2 rounded-2xl font-semibold bg-blue1'>
+              <Text className='p-2 rounded-2xl font-semibold bg-blue1 text-sm'>
                 Eat Healthy
               </Text>
             </View>

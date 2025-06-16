@@ -13,12 +13,9 @@ const SettingsScreen = () => {
   return (
     <KeyboardAvoidingContainer>
       <MainContainer>
-        {/* Header */}
-        <View className=' flex-row  gap-2 justify-center items-center'>
-          <Text className='text-lightText font-extrabold text-4xl'>Settings</Text>
-        </View>
+        <Text className='text-lightText text-center font-extrabold text-2xl'>Settings</Text>
 
-        <View className='border border-lightGrey p-4 rounded-2xl my-4 w-full flex relative items-start '>
+        <View className='border border-lightGrey p-2 rounded-2xl my-4 w-full flex relative items-start '>
           <TouchableOpacity className='flex-row gap-2 items-center justify-start p-2 border border-b-zinc-700 mb-2 px-2 w-full' onPress={() => navigation.navigate('AboutUs')}>
             <Ionicons
               name={'information-circle-outline'}
