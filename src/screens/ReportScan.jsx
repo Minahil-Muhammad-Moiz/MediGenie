@@ -30,8 +30,9 @@ export default function ReportScan() {
 
     const renderItem = ({ item }) => (
         <View
-            className={`px-4 py-2 rounded-2xl max-w-[75%] my-2 ${item.isUser ? 'self-end bg-blue1' : 'self-start bg-gray-200'
-                }`}
+            className={`px-4 py-2 rounded-2xl max-w-[75%] my-2 ${
+                item.isUser ? 'self-end bg-blue1' : 'self-start bg-gray-200'
+            }`}
         >
             <Text className="text-base text-black">{item.text}</Text>
         </View>
@@ -40,17 +41,17 @@ export default function ReportScan() {
     return (
         <>
             {/* Header */}
-            <View className="flex-row items-center p-2 w-full bg-[#171717]">
+            <View className="flex-row items-center p-4 w-full bg-black1">
                 <TouchableOpacity
-                    className="bg-darkGrey p-2 rounded-full items-center justify-center w-14 h-14"
+                    className="bg-darkGrey p-2 rounded-full items-center justify-center w-12 h-12"
                     onPress={() => navigation.goBack()}
                 >
-                    <Ionicons name="arrow-back-outline" color={colors.lightText} size={25} />
+                    <Ionicons name="arrow-back-outline" color={colors.lightText} size={22} />
                 </TouchableOpacity>
-                <Text className="font-bold text-xl text-white ml-4">Report Scanner</Text>
+                <Text className="font-bold text-2xl text-white ml-4">Report Scanner</Text>
             </View>
 
-            <SafeAreaView className="flex-1 bg-white">
+            <SafeAreaView className="flex-1 bg-black1">
                 <KeyboardAvoidingContainer>
                     <MainContainer>
                         {/* Chat Messages */}
@@ -58,13 +59,13 @@ export default function ReportScan() {
                             data={messages}
                             keyExtractor={(item) => item.id}
                             renderItem={renderItem}
-                            className="flex-1 px-4 py-2"
+                            className="flex-1 px-4"
                         />
                     </MainContainer>
                 </KeyboardAvoidingContainer>
 
                 {/* Input Area */}
-                <View className="flex-row items-center pt-4 pb-6 px-2 bg-[#171717] border-t border-[#171717]">
+                <View className="flex-row items-center p-4 px-2 bg-[#171717] border-t border-[#171717]">
                     <TextInput
                         value={inputText}
                         onChangeText={setInputText}
