@@ -55,7 +55,7 @@ const HomeScreen = () => {
 
                     <View className='border border-zinc-700 bg-zinc-700 rounded-full'></View>
 
-                    <TouchableOpacity className='flex-row gap-2 items-center justify-center p-2' onPress={() => navigation.reset({ index: 0, routes: [{ name: 'LoginScreen' }] })}>
+                    <TouchableOpacity className='flex-row gap-2 items-center justify-center p-2' onPress={() => navigation.reset({ index: 0, routes: [{ name: 'LoginScreen', from : 'HomeScreen' }] })}>
                         <Ionicons
                             name={'log-out-outline'}
                             color={colors.fail}

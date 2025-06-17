@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { colors } from '../utils/constants';
 import MainContainer from '../components/MainContainer';
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer';
@@ -23,6 +23,7 @@ import DefaultButton from '../components/DefaultButton';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/slices/authSlice';
+import StartScreen from './StartScreen';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -57,13 +58,24 @@ export default function LoginScreen() {
     }
   }
 
+  const route = useRoute(); // <-- Get route params
+  const routeName = route?.from;
+  console.log(routeName)
+  const handleBack = () => {
+    if (routeName === 'HomeScreen' || routeName === 'SettingsScreen') {
+      navigation.navigate('GettingStarted', { from: 'LoginScreen' })
+    } else {
+      navigation.goBack();
+    }
+  }
+
   return (
     <KeyboardAvoidingContainer
     >
       <MainContainer>
         <TouchableOpacity
           className='bg-darkGrey p-2 rounded-full w-12 h-12 items-center justify-center'
-          onPress={() => navigation.goBack()}
+          onPress={handleBack}
         >
           <Ionicons name="arrow-back-outline" color={colors.lightText} size={22} />
         </TouchableOpacity>
