@@ -181,7 +181,7 @@ export default function SignUpScreen() {
                     onPress={handleSubmit}
                     title='Submit'
                   >
-                    {isSubmitting ? 'Signing up...' : 'SIGN UP'}
+                    SIGN IN
                   </DefaultButton>
 
                   <Text className='text-center text-lightGrey  font-poppins font-medium my-2'>

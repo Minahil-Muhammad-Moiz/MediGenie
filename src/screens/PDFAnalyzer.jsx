@@ -30,9 +30,8 @@ export default function PDFAnalyzer() {
 
     const renderItem = ({ item }) => (
         <View
-            className={`px-4 py-2 rounded-2xl max-w-[75%] my-2 ${
-                item.isUser ? 'self-end bg-blue1' : 'self-start bg-gray-200'
-            }`}
+            className={`px-4 py-2 rounded-2xl max-w-[75%] my-2 ${item.isUser ? 'self-end bg-blue1' : 'self-start bg-gray-200'
+                }`}
         >
             <Text className="text-base text-black">{item.text}</Text>
         </View>
@@ -52,17 +51,20 @@ export default function PDFAnalyzer() {
             </View>
 
             <SafeAreaView className="flex-1 bg-black1">
-                <KeyboardAvoidingContainer>
-                    <MainContainer>
-                        {/* Chat Messages */}
-                        <FlatList
-                            data={messages}
-                            keyExtractor={(item) => item.id}
-                            renderItem={renderItem}
-                            className="flex-1 px-4"
-                        />
-                    </MainContainer>
-                </KeyboardAvoidingContainer>
+
+                <MainContainer>
+                    {/* Chat Messages */}
+                    <FlatList
+                        data={messages.slice().reverse()} // reverse so latest goes to bottom
+                        keyExtractor={(item) => item.id}
+                        renderItem={renderItem}
+                        className="flex-1 px-4"
+                        inverted={true}
+                        contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}
+                        keyboardShouldPersistTaps="handled"
+                    />
+                </MainContainer>
+
 
                 {/* Input Area */}
                 <View className="flex-row items-center p-4 px-2 bg-[#171717] border-t border-[#171717]">
