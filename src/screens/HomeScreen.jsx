@@ -19,7 +19,7 @@ const HomeScreen = () => {
         <>
             <View className='bg-black1 z-20 '>
 
-                <View className='flex flex-row items-center justify-between w-full  p-4'>
+                <View className='flex flex-row items-center justify-between w-full py-6 px-4'>
                     <View className='flex flex-row items-center justify-center gap-4 '>
                         <Image source={profileImage} height={10} width={10} alt='dummy-profile' className=' w-14 h-14 rounded-full ' />
                         <View className='flex justify-center'>

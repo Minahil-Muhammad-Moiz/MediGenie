@@ -40,7 +40,7 @@ export default function ReportScan() {
     return (
         <>
             {/* Header */}
-            <View className="flex-row items-center p-4 w-full bg-black1">
+            <View className="flex-row items-center p-4 w-full bg-black1 fixed top-0">
                 <TouchableOpacity
                     className="bg-darkGrey p-2 rounded-full items-center justify-center w-12 h-12"
                     onPress={() => navigation.goBack()}
@@ -50,7 +50,7 @@ export default function ReportScan() {
                 <Text className="font-bold text-2xl text-white ml-4">Report Scanner</Text>
             </View>
 
-            <SafeAreaView className="flex-1 bg-black1">
+            <SafeAreaView className="flex-1 bg-black1 relative">
 
                 <MainContainer>
                     {/* Chat Messages */}
@@ -61,12 +61,12 @@ export default function ReportScan() {
                         className="flex-1 px-4"
                         inverted={true}
                         contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}
-                        keyboardShouldPersistTaps="handled"
+                        // keyboardShouldPersistTaps="handled"
                     />
                 </MainContainer>
 
                 {/* Input Area */}
-                <View className="flex-row items-center p-4 px-2 bg-[#171717] border-t border-[#171717]">
+                <View className=" flex-row items-center p-4 px-2 bg-[#171717] border-t border-[#171717]">
                     <TextInput
                         value={inputText}
                         onChangeText={setInputText}

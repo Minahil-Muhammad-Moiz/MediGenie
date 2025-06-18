@@ -36,7 +36,7 @@ const TabBar = () => {
         tabBarActiveTintColor: colors.blue1,
         tabBarInactiveTintColor: colors.lightGrey,
         tabBarLabelStyle: { paddingBottom: 6, fontSize: 10 },
-        tabBarStyle: { padding: 5, height: 60, backgroundColor: '#171717', borderColor: 'white', },
+        tabBarStyle: { padding: 10, height: 80, backgroundColor: '#171717', borderColor: 'white', },
       })}
     >
       <Tab.Screen name={homeName} component={HomeScreen} />
