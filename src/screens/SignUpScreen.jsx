@@ -15,8 +15,9 @@ import CustomInput from '../components/CustomInput';
 import DefaultButton from '../components/DefaultButton';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../redux/slices/authSlice';
+import { registerUser } from '../redux/thunks/authThunks';
 
 // ✅ Validation schema
 const SignUpSchema = Yup.object().shape({
@@ -27,7 +28,7 @@ const SignUpSchema = Yup.object().shape({
     .email('Invalid email')
     .required('Email is required'),
   password: Yup.string()
-    .min(6, 'Password must be at least 6 characters')
+    .min(8, 'Password must be at least 8 characters')
     .required('Password is required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
@@ -38,23 +39,47 @@ export default function SignUpScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
 
-  const handleSignUp = (values) => {
-    try {
-      // 🚀 Call your sign-up API or logic here
-      dispatch(register({ user: values }));
+const handleSignUp = async (values) => {
+  try {
+    const resultAction = await dispatch(
+      registerUser({
+        username: values.username,
+        email: values.email,
+        password1: values.password,
+        password2: values.confirmPassword,
+      })
+    );
 
-      // Option 1: move to MainScreen immediately
-      // navigation.reset({ index: 0, routes: [{ name: 'MainScreen' }] });
-
-      // Option 2: move to LoginScreen (ask user to login)
-      // navigation.navigate('EmailVerification', { from: 'SignUpScreen' });
+    if (registerUser.fulfilled.match(resultAction)) {
+      Alert.alert('Success', resultAction.payload.message);
       navigation.navigate('EmailVerification', { from: 'SignUpScreen' });
-      // navigation.navigate('EmailVerification', { from: 'signup' });
-    } catch (error) {
-      Alert.alert('Sign up failed', 'Something went wrong. Try again.');
+    } else {
+      const errorMsg =
+        resultAction.payload?.error?.details?.email?.[0] || resultAction.payload?.error?.details?.password1?.[0] ||
+        JSON.stringify(resultAction.payload);
+      Alert.alert('Registration Failed', errorMsg);
     }
-  };
+  } catch (error) {
+    Alert.alert(
+      'Sign up failed',
+      error?.message || 'Something went wrong. Try again.'
+    );
+  }
+};
+
+  // Option 1: move to MainScreen immediately
+  // navigation.reset({ index: 0, routes: [{ name: 'MainScreen' }] });
+
+  // Option 2: move to LoginScreen (ask user to login)
+  // navigation.navigate('EmailVerification', { from: 'SignUpScreen' });
+  //     navigation.navigate('EmailVerification', { from: 'SignUpScreen' });
+  //     // navigation.navigate('EmailVerification', { from: 'signup' });
+  //   } catch (error) {
+  //     Alert.alert('Sign up failed', 'Something went wrong. Try again.');
+  //   }
+  // };
 
   return (
     <KeyboardAvoidingContainer>

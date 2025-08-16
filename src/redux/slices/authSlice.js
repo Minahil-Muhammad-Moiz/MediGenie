@@ -1,12 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { registerUser } from '../thunks/authThunks';
 
-initialState =  {
+const initialState = {
   isLoggedIn: false,
   isRegistered: false,
   user: null,
   token: null,
-  loginMethod: 'email' || 'google',
-}
+  loginMethod: 'email',
+  loading: false,
+  error: null,
+  registrationMessage: null, // <-- for API message
+};
 
 const authSlice = createSlice({
   name: 'auth',
@@ -26,15 +30,29 @@ const authSlice = createSlice({
     },
     register: (state, action) => {
       state.isRegistered = true;
-      state.user = action.payload.user;
-      // You can decide: auto login or just mark registered
-      // state.isLoggedIn = true;  <-- if you want auto-login
+      state.registrationMessage = action.payload.message || null;
     },
     resetRegistration: (state) => {
       state.isRegistered = false;
+      state.registrationMessage = null;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Registration failed';
+      });
+  },
 });
+
 
 export const { login, logout, register, resetRegistration } = authSlice.actions;
 export default authSlice.reducer;
