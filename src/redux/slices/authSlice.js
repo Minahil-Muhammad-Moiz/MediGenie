@@ -1,5 +1,6 @@
+// src/redux/slices/authSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-import { registerUser } from '../thunks/authThunks';
+import { registerUser, verifyOtp } from '../thunks/authThunks';
 
 const initialState = {
   isLoggedIn: false,
@@ -9,7 +10,9 @@ const initialState = {
   loginMethod: 'email',
   loading: false,
   error: null,
-  registrationMessage: null, // <-- for API message
+  registrationMessage: null,
+  otpVerified: false,
+  otpMessage: null,
 };
 
 const authSlice = createSlice({
@@ -36,9 +39,14 @@ const authSlice = createSlice({
       state.isRegistered = false;
       state.registrationMessage = null;
     },
+    resetOtp: (state) => {
+      state.otpVerified = false;
+      state.otpMessage = null;
+    },
   },
   extraReducers: (builder) => {
     builder
+      // 🔹 Registration
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -49,10 +57,27 @@ const authSlice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Registration failed';
+      })
+
+      // 🔹 OTP Verification
+      .addCase(verifyOtp.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.otpVerified = false;
+        state.otpMessage = null;
+      })
+      .addCase(verifyOtp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.otpVerified = true;
+        state.otpMessage = action.payload.message;
+      })
+      .addCase(verifyOtp.rejected, (state, action) => {
+        state.loading = false;
+        state.otpVerified = false;
+        state.error = action.payload || 'OTP verification failed';
       });
   },
 });
 
-
-export const { login, logout, register, resetRegistration } = authSlice.actions;
+export const { login, logout, register, resetRegistration, resetOtp } = authSlice.actions;
 export default authSlice.reducer;

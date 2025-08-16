@@ -54,7 +54,7 @@ const handleSignUp = async (values) => {
 
     if (registerUser.fulfilled.match(resultAction)) {
       Alert.alert('Success', resultAction.payload.message);
-      navigation.navigate('EmailVerification', { from: 'SignUpScreen' });
+      navigation.navigate('EmailVerification', { from: 'SignUpScreen', email: values.email  });
     } else {
       const errorMsg =
         resultAction.payload?.error?.details?.email?.[0] || resultAction.payload?.error?.details?.password1?.[0] ||
