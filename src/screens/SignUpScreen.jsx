@@ -57,14 +57,14 @@ const handleSignUp = async (values) => {
       navigation.navigate('EmailVerification', { from: 'SignUpScreen', email: values.email  });
     } else {
       const errorMsg =
-        resultAction.payload?.error?.details?.email?.[0] || resultAction.payload?.error?.details?.password1?.[0] ||
+        resultAction.payload.error.details.email[0] || resultAction.payload.error.details.password1[0] ||
         JSON.stringify(resultAction.payload);
       Alert.alert('Registration Failed', errorMsg);
     }
   } catch (error) {
     Alert.alert(
       'Sign up failed',
-      error?.message || 'Something went wrong. Try again.'
+      JSON.stringify(error) || 'Something went wrong. Try again.'
     );
   }
 };
