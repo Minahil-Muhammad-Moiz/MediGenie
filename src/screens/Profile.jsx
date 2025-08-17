@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, Modal, TouchableWithoutFeedback } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer'
 import MainContainer from '../components/MainContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -19,6 +19,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import DropdownComponent from '../components/DropdownComponent';
 import { useNavigation } from '@react-navigation/native';
+import { fetchUser } from '../redux/slices/userSlice';
+import { loadToken } from '../redux/slices/authSlice';
 
 const Profile = () => {
   const imageURI = require('../assets/images/dummy-profile.png')
@@ -46,9 +48,15 @@ const Profile = () => {
     setProfileUploadModal(false);
   };
 
-  const handleNext = () => {
-    navigation.navigate('MedicalHistory')
-  }
+  const { user, loading } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(loadToken()).then((res) => {
+      // console.log("Token loaded:", res);
+      dispatch(fetchUser());
+    });
+  }, [dispatch]);
+  console.log(user);
 
   return (
     <KeyboardAvoidingContainer>
@@ -68,7 +76,7 @@ const Profile = () => {
             </TouchableOpacity>
           </View>
 
-          {/* Profile Screen */}
+          {/* Basic Info */}
           <View className='border border-lightGrey p-4 rounded-2xl my-2 w-full flex relative'>
             <TouchableOpacity className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('ProfileScreen')}>
               <Text className='text-white text-sm'>Edit</Text>
@@ -81,17 +89,50 @@ const Profile = () => {
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Name</Text>
-              <Text className='text-white w-[50%]'>John Smith</Text>
+              <Text className='text-white w-[50%]'>
+                {user?.profile?.name && user.profile.name.trim() !== ''
+                  ? user.profile.name
+                  : 'John Smith'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
+              <Text className='text-white font-bold w-[50%]'>Email</Text>
+              <Text className='text-white w-[50%]'>{user?.email}</Text>
+            </View>
+
+            <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
+              <Text className='text-white font-bold w-[50%]'>Role</Text>
+              <Text className='text-white w-[50%]'>{user?.profile?.role && user.profile.role.trim() !== ''
+                ? user.profile.role
+                : 'User'}</Text>
+            </View>
+          </View>
+
+{/* Language not included in api */}
+
+          {/* Profile Screen */}
+          <View className='border border-lightGrey p-4 rounded-2xl my-2 w-full flex relative'>
+            <TouchableOpacity className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center' onPress={() => navigation.navigate('ProfileScreen')}>
+              <Text className='text-white text-sm'>Edit</Text>
+              <AntDesign
+                name={'edit'}
+                size={12}
+                color={'#ffffff'}
+              />
+            </TouchableOpacity>
+
+            <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Gender</Text>
-              <Text className='text-white'>Female</Text>
+              <Text className='text-white'>{user?.profile?.gender && user.profile.gender.trim() !== ''
+                ? user.profile.gender
+                : 'Male'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Age</Text>
-              <Text className='text-white'>22</Text>
+              <Text className='text-white'>{user?.profile?.age && user.profile.age.trim() !== ''
+                ? user.profile.age
+                : '22'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
@@ -100,8 +141,10 @@ const Profile = () => {
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
-              <Text className='text-white font-bold w-[50%]'>City/Country</Text>
-              <Text className='text-white'>Karachi, Pakistan</Text>
+              <Text className='text-white font-bold w-[50%]'>City</Text>
+              <Text className='text-white'>{user?.profile?.city && user.profile.city.trim() !== ''
+                ? user.profile.city
+                : 'Karachi'}</Text>
             </View>
           </View>
 
@@ -119,22 +162,30 @@ const Profile = () => {
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Chronic conditions</Text>
-              <Text className='text-white'>None</Text>
+              <Text className='text-white'>{user?.profile?.chronic_conditions && user.profile.chronic_conditions.trim() !== ''
+                ? user.profile.chronic_conditions
+                : 'None'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
-              <Text className='text-white font-bold w-[50%]'>Current medication</Text>
-              <Text className='text-white'>None</Text>
+              <Text className='text-white font-bold w-[50%]'>Current medications</Text>
+              <Text className='text-white'>{user?.profile?.current_medications && user.profile.current_medications.trim() !== ''
+                ? user.profile.current_medications
+                : 'None'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Known allergies</Text>
-              <Text className='text-white'>None</Text>
+              <Text className='text-white'>{user?.profile?.known_allergies && user.profile.known_allergies.trim() !== ''
+                ? user.profile.known_allergies
+                : 'None'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
-              <Text className='text-white font-bold w-[50%]'>Past major illness</Text>
-              <Text className='text-white'>None</Text>
+              <Text className='text-white font-bold w-[50%]'>Family Medical History</Text>
+              <Text className='text-white'>{user?.profile?.family_medical_history && user.profile.family_medical_history.trim() !== ''
+                ? user.profile.family_medical_history
+                : 'None'}</Text>
             </View>
           </View>
 
@@ -152,17 +203,23 @@ const Profile = () => {
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Symptoms pattern</Text>
-              <Text className='text-white'>None</Text>
+              <Text className='text-white'>{user?.profile?.symptom_pattern && user.profile.symptom_pattern.trim() !== ''
+                ? user.profile.symptom_pattern
+                : 'None'}</Text>
             </View>
 
             <View className='flex-row gap-2 w-full border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Sleep quality</Text>
-              <Text className='text-white'>None</Text>
+              <Text className='text-white'>{user?.profile?.sleep_quality && user.profile.sleep_quality.trim() !== ''
+                ? user.profile.sleep_quality
+                : 'None'}</Text>
             </View>
 
             <View className='flex-row gap-2 w-full border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Diet type</Text>
-              <Text className='text-white'>None</Text>
+              <Text className='text-white'>{user?.profile?.diet_type && user.profile.diet_type.trim() !== ''
+                ? user.profile.diet_type
+                : 'None'}</Text>
             </View>
           </View>
 
@@ -180,22 +237,30 @@ const Profile = () => {
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Lifestyle habits</Text>
-              <Text className='text-white'>Active</Text>
+              <Text className='text-white'>{user?.profile?.lifestyle_type && user.profile.lifestyle_type.trim() !== ''
+                ? user.profile.lifestyle_type
+                : 'Active'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Occupation</Text>
-              <Text className='text-white'>Student</Text>
+              <Text className='text-white'>{user?.profile?.occupation && user.profile.occupation.trim() !== ''
+                ? user.profile.occupation
+                : 'Student'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Smoking habits</Text>
-              <Text className='text-white'>None</Text>
+              <Text className='text-white'>{user?.profile?.smoking && user.profile.smoking.trim() !== ''
+                ? user.profile.smoking
+                : 'No'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Alcohol consumption</Text>
-              <Text className='text-white'>None</Text>
+              <Text className='text-white'>{user?.profile?.alcohol && user.profile.alcohol.trim() !== ''
+                ? user.profile.alcohol
+                : 'No'}</Text>
             </View>
           </View>
 

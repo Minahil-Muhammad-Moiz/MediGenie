@@ -114,7 +114,7 @@ const authSlice = createSlice({
       .addCase(verifyOtp.fulfilled, (state, action) => {
         state.loading = false;
         state.otpVerified = true;
-        state.otpMessage = "OTP Verified Successfully ✅";
+        state.otpMessage = "OTP Verified Successfully";
 
         // ✅ Store tokens + user
         state.isLoggedIn = true;
@@ -122,9 +122,9 @@ const authSlice = createSlice({
         state.user = action.payload.user;
 
         // persist to AsyncStorage
-        AsyncStorage.setItem('access', action.payload.access);
-        AsyncStorage.setItem('refresh', action.payload.refresh);
-        AsyncStorage.setItem('user', JSON.stringify(action.payload.user));
+        // AsyncStorage.setItem('access', action.payload.access);
+        // AsyncStorage.setItem('refresh', action.payload.refresh);
+        // AsyncStorage.setItem('user', JSON.stringify(action.payload.user));
       })
 
       .addCase(verifyOtp.rejected, (state, action) => {

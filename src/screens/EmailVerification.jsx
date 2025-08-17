@@ -34,6 +34,7 @@ const EmailVerification = () => {
         if (!OTPtext) return;
 
         const resultAction = await dispatch(verifyOtp({ email: userEmail, code: OTPtext }));
+        // console.log(resultAction);
 
         if (verifyOtp.fulfilled.match(resultAction)) {
             setModalSuccess(true);

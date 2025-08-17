@@ -26,7 +26,7 @@ const PersonalGoals = () => {
 
     const route = useRoute(); // <-- Get route params
     const routeName = route?.params?.from;
-    console.log(routeName)
+    // console.log(routeName)
     const handleNext = () => {
         if (routeName === 'LifeStyle') {
             navigation.reset({
