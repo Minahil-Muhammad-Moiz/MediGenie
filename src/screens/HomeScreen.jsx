@@ -10,6 +10,7 @@ import DefaultButton from '../components/DefaultButton';
 import { useNavigation } from '@react-navigation/native';
 import { logout } from '../redux/slices/authSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logoutUser } from '../redux/thunks/authThunks';
 
 const HomeScreen = () => {
     const imageURI = require('../assets/images/logoBlack.png')
@@ -19,10 +20,25 @@ const HomeScreen = () => {
     const dispatch = useDispatch()
 
     const handleLogout = async () => {
-        await AsyncStorage.multiRemove(["access", "refresh", "user"]);
-        dispatch(logout());
-        navigation.reset({ index: 0, routes: [{ name: "LoginScreen", from: 'HomeScreen' }] });
-    };
+        try {
+            const resultAction = await dispatch(logoutUser());
+
+            if (logoutUser.fulfilled.match(resultAction)) {
+                // ✅ Successfully logged out
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "LoginScreen", from: "HomeScreen" }],
+                });
+            } else {
+                // ❌ API failed → show error
+                const errorMsg = resultAction.payload?.message || "Logout failed";
+                Alert.alert("Logout Error", errorMsg);
+            }
+        } catch (error) {
+            // console.log("Logout error:", error);
+            Alert.alert("Logout Error", "Something went wrong");
+        }
+    }; 
 
     return (
         <>
