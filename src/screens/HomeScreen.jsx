@@ -5,15 +5,24 @@ import MainContainer from '../components/MainContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '../utils/constants';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DefaultButton from '../components/DefaultButton';
 import { useNavigation } from '@react-navigation/native';
+import { logout } from '../redux/slices/authSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
     const imageURI = require('../assets/images/logoBlack.png')
     const profileImage = useSelector((state) => state.profile.profileImage);
     const [modal, setModal] = useState(false)
     const navigation = useNavigation();
+    const dispatch = useDispatch()
+
+    const handleLogout = async () => {
+        await AsyncStorage.multiRemove(["access", "refresh", "user"]);
+        dispatch(logout());
+        navigation.reset({ index: 0, routes: [{ name: "LoginScreen", from: 'HomeScreen' }] });
+    };
 
     return (
         <>
@@ -55,7 +64,7 @@ const HomeScreen = () => {
 
                     <View className='border border-zinc-700 bg-zinc-700 rounded-full'></View>
 
-                    <TouchableOpacity className='flex-row gap-2 items-center justify-center p-2' onPress={() => navigation.reset({ index: 0, routes: [{ name: 'LoginScreen', from : 'HomeScreen' }] })}>
+                    <TouchableOpacity className='flex-row gap-2 items-center justify-center p-2' onPress={handleLogout}>
                         <Ionicons
                             name={'log-out-outline'}
                             color={colors.fail}

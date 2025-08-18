@@ -9,7 +9,8 @@ import {
   TouchableWithoutFeedback,
   View,
   ScrollView,
-  Platform
+  Platform,
+  Alert
 } from 'react-native'
 import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -24,6 +25,7 @@ import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/slices/authSlice';
 import StartScreen from './StartScreen';
+import { loginUser } from '../redux/thunks/authThunks';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -38,29 +40,38 @@ export default function LoginScreen() {
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
-  const handleLogin = (values) => {
+  const handleLogin = async (values) => {
     try {
-      if (
-        values.email.toLowerCase() === 'test@example.com' &&
-        values.password === '123456'
-      ) {
-        dispatch(login({ user: values.email, token: 'fake-token', loginMethod: 'email' }));
+      const resultAction = await dispatch(loginUser(values));
+      // console.log(resultAction);
+
+      if (loginUser.fulfilled.match(resultAction)) {
+        // ✅ success → navigate to MainScreen
         navigation.reset({
           index: 0,
-          routes: [{ name: 'MainScreen' }],
+          routes: [{ name: "MainScreen" }],
         });
       } else {
-        alert('Invalid email or password');
+        const details = resultAction.payload?.error?.details;
+        let errorMsg = "Login failed";
+
+        if (details?.email?.length) {
+          errorMsg = details.email[0];
+        } else if (details?.password?.length) {
+          errorMsg = details.password[0];
+        }
+
+        Alert.alert("Login Failed", errorMsg);
       }
+    } catch (error) {
+      // console.log("Login error:", error);
+      Alert.alert("Error", "Something went wrong");
     }
-    catch (error) {
-      console.log('Login error:', error);
-    }
-  }
+  };
 
   const route = useRoute(); // <-- Get route params
   const routeName = route?.from;
-  console.log(routeName)
+  // console.log(routeName)
   const handleBack = () => {
     if (routeName === 'HomeScreen' || routeName === 'SettingsScreen') {
       navigation.navigate('GettingStarted', { from: 'LoginScreen' })

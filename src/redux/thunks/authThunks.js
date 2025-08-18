@@ -24,6 +24,32 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+// 🔹 Login User
+export const loginUser = createAsyncThunk(
+  "auth/loginUser",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        "https://medigenie-1.onrender.com/api/auth/log-in/",
+        { email, password },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      const { access, refresh, user } = response.data;
+
+      // persist tokens + user
+      await AsyncStorage.setItem("access", access);
+      await AsyncStorage.setItem("refresh", refresh);
+      await AsyncStorage.setItem("user", JSON.stringify(user));
+
+      return response.data;
+    } catch (error) {
+      console.log("Login Error:", error.response?.data || error.message);
+      if (error.response) return rejectWithValue(error.response.data);
+      return rejectWithValue({ error: "Network Error" });
+    }
+  }
+);
 // 🔹 Verify OTP
 export const verifyOtp = createAsyncThunk(
   'auth/verifyOtp',
@@ -42,7 +68,6 @@ export const verifyOtp = createAsyncThunk(
       await AsyncStorage.setItem("access", response.data.access);
       await AsyncStorage.setItem("refresh", response.data.refresh);
       await AsyncStorage.setItem("user", JSON.stringify(response.data.user));
-      // console.log(response.data);
 
       return response.data;
     } catch (error) {

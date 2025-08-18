@@ -1,31 +1,36 @@
 // src/redux/slices/authSlice.js
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { registerUser, verifyOtp } from '../thunks/authThunks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { registerUser, verifyOtp, loginUser } from "../thunks/authThunks";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // 🔹 Load token on app startup
-export const loadToken = createAsyncThunk('auth/loadToken', async () => {
-  const access = await AsyncStorage.getItem('access');
-  const refresh = await AsyncStorage.getItem('refresh');
-  const user = await AsyncStorage.getItem('user');
+export const loadToken = createAsyncThunk("auth/loadToken", async () => {
+  try {
+    const access = await AsyncStorage.getItem("access");
+    const refresh = await AsyncStorage.getItem("refresh");
+    const user = await AsyncStorage.getItem("user");
 
-  if (access && refresh && user) {
-    return {
-      access,
-      refresh,
-      user: JSON.parse(user),
-    };
+    if (access && refresh && user) {
+      return {
+        access,
+        refresh,
+        user: JSON.parse(user),
+      };
+    }
+    return null;
+  } catch (err) {
+    console.log("Failed to load token:", err);
+    return null;
   }
-  return null;
 });
-
 
 const initialState = {
   isLoggedIn: false,
   isRegistered: false,
   user: null,
-  token: null,
-  loginMethod: 'email',
+  access: null,
+  refresh: null,
+  loginMethod: "email",
   loading: false,
   error: null,
   registrationMessage: null,
@@ -34,42 +39,19 @@ const initialState = {
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
-    login: (state, action) => {
-      state.isLoggedIn = true;
-      state.user = action.payload.user;
-      state.token = action.payload.access;   // ✅ access token
-      state.loginMethod = action.payload.loginMethod || 'email';
-
-      // ✅ persist tokens & user
-      try {
-        AsyncStorage.setItem('access', action.payload.access);
-        if (action.payload.refresh) {
-          AsyncStorage.setItem('refresh', action.payload.refresh);
-        }
-        AsyncStorage.setItem('user', JSON.stringify(action.payload.user));
-      } catch (e) {
-        console.log('Failed to save tokens in AsyncStorage', e);
-      }
-    },
-
     logout: (state) => {
       state.isLoggedIn = false;
       state.user = null;
-      state.token = null;
-      state.loginMethod = 'email';
+      state.access = null;
+      state.refresh = null;
+      state.loginMethod = "email";
       state.otpVerified = false;
 
-      AsyncStorage.removeItem('access');
-      AsyncStorage.removeItem('refresh');
-      AsyncStorage.removeItem('user');
-    },
-
-    register: (state, action) => {
-      state.isRegistered = true;
-      state.registrationMessage = action.payload.message || null;
+      // 🔹 Clear AsyncStorage
+      AsyncStorage.multiRemove(["access", "refresh", "user"]);
     },
     resetRegistration: (state) => {
       state.isRegistered = false;
@@ -85,22 +67,49 @@ const authSlice = createSlice({
       // 🔹 Load token
       .addCase(loadToken.fulfilled, (state, action) => {
         if (action.payload) {
-          state.token = action.payload.access;
+          state.access = action.payload.access;
+          state.refresh = action.payload.refresh;
           state.user = action.payload.user;
           state.isLoggedIn = true;
         }
       })
+
       // 🔹 Registration
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(registerUser.fulfilled, (state) => {
+      .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
+        state.isRegistered = true;
+        state.registrationMessage = action.payload?.message || null;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Registration failed';
+        state.error = action.payload || "Registration failed";
+      })
+
+      // 🔹 Login
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isLoggedIn = true;
+        state.access = action.payload.access;
+        state.refresh = action.payload.refresh;
+        state.user = action.payload.user;
+
+        // ✅ persist to storage
+        AsyncStorage.setItem("access", action.payload.access);
+        AsyncStorage.setItem("refresh", action.payload.refresh);
+        AsyncStorage.setItem("user", JSON.stringify(action.payload.user));
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.isLoggedIn = false;
+        state.error = action.payload || "Login failed";
       })
 
       // 🔹 OTP Verification
@@ -110,30 +119,28 @@ const authSlice = createSlice({
         state.otpVerified = false;
         state.otpMessage = null;
       })
-      // inside extraReducers
       .addCase(verifyOtp.fulfilled, (state, action) => {
         state.loading = false;
         state.otpVerified = true;
         state.otpMessage = "OTP Verified Successfully";
 
-        // ✅ Store tokens + user
+        // ✅ Auto login after OTP
         state.isLoggedIn = true;
-        state.token = action.payload.access;
+        state.access = action.payload.access;
+        state.refresh = action.payload.refresh;
         state.user = action.payload.user;
 
-        // persist to AsyncStorage
-        // AsyncStorage.setItem('access', action.payload.access);
-        // AsyncStorage.setItem('refresh', action.payload.refresh);
-        // AsyncStorage.setItem('user', JSON.stringify(action.payload.user));
+        AsyncStorage.setItem("access", action.payload.access);
+        AsyncStorage.setItem("refresh", action.payload.refresh);
+        AsyncStorage.setItem("user", JSON.stringify(action.payload.user));
       })
-
       .addCase(verifyOtp.rejected, (state, action) => {
         state.loading = false;
         state.otpVerified = false;
-        state.error = action.payload || 'OTP verification failed';
+        state.error = action.payload || "OTP verification failed";
       });
   },
 });
 
-export const { login, logout, register, resetRegistration, resetOtp } = authSlice.actions;
+export const { logout, resetRegistration, resetOtp } = authSlice.actions;
 export default authSlice.reducer;
