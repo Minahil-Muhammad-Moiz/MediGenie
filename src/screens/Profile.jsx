@@ -251,15 +251,13 @@ const Profile = () => {
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Smoking habits</Text>
-              <Text className='text-white'>{user?.profile?.smoking && user.profile.smoking.trim() !== ''
-                ? user.profile.smoking
+              <Text className='text-white'>{user?.profile?.smoking ? 'Yes'
                 : 'No'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Alcohol consumption</Text>
-              <Text className='text-white'>{user?.profile?.alcohol && user.profile.alcohol.trim() !== ''
-                ? user.profile.alcohol
+              <Text className='text-white'>{user?.profile?.alcohol ? 'Yes'
                 : 'No'}</Text>
             </View>
           </View>

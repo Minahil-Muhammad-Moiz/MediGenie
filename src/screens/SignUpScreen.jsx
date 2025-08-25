@@ -41,6 +41,7 @@ export default function SignUpScreen() {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.auth);
 
+// SignUpScreen.jsx
 const handleSignUp = async (values) => {
   try {
     const resultAction = await dispatch(
@@ -53,19 +54,27 @@ const handleSignUp = async (values) => {
     );
 
     if (registerUser.fulfilled.match(resultAction)) {
-      Alert.alert('Success', resultAction.payload.message);
-      navigation.navigate('EmailVerification', { from: 'SignUpScreen', email: values.email  });
+      // ✅ Registration success
+      Alert.alert("Success", resultAction.payload.message);
+      navigation.navigate("EmailVerification", {
+        from: "SignUpScreen",
+        email: values.email,
+      });
     } else {
+      // ❌ Registration failed → safely extract error
+      const details = resultAction.payload?.error?.details || {};
       const errorMsg =
-        resultAction.payload.error.details.email[0] || resultAction.payload.error.details.password1[0] ||
-        JSON.stringify(resultAction.payload);
-      Alert.alert('Registration Failed', errorMsg);
+        details.email?.[0] ||
+        details.password1?.[0] ||
+        details.username?.[0] ||
+        resultAction.payload?.error?.message ||
+        "Registration failed";
+
+      Alert.alert("Registration Failed", errorMsg);
     }
   } catch (error) {
-    Alert.alert(
-      'Sign up failed',
-      JSON.stringify(error) || 'Something went wrong. Try again.'
-    );
+    console.log("Signup error:", error);
+    Alert.alert("Sign up failed", "Something went wrong. Try again.");
   }
 };
 

@@ -46,6 +46,9 @@ const authSlice = createSlice({
       state.otpVerified = false;
       state.otpMessage = null;
     },
+    register: (state, action) => {
+      state.registrationMessage = action.payload.message;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -71,7 +74,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || "Registration failed";
+        state.error = action.payload || { error: { message: "Registration failed" } };
       })
 
       // 🔹 Login
@@ -89,7 +92,7 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.isLoggedIn = false;
-        state.error = action.payload || "Login failed";
+        state.error = action.payload || { error: { message: "Login failed" } };
       })
 
       // 🔹 OTP Verification
@@ -111,7 +114,7 @@ const authSlice = createSlice({
       .addCase(verifyOtp.rejected, (state, action) => {
         state.loading = false;
         state.otpVerified = false;
-        state.error = action.payload || "OTP verification failed";
+        state.error = action.payload || { error: { message: "OTP verification failed" } };
       })
 
       // 🔹 Logout
@@ -128,10 +131,10 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || "Logout failed";
+        state.error = action.payload || { error: { message: "Logout failed" } };
       });
   },
 });
 
-export const { resetRegistration, resetOtp } = authSlice.actions;
+export const { resetRegistration, resetOtp, register } = authSlice.actions;
 export default authSlice.reducer;

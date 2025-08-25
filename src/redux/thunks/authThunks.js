@@ -1,27 +1,28 @@
 // src/redux/thunks/authThunks.js
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { register } from '../slices/authSlice';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import { register } from "../slices/authSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const API_URL = "https://medigenie-1.onrender.com/api/auth";
 
 // 🔹 Register User
 export const registerUser = createAsyncThunk(
-  'auth/registerUser',
+  "auth/registerUser",
   async (formData, { dispatch, rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${API_URL}/registration/`,
         formData,
-        { headers: { 'Content-Type': 'application/json' } }
+        { headers: { "Content-Type": "application/json" } }
       );
 
       dispatch(register({ message: response.data.message }));
       return response.data;
     } catch (error) {
-      if (error.response) return rejectWithValue(error.response.data);
-      return rejectWithValue({ error: 'Network Error' });
+      const payload =
+        error.response?.data || { error: { message: "Network Error" } };
+      return rejectWithValue(payload);
     }
   }
 );
@@ -47,15 +48,16 @@ export const loginUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log("Login Error:", error.response?.data || error.message);
-      if (error.response) return rejectWithValue(error.response.data);
-      return rejectWithValue({ error: "Network Error" });
+      const payload =
+        error.response?.data || { error: { message: "Network Error" } };
+      return rejectWithValue(payload);
     }
   }
 );
 
 // 🔹 Verify OTP
 export const verifyOtp = createAsyncThunk(
-  'auth/verifyOtp',
+  "auth/verifyOtp",
   async ({ email, code }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
@@ -64,7 +66,7 @@ export const verifyOtp = createAsyncThunk(
           email,
           verification_code: code,
         },
-        { headers: { 'Content-Type': 'application/json' } }
+        { headers: { "Content-Type": "application/json" } }
       );
 
       // Save tokens & user
@@ -75,8 +77,9 @@ export const verifyOtp = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log("OTP Verify Error:", error.response?.data || error.message);
-      if (error.response) return rejectWithValue(error.response.data);
-      return rejectWithValue({ error: 'Network Error' });
+      const payload =
+        error.response?.data || { error: { message: "Network Error" } };
+      return rejectWithValue(payload);
     }
   }
 );
@@ -87,7 +90,7 @@ export const logoutUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const refresh = await AsyncStorage.getItem("refresh");
-      if (!refresh) return rejectWithValue({ message: "No refresh token found" });
+      if (!refresh) return rejectWithValue({ error: { message: "No refresh token found" } });
 
       await axios.post(
         `${API_URL}/logout/`,
@@ -101,8 +104,9 @@ export const logoutUser = createAsyncThunk(
       return true;
     } catch (error) {
       console.log("Logout Error:", error.response?.data || error.message);
-      if (error.response) return rejectWithValue(error.response.data);
-      return rejectWithValue({ error: "Network Error" });
+      const payload =
+        error.response?.data || { error: { message: "Network Error" } };
+      return rejectWithValue(payload);
     }
   }
 );

@@ -54,7 +54,7 @@ const ProfileScreen = () => {
   const handleNext = () => {
     if (routeName === 'EmailVerification') {
       // navigation.navigate('ProfileScreen');
-      navigation.navigate('MedicalHistory',{from: 'ProfileScreen'})
+      navigation.navigate('MedicalHistory', { from: 'ProfileScreen' })
     } else {
       navigation.goBack();
     }
@@ -135,7 +135,7 @@ const ProfileScreen = () => {
             onPress={handleNext}
             title='Submit'
           >
-            Next
+            {routeName === 'EmailVerification' ? 'Next' : 'Save'}
           </DefaultButton>
         </View>
 
