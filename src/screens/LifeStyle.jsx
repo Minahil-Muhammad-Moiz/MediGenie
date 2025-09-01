@@ -1,102 +1,128 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
-import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer'
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MainContainer from '../components/MainContainer'
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { colors } from '../utils/constants';
-import CustomInput from '../components/CustomInput';
-import DefaultButton from '../components/DefaultButton';
-import PersonalGoals from './PersonalGoals';
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import React from "react";
+import KeyboardAvoidingContainer from "../components/KeyboardAvoidingContainer";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import MainContainer from "../components/MainContainer";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
+import { alcoholConsumption, colors, smokingHabits } from "../utils/constants";
+import CustomInput from "../components/CustomInput";
+import DefaultButton from "../components/DefaultButton";
+import { updateField } from "../redux/slices/userSlice";
+import DropdownComponent from "../components/DropdownComponent";
 
 const LifeStyle = () => {
     const navigation = useNavigation();
-    const profileImage = useSelector((state) => state.profile.profileImage);
-
-    const route = useRoute(); // <-- Get route params
+    const dispatch = useDispatch();
+    const route = useRoute();
     const routeName = route?.params?.from;
-    // console.log(routeName)
+
+    // Extract lifestyle fields from Redux
+    const { image, lifestyle_type, occupation, smoking, alcohol } = useSelector(
+        (state) => state.user
+    );
+
     const handleNext = () => {
-        if (routeName === 'HealthStatus') {
-            navigation.navigate('PersonalGoals', { from: 'LifeStyle' })
+        if (routeName === "HealthStatus") {
+            navigation.navigate("PersonalGoals", { from: "LifeStyle" });
         } else {
             navigation.goBack();
         }
-    }
+    };
 
     return (
         <KeyboardAvoidingContainer>
             <MainContainer>
-
-                <View className='flex flex-row items-center justify-between w-full '>
-
+                {/* Header */}
+                <View className="flex flex-row items-center justify-between w-full ">
                     <TouchableOpacity
-                        className='bg-darkGrey p-2 rounded-full flex items-center justify-center w-12 h-12 '
+                        className="bg-darkGrey p-2 rounded-full flex items-center justify-center w-12 h-12 "
                         onPress={() => navigation.goBack()}
                     >
                         <Ionicons
-                            name={'arrow-back-outline'}
+                            name={"arrow-back-outline"}
                             color={colors.lightText}
                             size={22}
                         />
                     </TouchableOpacity>
 
-                    <Image source={profileImage} height={10} width={10} alt='dummy-profile' className='w-12 h-12 rounded-full border-2 border-blue1 ' />
-
+                    <Image
+                        source={image ? { uri: image } : require("../assets/images/dummy-profile.png")}
+                        className="w-12 h-12 rounded-full border-2 border-blue1 "
+                    />
                 </View>
 
-                <View className='mt-[2%] flex'>
-                    <Text className='text-white font-extrabold font-poppinsBold text-3xl'>Your Lifestyle & habits</Text>
+                {/* Title */}
+                <View className="mt-[2%] flex">
+                    <Text className="text-white font-extrabold font-poppinsBold text-3xl">
+                        Your Lifestyle & Habits
+                    </Text>
                 </View>
 
-                <View className='flex-1 justify-center w-full'>
-
+                {/* Form */}
+                <View className="flex-1 justify-center w-full">
+                    {/* Lifestyle Type */}
                     <CustomInput
-                        placeholder="Active/Sedentary"
+                        placeholder="Active / Sedentary"
                         legendText="Lifestyle Habits"
                         keyboardType="default"
                         startLeft={true}
+                        value={lifestyle_type || ""}
+                        onChangeText={(val) =>
+                            dispatch(updateField({ field: "lifestyle_type", value: val }))
+                        }
                     />
-                    {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
+                    {/* Occupation */}
                     <CustomInput
-                        placeholder="Desk Job/ Field Work/Student "
+                        placeholder="Desk Job / Field Work / Student"
                         legendText="Occupation"
                         keyboardType="default"
                         startLeft={true}
+                        value={occupation || ""}
+                        onChangeText={(val) =>
+                            dispatch(updateField({ field: "occupation", value: val }))
+                        }
                     />
-                    {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
-                    <CustomInput
+                    {/* Smoking */}
+                    <DropdownComponent
+                        label="Smoking Habits"
                         placeholder="Yes / No"
-                        legendText="Smoking Habits"
-                        keyboardType="default"
                         startLeft={true}
+                        data={smokingHabits}
+                        value={smoking}
+                        onSelect={(val) => dispatch(
+                            updateField({
+                                field: "smoking",
+                                value: val,
+                            })
+                        )}
                     />
-                    {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
 
-                    <CustomInput
+                    {/* Alcohol */}
+                    <DropdownComponent
+                        label="Alcohol Consumption"
                         placeholder="Yes / No"
-                        legendText="Alchohol consumption"
-                        keyboardType="default"
                         startLeft={true}
+                        data={alcoholConsumption}
+                        value={alcohol}
+                        onSelect={(val) => dispatch(
+                            updateField({
+                                field: "alcohol",
+                                value: val,
+                            })
+                        )}
                     />
-                    {/* <Text className="text-fail text-sm ml-2 ">error</Text> */}
-
                 </View>
 
-                <DefaultButton
-                    fill
-                    border
-                    onPress={handleNext}
-                    title='Submit'
-                >
+                {/* Next Button */}
+                <DefaultButton fill border onPress={handleNext} title="Submit">
                     Next
                 </DefaultButton>
             </MainContainer>
         </KeyboardAvoidingContainer>
-    )
-}
+    );
+};
 
-export default LifeStyle
+export default LifeStyle;

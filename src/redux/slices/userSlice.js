@@ -6,7 +6,7 @@ import axios from "axios";
 export const fetchUser = createAsyncThunk("user/fetchUser", async (_, thunkAPI) => {
   try {
     const state = thunkAPI.getState();
-    let token = state.auth.token;  // try Redux first
+    let token = state.auth.token; // try Redux first
 
     if (!token) {
       token = await AsyncStorage.getItem("access"); // fallback
@@ -26,15 +26,49 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async (_, thunkAPI) 
   }
 });
 
-
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: null,
+    pk: null,
+    email: null,
+    role: null,
+
+    // Profile fields
+    id: null,
+    name: null,
+    age: null,
+    date_of_birth: null,
+    image: null,
+    gender: null,
+    city: null,
+    chronic_conditions: null,
+    current_medications: null,
+    known_allergies: null,
+    family_medical_history: null,
+    symptom_pattern: null,
+    sleep_quality: null,
+    diet_type: null,
+    lifestyle_type: null,
+    occupation: null,
+    smoking: null,
+    alcohol: null,
+    personal_goals: ['Eat Healthy', 'Stay Hydrated'],
+
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    updateField: (state, action) => {
+      const { field, value } = action.payload;
+      state[field] = value; // allows editing individual fields
+    },
+    resetUser: (state) => {
+      Object.keys(state).forEach((key) => {
+        if (["loading", "error"].includes(key)) return;
+        state[key] = null;
+      });
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUser.pending, (state) => {
@@ -43,7 +77,33 @@ const userSlice = createSlice({
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        const { pk, email, role, profile } = action.payload;
+
+        // Save user + profile fields separately
+        state.pk = pk;
+        state.email = email;
+        state.role = role;
+
+        if (profile) {
+          state.id = profile.id;
+          state.name = profile.name;
+          state.age = profile.age;
+          state.date_of_birth = profile.date_of_birth;
+          state.image = profile.image;
+          state.gender = profile.gender;
+          state.city = profile.city;
+          state.chronic_conditions = profile.chronic_conditions;
+          state.current_medications = profile.current_medications;
+          state.known_allergies = profile.known_allergies;
+          state.family_medical_history = profile.family_medical_history;
+          state.symptom_pattern = profile.symptom_pattern;
+          state.sleep_quality = profile.sleep_quality;
+          state.diet_type = profile.diet_type;
+          state.lifestyle_type = profile.lifestyle_type;
+          state.occupation = profile.occupation;
+          state.smoking = profile.smoking;
+          state.alcohol = profile.alcohol;
+        }
       })
       .addCase(fetchUser.rejected, (state, action) => {
         state.loading = false;
@@ -52,4 +112,5 @@ const userSlice = createSlice({
   },
 });
 
+export const { updateField, resetUser } = userSlice.actions;
 export default userSlice.reducer;

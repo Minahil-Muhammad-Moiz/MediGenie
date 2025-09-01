@@ -9,7 +9,8 @@ import DefaultButton from '../components/DefaultButton';
 import { OtpInput } from 'react-native-otp-entry';
 import { useDispatch, useSelector } from 'react-redux';
 import { verifyOtp } from '../redux/thunks/authThunks';
-import { resetOtp } from '../redux/slices/authSlice';
+import { loadToken, resetOtp } from '../redux/slices/authSlice';
+import { fetchUser } from '../redux/slices/userSlice';
 
 const EmailVerification = () => {
     const navigation = useNavigation();
@@ -43,11 +44,15 @@ const EmailVerification = () => {
             setTimeout(() => {
                 setModalVisible(false);
                 dispatch(resetOtp());
+                dispatch(loadToken()).then((res) => {
+                    // console.log("Token loaded:", res);
+                    dispatch(fetchUser());
+                });
                 if (routeName === 'SignUpScreen') {
                     navigation.reset({
                         index: 0,
                         routes: [{ name: 'ProfileScreen', from: 'EmailVerification', data: resultAction?.payload }],
-                    });
+                    });                   
                 } else {
                     navigation.navigate('ResetPassword');
                 }
@@ -79,6 +84,9 @@ const EmailVerification = () => {
         }
         return () => clearInterval(interval);
     }, [resendDisabled]);
+
+
+
 
     return (
         <KeyboardAvoidingContainer>

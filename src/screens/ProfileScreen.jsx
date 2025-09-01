@@ -1,9 +1,9 @@
-import { View, Text, TouchableOpacity, Image, Modal, TouchableWithoutFeedback } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer'
-import MainContainer from '../components/MainContainer'
+import { View, Text, TouchableOpacity, Image, Modal, TouchableWithoutFeedback } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer';
+import MainContainer from '../components/MainContainer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { ageOptions, cityCountry, colors, langs, genders } from '../utils/constants';
+import { ageOptions, cityCountry, colors, genders } from '../utils/constants';
 import CustomInput from '../components/CustomInput';
 import DefaultButton from '../components/DefaultButton';
 import {
@@ -14,8 +14,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import DropdownComponent from '../components/DropdownComponent';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { fetchUser } from '../redux/slices/userSlice';
-import { loadToken } from '../redux/slices/authSlice';
+import { fetchUser, updateField } from '../redux/slices/userSlice';
 
 const ProfileScreen = () => {
   const route = useRoute();
@@ -34,13 +33,6 @@ const ProfileScreen = () => {
   const [age, setAge] = useState('');
   const [city, setCity] = useState('');
 
-  // load user data on mount
-  useEffect(() => {
-    dispatch(loadToken()).then(() => {
-      dispatch(fetchUser());
-    });
-  }, [dispatch]);
-
   // sync initial values from redux user
   useEffect(() => {
     if (user?.profile) {
@@ -48,18 +40,19 @@ const ProfileScreen = () => {
       setGender(user.profile.gender || '');
       setAge(user.profile.age ? String(user.profile.age) : '');
       setCity(user.profile.city || '');
-      // language isn’t in API yet, keep blank
     }
   }, [user]);
 
   const handleCamera = async () => {
-    dispatch(captureImageFromCamera()).unwrap()
+    dispatch(captureImageFromCamera())
+      .unwrap()
       .then(() => setProfileUploadModal(false))
       .catch((e) => console.warn(e));
   };
 
   const handleGallery = async () => {
-    dispatch(pickImageFromGallery()).unwrap()
+    dispatch(pickImageFromGallery())
+      .unwrap()
       .then(() => setProfileUploadModal(false))
       .catch((e) => console.warn(e));
   };
@@ -77,7 +70,12 @@ const ProfileScreen = () => {
       city,
     };
 
-    console.log("Profile form data:", formData);
+    // 🔥 Update Redux userSlice with new data
+    Object.entries(formData).forEach(([field, value]) => {
+      dispatch(updateField({ field, value }));
+    });
+
+    // console.log('Updated Redux user data:', formData);
 
     if (routeName === 'EmailVerification') {
       navigation.navigate('MedicalHistory', { from: 'ProfileScreen', profileData: formData });
@@ -91,7 +89,6 @@ const ProfileScreen = () => {
       <MainContainer>
         <View className="flex-1 items-center justify-between w-full">
           <View className="w-full flex-1 justify-center gap-1">
-
             {/* Profile Image */}
             <View className="-mt-2 relative w-28 h-28 mx-auto overflow-hidden flex items-center justify-center">
               <Image
@@ -139,7 +136,6 @@ const ProfileScreen = () => {
               onSelect={(val) => setAge(val)}
             />
 
-
             {/* City */}
             <DropdownComponent
               placeholder="Select your city/Country"
@@ -163,15 +159,24 @@ const ProfileScreen = () => {
               <View className="bg-darkGrey rounded-3xl p-4 w-[90%] items-center">
                 <Text className="text-white font-poppinsBold text-2xl font-bold">Profile Photo</Text>
                 <View className="flex flex-row items-center w-full justify-evenly mt-6">
-                  <TouchableOpacity className="p-3 border border-blue1 rounded-xl flex items-center" onPress={handleCamera}>
+                  <TouchableOpacity
+                    className="p-3 border border-blue1 rounded-xl flex items-center"
+                    onPress={handleCamera}
+                  >
                     <Ionicons name="camera-outline" size={25} color={colors.blue1} />
                     <Text className="text-white">Camera</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity className="p-3 border border-blue1 rounded-xl flex items-center" onPress={handleGallery}>
+                  <TouchableOpacity
+                    className="p-3 border border-blue1 rounded-xl flex items-center"
+                    onPress={handleGallery}
+                  >
                     <Ionicons name="image-outline" size={25} color={colors.blue1} />
                     <Text className="text-white">Gallery</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity className="p-3 border border-blue1 rounded-xl flex items-center" onPress={handleRemove}>
+                  <TouchableOpacity
+                    className="p-3 border border-blue1 rounded-xl flex items-center"
+                    onPress={handleRemove}
+                  >
                     <Ionicons name="trash-outline" size={25} color={colors.fail} />
                     <Text className="text-white">Remove</Text>
                   </TouchableOpacity>

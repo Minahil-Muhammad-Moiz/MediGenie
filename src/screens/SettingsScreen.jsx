@@ -5,10 +5,36 @@ import MainContainer from '../components/MainContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../utils/constants';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '../redux/thunks/authThunks';
 
 
 const SettingsScreen = () => {
   const navigation = useNavigation();
+
+  const dispatch = useDispatch()
+
+  const handleLogout = async () => {
+    try {
+      const resultAction = await dispatch(logoutUser());
+
+      if (logoutUser.fulfilled.match(resultAction)) {
+        // ✅ Successfully logged out
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "LoginScreen", from: "HomeScreen" }],
+        });
+      } else {
+        // ❌ API failed → show error
+        const errorMsg = resultAction.payload?.message || "Logout failed";
+        Alert.alert("Logout Error", errorMsg);
+      }
+    } catch (error) {
+      // console.log("Logout error:", error);
+      Alert.alert("Logout Error", "Something went wrong");
+    }
+  };
+
 
   return (
     <KeyboardAvoidingContainer>
@@ -25,7 +51,7 @@ const SettingsScreen = () => {
             <Text className='text-white'>About Us</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity className='flex-row gap-2 items-center justify-center p-2' onPress={() => navigation.reset({ index: 0, routes: [{ name: 'LoginScreen', from: 'SettingsScreen' }] })}>
+          <TouchableOpacity className='flex-row gap-2 items-center justify-center p-2' onPress={handleLogout}>
             <Ionicons
               name={'log-out-outline'}
               color={colors.fail}
