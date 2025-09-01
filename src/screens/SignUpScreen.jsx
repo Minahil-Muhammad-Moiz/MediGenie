@@ -64,9 +64,8 @@ const handleSignUp = async (values) => {
       // ❌ Registration failed → safely extract error
       const details = resultAction.payload?.error?.details || {};
       const errorMsg =
-        details.email?.[0] ||
-        details.password1?.[0] ||
-        details.username?.[0] ||
+        details?.email[0] ||
+        details?.password1[0] ||
         resultAction.payload?.error?.message ||
         "Registration failed";
 
