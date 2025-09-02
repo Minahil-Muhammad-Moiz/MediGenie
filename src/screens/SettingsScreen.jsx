@@ -46,16 +46,34 @@ const SettingsScreen = () => {
             <Ionicons
               name={'information-circle-outline'}
               color={'#ffffff'}
-              size={25}
+              size={22}
             />
             <Text className='text-white'>About Us</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity className='flex-row gap-2 items-center justify-start p-2 border border-b-zinc-700 mb-2 px-2 w-full' onPress={()=>navigation.navigate("Profile")}>
+            <Ionicons
+              name={'settings-outline'}
+              color={'#ffffff'}
+              size={22}
+            />
+            <Text className='text-white'>Update</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity className='flex-row gap-2 items-center justify-start p-2 border border-b-zinc-700 mb-2 px-2 w-full' onPress={handleLogout}>
+            <Ionicons
+              name={'person-remove-outline'}
+              color={'#ffffff'}
+              size={22}
+            />
+            <Text className='text-white'>Delete Profile</Text>
           </TouchableOpacity>
 
           <TouchableOpacity className='flex-row gap-2 items-center justify-center p-2' onPress={handleLogout}>
             <Ionicons
               name={'log-out-outline'}
               color={colors.fail}
-              size={25}
+              size={22}
             />
             <Text className='text-white'>Log Out</Text>
           </TouchableOpacity>
