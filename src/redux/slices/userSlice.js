@@ -2,6 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 export const fetchUser = createAsyncThunk("user/fetchUser", async (_, thunkAPI) => {
   try {
@@ -26,6 +27,8 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async (_, thunkAPI) 
   }
 });
 
+const profileImage = useSelector((state) => state.profile.profileImage);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -38,7 +41,7 @@ const userSlice = createSlice({
     name: null,
     age: null,
     date_of_birth: null,
-    image: null,
+    image: profileImage || null,
     gender: null,
     city: null,
     chronic_conditions: null,

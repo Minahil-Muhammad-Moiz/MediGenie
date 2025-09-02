@@ -42,15 +42,6 @@ const Profile = () => {
     setProfileUploadModal(false);
   };
 
-  // useEffect(() => {
-  //   dispatch(loadToken()).then((res) => {
-  //     // console.log("Token loaded:", res);
-  //     dispatch(fetchUser());
-  //   });
-  // }, [dispatch])
-
-  // console.log(user);
-
 
   return (
     <KeyboardAvoidingContainer>
