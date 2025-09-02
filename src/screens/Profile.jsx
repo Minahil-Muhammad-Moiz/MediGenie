@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer'
 import MainContainer from '../components/MainContainer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Alert } from "react-native"; // make sure this is imported
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { colors } from '../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,13 +13,13 @@ import {
   removeProfileImage,
 } from '../redux/slices/profileSlice';
 import { useNavigation } from '@react-navigation/native';
-import { loadToken } from '../redux/slices/authSlice';
-import { fetchUser } from '../redux/slices/userSlice';
+import { updateUserProfile } from '../redux/slices/userSlice';
 
 const Profile = () => {
   const imageURI = require('../assets/images/dummy-profile.png')
   const navigation = useNavigation();
   const [profileUploadModal, setProfileUploadModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); // 👈 new state for edit mode
   const dispatch = useDispatch();
   const profileImage = useSelector((state) => state.profile.profileImage);
 
@@ -43,11 +44,63 @@ const Profile = () => {
   };
 
 
+  const handleUpdate = () => {
+    if (isEditing) {
+      const payload = {
+        email: user.email,
+        name: user.name,
+        age: user.age,
+        date_of_birth: user.date_of_birth,
+        image: user.image,
+        gender: user.gender,
+        city: user.city,
+        chronic_conditions: user.chronic_conditions,
+        current_medications: user.current_medications,
+        known_allergies: user.known_allergies,
+        family_medical_history: user.family_medical_history,
+        symptom_pattern: user.symptom_pattern,
+        sleep_quality: user.sleep_quality,
+        diet_type: user.diet_type,
+        lifestyle_type: user.lifestyle_type,
+        occupation: user.occupation,
+        smoking: user.smoking,
+        alcohol: user.alcohol,
+      };
+
+      dispatch(updateUserProfile(payload))
+        .unwrap()
+        .then((res) => {
+          console.log("✅ Update successful:", res);
+          Alert.alert("Success", "Profile updated successfully!");
+        })
+        .catch((err) => {
+          console.error("❌ Update failed:", err);
+          Alert.alert(
+            "Update Failed",
+            typeof err === "string"
+              ? err
+              : err?.detail || "Something went wrong while updating your profile."
+          );
+        });
+    }
+
+    setIsEditing(!isEditing);
+  };
+
+
   return (
     <KeyboardAvoidingContainer>
       <MainContainer>
         <View className='flex-1 items-center justify-start w-full'>
-          <Text className='text-lightText font-extrabold text-2xl text-center'>User profile</Text>
+          {/* Header with Update/Done button */}
+          <View className='flex-row w-full justify-between items-center px-4 my-2'>
+            <Text className='text-lightText font-extrabold text-2xl'>User Profile</Text>
+            <TouchableOpacity
+              className='px-4 py-2 rounded-xl bg-blue1'
+              onPress={handleUpdate}>
+              <Text className='text-black1 font-bold'>{isEditing ? 'Done' : 'Update'}</Text>
+            </TouchableOpacity>
+          </View>
 
           {/* Avatar */}
           <View className='relative w-20 h-20 mx-auto overflow-hidden flex items-center justify-center my-4'>
@@ -61,12 +114,6 @@ const Profile = () => {
 
           {/* Basic Info */}
           <View className='border border-lightGrey p-4 rounded-2xl my-2 w-full flex relative'>
-            <TouchableOpacity
-              className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center'
-              onPress={() => navigation.navigate('ProfileScreen')}>
-              <Text className='text-white text-sm'>Edit</Text>
-              <AntDesign name={'edit'} size={12} color={'#ffffff'} />
-            </TouchableOpacity>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Name</Text>
@@ -86,12 +133,14 @@ const Profile = () => {
 
           {/* Profile Info */}
           <View className='border border-lightGrey p-4 rounded-2xl my-2 w-full flex relative'>
-            <TouchableOpacity
-              className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center'
-              onPress={() => navigation.navigate('ProfileScreen')}>
-              <Text className='text-white text-sm'>Edit</Text>
-              <AntDesign name={'edit'} size={12} color={'#ffffff'} />
-            </TouchableOpacity>
+            {isEditing && (
+              <TouchableOpacity
+                className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center'
+                onPress={() => navigation.navigate('ProfileScreen')}>
+                <Text className='text-white text-sm'>Edit</Text>
+                <AntDesign name={'edit'} size={12} color={'#ffffff'} />
+              </TouchableOpacity>
+            )}
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Gender</Text>
@@ -115,13 +164,15 @@ const Profile = () => {
           </View>
 
           {/* Medical History */}
-          <View className='border border-lightGrey p-4 rounded-2xl my-2 w-full'>
-            <TouchableOpacity
-              className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center'
-              onPress={() => navigation.navigate('MedicalHistory')}>
-              <Text className='text-white text-sm'>Edit</Text>
-              <AntDesign name={'edit'} size={12} color={'#ffffff'} />
-            </TouchableOpacity>
+          <View className='border border-lightGrey p-4 rounded-2xl my-2 w-full relative'>
+            {isEditing && (
+              <TouchableOpacity
+                className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center'
+                onPress={() => navigation.navigate('MedicalHistory')}>
+                <Text className='text-white text-sm'>Edit</Text>
+                <AntDesign name={'edit'} size={12} color={'#ffffff'} />
+              </TouchableOpacity>
+            )}
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Chronic conditions</Text>
@@ -145,13 +196,15 @@ const Profile = () => {
           </View>
 
           {/* Health Status */}
-          <View className='border border-lightGrey p-4 rounded-2xl w-full my-2'>
-            <TouchableOpacity
-              className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center'
-              onPress={() => navigation.navigate('HealthStatus')}>
-              <Text className='text-white text-sm'>Edit</Text>
-              <AntDesign name={'edit'} size={12} color={'#ffffff'} />
-            </TouchableOpacity>
+          <View className='border border-lightGrey p-4 rounded-2xl w-full my-2 relative'>
+            {isEditing && (
+              <TouchableOpacity
+                className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center'
+                onPress={() => navigation.navigate('HealthStatus')}>
+                <Text className='text-white text-sm'>Edit</Text>
+                <AntDesign name={'edit'} size={12} color={'#ffffff'} />
+              </TouchableOpacity>
+            )}
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Symptoms pattern</Text>
@@ -170,13 +223,15 @@ const Profile = () => {
           </View>
 
           {/* Lifestyle */}
-          <View className='border border-lightGrey w-full p-4 rounded-2xl my-2'>
-            <TouchableOpacity
-              className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center'
-              onPress={() => navigation.navigate('LifeStyle')}>
-              <Text className='text-white text-sm'>Edit</Text>
-              <AntDesign name={'edit'} size={12} color={'#ffffff'} />
-            </TouchableOpacity>
+          <View className='border border-lightGrey w-full p-4 rounded-2xl my-2 relative'>
+            {isEditing && (
+              <TouchableOpacity
+                className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center'
+                onPress={() => navigation.navigate('LifeStyle')}>
+                <Text className='text-white text-sm'>Edit</Text>
+                <AntDesign name={'edit'} size={12} color={'#ffffff'} />
+              </TouchableOpacity>
+            )}
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Lifestyle habits</Text>
@@ -200,17 +255,19 @@ const Profile = () => {
           </View>
 
           {/* Personal Goals */}
-          <View className='border border-lightGrey p-4 w-full rounded-2xl my-2 flex items-start justify-start'>
-            <TouchableOpacity
-              className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center'
-              onPress={() => navigation.navigate('PersonalGoals')}>
-              <Text className='text-white text-sm'>Edit</Text>
-              <AntDesign name={'edit'} size={12} color={'#ffffff'} />
-            </TouchableOpacity>
+          <View className='border border-lightGrey p-4 w-full rounded-2xl my-2 flex items-start justify-start relative'>
+            {isEditing && (
+              <TouchableOpacity
+                className='p-2 gap-1 self-end rounded-xl absolute top-2 right-2 border border-lightGrey bg-black1 flex-row z-10 items-center justify-center'
+                onPress={() => navigation.navigate('PersonalGoals')}>
+                <Text className='text-white text-sm'>Edit</Text>
+                <AntDesign name={'edit'} size={12} color={'#ffffff'} />
+              </TouchableOpacity>
+            )}
 
             <Text className='text-white font-bold'>Personal Goals</Text>
             <View className='flex-row flex-wrap gap-2 my-1 items-center justify-start'>
-              {user?.personal_goals.map((item, index) =>
+              {user?.personal_goals?.map((item, index) =>
                 <Text key={index} className='p-2 rounded-2xl font-semibold bg-blue1 text-sm'>{item}</Text>
               )}
             </View>

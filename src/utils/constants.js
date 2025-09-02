@@ -35,10 +35,10 @@ export const ageOptions = Array.from({ length: 83 }, (_, i) => ({
     value: `${i + 18}`,
 }));
 
-export const cityCountry = [
-    { label: 'Karachi, Pakistan', value: 'Karachi, Pakistan' },
-    { label: 'Lahore, Pakistan', value: 'Lahore, Pakistan' },
-    { label: 'Islamabad, Pakistan', value: 'Islamabad, Pakistan' },
+export const cities = [
+    { label: 'Karachi', value: 'Karachi' },
+    { label: 'Lahore', value: 'Lahore' },
+    { label: 'Islamabad', value: 'Islamabad' },
 ]
 
 export const sleepQuality = [

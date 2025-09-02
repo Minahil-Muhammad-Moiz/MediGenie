@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import KeyboardAvoidingContainer from '../components/KeyboardAvoidingContainer';
 import MainContainer from '../components/MainContainer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { ageOptions, cityCountry, colors, genders } from '../utils/constants';
+import { ageOptions, cities, cityCountry, colors, genders } from '../utils/constants';
 import CustomInput from '../components/CustomInput';
 import DefaultButton from '../components/DefaultButton';
 import {
@@ -138,10 +138,10 @@ const ProfileScreen = () => {
 
             {/* City */}
             <DropdownComponent
-              placeholder="Select your city/Country"
-              label="City, Country"
+              placeholder="Select your city"
+              label="City"
               startLeft={true}
-              data={cityCountry}
+              data={cities}
               value={city}
               onSelect={(val) => setCity(val)}
             />

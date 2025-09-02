@@ -3,28 +3,68 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-export const fetchUser = createAsyncThunk("user/fetchUser", async (_, thunkAPI) => {
-  try {
-    const state = thunkAPI.getState();
-    let token = state.auth.token; // try Redux first
+/* ---------------- FETCH USER ---------------- */
+export const fetchUser = createAsyncThunk(
+  "user/fetchUser",
+  async (_, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+      let token = state.auth.token; // try Redux first
 
-    if (!token) {
-      token = await AsyncStorage.getItem("access"); // fallback
+      if (!token) {
+        token = await AsyncStorage.getItem("access"); // fallback
+      }
+
+      if (!token) return thunkAPI.rejectWithValue("No token");
+
+      const res = await axios.get(
+        "https://medigenie-1.onrender.com/api/auth/user/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return res.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response?.data || err.message);
     }
-
-    if (!token) return thunkAPI.rejectWithValue("No token");
-
-    const res = await axios.get("https://medigenie-1.onrender.com/api/auth/user/", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return res.data;
-  } catch (err) {
-    return thunkAPI.rejectWithValue(err.response?.data || err.message);
   }
-});
+);
+
+/* ---------------- UPDATE USER PROFILE ---------------- */
+export const updateUserProfile = createAsyncThunk(
+  "user/updateUserProfile",
+  async (updatedData, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+      let token = state.auth.token;
+
+      if (!token) {
+        token = await AsyncStorage.getItem("access");
+      }
+
+      if (!token) return thunkAPI.rejectWithValue("No token");
+
+      const res = await axios.put(
+        "https://medigenie-1.onrender.com/api/profiles/update/",
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
+
+      return res.data; // server returns updated profile
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -38,7 +78,7 @@ const userSlice = createSlice({
     name: null,
     age: null,
     date_of_birth: null,
-    image: null, // ✅ do not use useSelector here
+    image: null,
     gender: null,
     city: null,
     chronic_conditions: null,
@@ -60,7 +100,7 @@ const userSlice = createSlice({
   reducers: {
     updateField: (state, action) => {
       const { field, value } = action.payload;
-      state[field] = value; // allows editing individual fields
+      state[field] = value;
     },
     resetUser: (state) => {
       Object.keys(state).forEach((key) => {
@@ -69,10 +109,11 @@ const userSlice = createSlice({
       });
     },
     updateUserImage: (state, action) => {
-      state.image = action.payload; // ✅ update image separately
+      state.image = action.payload;
     },
   },
   extraReducers: (builder) => {
+    /* -------- FETCH USER -------- */
     builder
       .addCase(fetchUser.pending, (state) => {
         state.loading = true;
@@ -91,7 +132,7 @@ const userSlice = createSlice({
           state.name = profile.name;
           state.age = profile.age;
           state.date_of_birth = profile.date_of_birth;
-          state.image = profile.image; // ✅ API image
+          state.image = profile.image;
           state.gender = profile.gender;
           state.city = profile.city;
           state.chronic_conditions = profile.chronic_conditions;
@@ -108,6 +149,22 @@ const userSlice = createSlice({
         }
       })
       .addCase(fetchUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    /* -------- UPDATE USER -------- */
+    builder
+      .addCase(updateUserProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        // merge updated fields into state
+        Object.assign(state, action.payload);
+      })
+      .addCase(updateUserProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
