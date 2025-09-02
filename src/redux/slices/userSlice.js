@@ -2,7 +2,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 export const fetchUser = createAsyncThunk("user/fetchUser", async (_, thunkAPI) => {
   try {
@@ -27,8 +26,6 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async (_, thunkAPI) 
   }
 });
 
-const profileImage = useSelector((state) => state.profile.profileImage);
-
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -41,7 +38,7 @@ const userSlice = createSlice({
     name: null,
     age: null,
     date_of_birth: null,
-    image: profileImage || null,
+    image: null, // ✅ do not use useSelector here
     gender: null,
     city: null,
     chronic_conditions: null,
@@ -55,7 +52,7 @@ const userSlice = createSlice({
     occupation: null,
     smoking: null,
     alcohol: null,
-    personal_goals: ['Eat Healthy', 'Stay Hydrated'],
+    personal_goals: ["Eat Healthy", "Stay Hydrated"],
 
     loading: false,
     error: null,
@@ -71,6 +68,9 @@ const userSlice = createSlice({
         state[key] = null;
       });
     },
+    updateUserImage: (state, action) => {
+      state.image = action.payload; // ✅ update image separately
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -82,7 +82,6 @@ const userSlice = createSlice({
         state.loading = false;
         const { pk, email, role, profile } = action.payload;
 
-        // Save user + profile fields separately
         state.pk = pk;
         state.email = email;
         state.role = role;
@@ -92,7 +91,7 @@ const userSlice = createSlice({
           state.name = profile.name;
           state.age = profile.age;
           state.date_of_birth = profile.date_of_birth;
-          state.image = profile.image;
+          state.image = profile.image; // ✅ API image
           state.gender = profile.gender;
           state.city = profile.city;
           state.chronic_conditions = profile.chronic_conditions;
@@ -115,5 +114,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { updateField, resetUser } = userSlice.actions;
+export const { updateField, resetUser, updateUserImage } = userSlice.actions;
 export default userSlice.reducer;
