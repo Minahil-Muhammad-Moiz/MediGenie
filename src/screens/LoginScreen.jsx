@@ -23,9 +23,10 @@ import { Formik } from 'formik';
 import DefaultButton from '../components/DefaultButton';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import { login } from '../redux/slices/authSlice';
+import { loadToken, login } from '../redux/slices/authSlice';
 import StartScreen from './StartScreen';
 import { loginUser } from '../redux/thunks/authThunks';
+import { fetchUser } from '../redux/slices/userSlice';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -47,6 +48,11 @@ export default function LoginScreen() {
 
       if (loginUser.fulfilled.match(resultAction)) {
         // ✅ success → navigate to MainScreen
+        dispatch(loadToken()).then((res) => {
+          // console.log("Token loaded:", res);
+          dispatch(fetchUser());
+        });
+
         navigation.reset({
           index: 0,
           routes: [{ name: "MainScreen" }],
