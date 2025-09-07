@@ -26,6 +26,7 @@ import ReportScan from './screens/ReportScan';
 import Profile from './screens/Profile';
 import SettingsScreen from './screens/SettingsScreen';
 import { loadToken } from './redux/slices/authSlice';
+import MediLens from './screens/MediLens';
 
 
 const Init = ({ children }) => {
@@ -76,7 +77,8 @@ const App = () => {
             <Stack.Screen name='AboutUs' component={AboutUs} />
             <Stack.Screen name='PDFAnalyzer' component={PDFAnalyzer} />
             <Stack.Screen name='SymptomCheckerScreen' component={SymptomCheckerScreen} />
-            <Stack.Screen name='ReportScan' component={ReportScan} />
+            {/* <Stack.Screen name='ReportScan' component={ReportScan} /> */}
+            <Stack.Screen name='MediLens' component={MediLens} />
           </Stack.Navigator>
         </NavigationContainer>
       </Init>

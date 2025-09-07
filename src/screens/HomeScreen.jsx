@@ -126,7 +126,7 @@ const HomeScreen = () => {
 
                         <View className='max-w-[90%] h-52 p-6 border border-blue1 mx-auto  rounded-xl flex items-start justify-around'>
                             <View className=' relative flex gap-2'>
-                                <Text className='font-poppins text-white font-bold text-2xl'>Report Scanner</Text>
+                                <Text className='font-poppins text-white font-bold text-2xl'>MediLens</Text>
                                 <Text className='font-poppins text-white pr-32 text-sm'>Scan and organize your health records with ease.</Text>
                                 <MaterialIcons
                                     name={'document-scanner'}
@@ -136,7 +136,7 @@ const HomeScreen = () => {
                                 />
                             </View>
                             <View className='self-end w-40 '>
-                                <DefaultButton border textWhite thinPadding icon={'arrow-forward'} onPress={() => navigation.navigate('ReportScan')}>
+                                <DefaultButton border textWhite thinPadding icon={'arrow-forward'} onPress={() => navigation.navigate('MediLens')}>
                                     Try Now
                                 </DefaultButton>
                             </View>
