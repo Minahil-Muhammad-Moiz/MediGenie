@@ -10,7 +10,9 @@ import {
   View,
   ScrollView,
   Platform,
-  Alert
+  Alert,
+  ActivityIndicator, // 🔹 Add this
+  Modal,             // 🔹 For overlay
 } from 'react-native'
 import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -23,8 +25,6 @@ import { Formik } from 'formik';
 import DefaultButton from '../components/DefaultButton';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import { loadToken, login } from '../redux/slices/authSlice';
-import StartScreen from './StartScreen';
 import { loginUser } from '../redux/thunks/authThunks';
 import { fetchUser } from '../redux/slices/userSlice';
 
@@ -37,58 +37,59 @@ const LoginSchema = Yup.object().shape({
 });
 
 export default function LoginScreen() {
-  const [secureTextEntry, setSecureTextEntry] = useState(false)
-  const navigation = useNavigation()
-  const dispatch = useDispatch()
-  
-  
+  const [secureTextEntry, setSecureTextEntry] = useState(false);
+  const [loading, setLoading] = useState(false); // 🔹 Loader state
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   const handleLogin = async (values) => {
-  try {
-    const resultAction = await dispatch(loginUser(values));
+    try {
+      setLoading(true); // 🔹 Start loader
+      const resultAction = await dispatch(loginUser(values));
 
-    if (loginUser.fulfilled.match(resultAction)) {
-      // ✅ We already have access, refresh, and user in resultAction.payload
-      const { access, refresh, user } = resultAction.payload;
+      if (loginUser.fulfilled.match(resultAction)) {
+        const { access, refresh, user } = resultAction.payload;
 
-      // Optionally dispatch fetchUser if you need fresh data from server
-      dispatch(fetchUser());
+        // Optionally fetch latest user data
+        dispatch(fetchUser());
 
-      // 🚀 Navigate immediately
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "MainScreen", from: "LoginScreen" }],
-      });
-    } else {
-      const details = resultAction.payload?.error?.details;
-      let errorMsg = "Login failed";
+        // 🚀 Navigate immediately
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "MainScreen", from: "LoginScreen" }],
+        });
+      } else {
+        const details = resultAction.payload?.error?.details;
+        let errorMsg = "Login failed";
 
-      if (details?.email?.length) {
-        errorMsg = details.email[0];
-      } else if (details?.password?.length) {
-        errorMsg = details.password[0];
+        if (details?.email?.length) {
+          errorMsg = details.email[0];
+        } else if (details?.password?.length) {
+          errorMsg = details.password[0];
+        }
+
+        Alert.alert("Login Failed", errorMsg);
       }
-
-      Alert.alert("Login Failed", errorMsg);
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong");
+    } finally {
+      setLoading(false); // 🔹 Stop loader
     }
-  } catch (error) {
-    Alert.alert("Error", "Something went wrong");
-  }
-};
+  };
 
-  const route = useRoute(); // <-- Get route params
+  const route = useRoute(); 
   const routeName = route?.from;
-  // console.log(routeName)
+
   const handleBack = () => {
     if (routeName === 'HomeScreen' || routeName === 'SettingsScreen') {
       navigation.navigate('GettingStarted', { from: 'LoginScreen' })
     } else {
       navigation.goBack();
     }
-  }
+  };
 
   return (
-    <KeyboardAvoidingContainer
-    >
+    <KeyboardAvoidingContainer>
       <MainContainer>
         <TouchableOpacity
           className='bg-darkGrey p-2 rounded-full w-12 h-12 items-center justify-center'
@@ -100,7 +101,6 @@ export default function LoginScreen() {
         <View className='mt-[4%] flex gap-2'>
           <Text className='text-white font-extrabold text-3xl'>Hey,</Text>
           <Text className='text-white font-extrabold text-3xl'>Welcome back!</Text>
-          {/* <Text className='text-white font-extrabold text-5xl'>Back</Text> */}
         </View>
 
         <View className='mt-[2%] flex-1 justify-around'>
@@ -114,7 +114,6 @@ export default function LoginScreen() {
               handleBlur,
               handleSubmit,
               values,
-              isSubmitting,
               errors,
               touched,
             }) => (
@@ -155,7 +154,7 @@ export default function LoginScreen() {
                   </TouchableOpacity>
                 </View>
 
-                <View className=''>
+                <View>
                   <DefaultButton onPress={handleSubmit} title="Submit" fill>
                     LOG IN
                   </DefaultButton>
@@ -183,7 +182,30 @@ export default function LoginScreen() {
             )}
           </Formik>
         </View>
-      </MainContainer >
-    </KeyboardAvoidingContainer >
+
+        {/* 🔹 Loader Overlay */}
+        <Modal transparent={true} animationType="fade" visible={loading}>
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size="large" color={colors.lightText} />
+            <Text style={styles.loaderText}>Logging you in...</Text>
+          </View>
+        </Modal>
+      </MainContainer>
+    </KeyboardAvoidingContainer>
   )
 }
+
+const styles = StyleSheet.create({
+  loaderContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  loaderText: {
+    marginTop: 12,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff'
+  }
+});

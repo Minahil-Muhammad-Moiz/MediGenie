@@ -3,7 +3,9 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Alert
+  Alert,
+  ActivityIndicator,
+  Modal,
 } from 'react-native';
 import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -16,7 +18,6 @@ import DefaultButton from '../components/DefaultButton';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../redux/slices/authSlice';
 import { registerUser } from '../redux/thunks/authThunks';
 
 // ✅ Validation schema
@@ -37,57 +38,46 @@ const SignUpSchema = Yup.object().shape({
 
 export default function SignUpScreen() {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.auth);
 
-// SignUpScreen.jsx
-const handleSignUp = async (values) => {
-  try {
-    const resultAction = await dispatch(
-      registerUser({
-        username: values.username,
-        email: values.email,
-        password1: values.password,
-        password2: values.confirmPassword,
-      })
-    );
+  const handleSignUp = async (values) => {
+    try {
+      setLoading(true);
+      const resultAction = await dispatch(
+        registerUser({
+          username: values.username,
+          email: values.email,
+          password1: values.password,
+          password2: values.confirmPassword,
+        })
+      );
 
-    if (registerUser.fulfilled.match(resultAction)) {
-      // ✅ Registration success
-      Alert.alert("Success", resultAction.payload.message);
-      navigation.navigate("EmailVerification", {
-        from: "SignUpScreen",
-        email: values.email,
-      });
-    } else {
-      // ❌ Registration failed → safely extract error
-      const details = resultAction.payload?.error?.details || {};
-      const errorMsg =
-        details?.email[0] ||
-        details?.password1[0] ||
-        resultAction.payload?.error?.message ||
-        "Registration failed";
+      if (registerUser.fulfilled.match(resultAction)) {
+        setLoading(false);
+        Alert.alert("Success", resultAction.payload.message);
+        navigation.navigate("EmailVerification", {
+          from: "SignUpScreen",
+          email: values.email,
+        });
+      } else {
+        setLoading(false);
+        const details = resultAction.payload?.error?.details || {};
+        const errorMsg =
+          details?.email?.[0] ||
+          details?.password1?.[0] ||
+          resultAction.payload?.error?.message ||
+          "Registration failed";
 
-      Alert.alert("Registration Failed", errorMsg);
+        Alert.alert("Registration Failed", errorMsg);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log("Signup error:", error);
+      Alert.alert("Sign up failed", "Something went wrong. Try again.");
     }
-  } catch (error) {
-    console.log("Signup error:", error);
-    Alert.alert("Sign up failed", "Something went wrong. Try again.");
-  }
-};
-
-  // Option 1: move to MainScreen immediately
-  // navigation.reset({ index: 0, routes: [{ name: 'MainScreen' }] });
-
-  // Option 2: move to LoginScreen (ask user to login)
-  // navigation.navigate('EmailVerification', { from: 'SignUpScreen' });
-  //     navigation.navigate('EmailVerification', { from: 'SignUpScreen' });
-  //     // navigation.navigate('EmailVerification', { from: 'signup' });
-  //   } catch (error) {
-  //     Alert.alert('Sign up failed', 'Something went wrong. Try again.');
-  //   }
-  // };
+  };
 
   return (
     <KeyboardAvoidingContainer>
@@ -104,8 +94,9 @@ const handleSignUp = async (values) => {
         </TouchableOpacity>
 
         <View className='mt-[2%] flex gap-2'>
-          <Text className='text-white font-extrabold font-poppinsBold text-3xl'>Let's, Get Started</Text>
-          {/* <Text className='text-white font-extrabold font-poppinsBold text-4xl'></Text> */}
+          <Text className='text-white font-extrabold font-poppinsBold text-3xl'>
+            Let's, Get Started
+          </Text>
         </View>
 
         <View className='flex-1 justify-around'>
@@ -126,7 +117,6 @@ const handleSignUp = async (values) => {
               values,
               touched,
               errors,
-              isSubmitting,
             }) => (
               <>
                 <View>
@@ -247,6 +237,16 @@ const handleSignUp = async (values) => {
             )}
           </Formik>
         </View>
+
+        {/* Loader Modal */}
+        <Modal transparent visible={loading} animationType="fade">
+          <View className="flex-1 bg-black/60 justify-center items-center">
+            <ActivityIndicator size="large" color={colors.primary} />
+            <Text className="text-white mt-4 text-lg font-bold">
+              Creating your account...
+            </Text>
+          </View>
+        </Modal>
       </MainContainer>
     </KeyboardAvoidingContainer>
   );
