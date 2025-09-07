@@ -40,40 +40,40 @@ export default function LoginScreen() {
   const [secureTextEntry, setSecureTextEntry] = useState(false)
   const navigation = useNavigation()
   const dispatch = useDispatch()
-
+  
+  
   const handleLogin = async (values) => {
-    try {
-      const resultAction = await dispatch(loginUser(values));
-      // console.log(resultAction);
+  try {
+    const resultAction = await dispatch(loginUser(values));
 
-      if (loginUser.fulfilled.match(resultAction)) {
-        // ✅ success → navigate to MainScreen
-        dispatch(loadToken()).then((res) => {
-          // console.log("Token loaded:", res);
-          dispatch(fetchUser());
-        });
+    if (loginUser.fulfilled.match(resultAction)) {
+      // ✅ We already have access, refresh, and user in resultAction.payload
+      const { access, refresh, user } = resultAction.payload;
 
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "MainScreen" }],
-        });
-      } else {
-        const details = resultAction.payload?.error?.details;
-        let errorMsg = "Login failed";
+      // Optionally dispatch fetchUser if you need fresh data from server
+      dispatch(fetchUser());
 
-        if (details?.email?.length) {
-          errorMsg = details.email[0];
-        } else if (details?.password?.length) {
-          errorMsg = details.password[0];
-        }
+      // 🚀 Navigate immediately
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "MainScreen", from: "LoginScreen" }],
+      });
+    } else {
+      const details = resultAction.payload?.error?.details;
+      let errorMsg = "Login failed";
 
-        Alert.alert("Login Failed", errorMsg);
+      if (details?.email?.length) {
+        errorMsg = details.email[0];
+      } else if (details?.password?.length) {
+        errorMsg = details.password[0];
       }
-    } catch (error) {
-      // console.log("Login error:", error);
-      Alert.alert("Error", "Something went wrong");
+
+      Alert.alert("Login Failed", errorMsg);
     }
-  };
+  } catch (error) {
+    Alert.alert("Error", "Something went wrong");
+  }
+};
 
   const route = useRoute(); // <-- Get route params
   const routeName = route?.from;

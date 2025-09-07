@@ -9,10 +9,10 @@ const store = configureStore({
     profile: profileReducer,
     user: userReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false, // turn off serializability check
-    }),
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware({
+  //     serializableCheck: false, // turn off serializability check
+  //   }),
 });
 
 export default store;
