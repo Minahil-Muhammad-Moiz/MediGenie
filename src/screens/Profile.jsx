@@ -45,6 +45,7 @@ const Profile = () => {
 
 
   const handleUpdate = () => {
+
     if (isEditing) {
       const payload = {
         email: user.email,
@@ -75,11 +76,12 @@ const Profile = () => {
         })
         .catch((err) => {
           console.error("❌ Update failed:", err);
+
           Alert.alert(
             "Update Failed",
             typeof err === "string"
               ? err
-              : err?.detail || "Something went wrong while updating your profile."
+              : err?.detail || "Something went wrong. Make sure all fields are updated."
           );
         });
     }
@@ -116,11 +118,6 @@ const Profile = () => {
           <View className='border border-lightGrey p-4 rounded-2xl my-2 w-full flex relative'>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
-              <Text className='text-white font-bold w-[50%]'>Name</Text>
-              <Text className='text-white w-[50%]'>{user?.name || 'John Smith'}</Text>
-            </View>
-
-            <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Email</Text>
               <Text className='text-white w-[50%]'>{user?.email}</Text>
             </View>
@@ -143,23 +140,23 @@ const Profile = () => {
             )}
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
+              <Text className='text-white font-bold w-[50%]'>Name</Text>
+              <Text className={`text-white ${!user?.name && 'italic'} `}>{user?.name || 'Not Updated'}</Text>
+            </View>
+
+            <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Gender</Text>
-              <Text className='text-white'>{user?.gender || 'Male'}</Text>
+              <Text className={`text-white ${!user?.gender && 'italic'} `}>{user?.gender || 'Not Updated'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Age</Text>
-              <Text className='text-white'>{user?.age || '22'}</Text>
-            </View>
-
-            <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
-              <Text className='text-white font-bold w-[50%]'>Language</Text>
-              <Text className='text-white'>English</Text>
+              <Text className={`text-white ${!user?.age && 'italic'} `}>{user?.age || 'Not Updated'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>City</Text>
-              <Text className='text-white'>{user?.city || 'Karachi'}</Text>
+              <Text className={`text-white ${!user?.city && 'italic'} `}>{user?.city || 'Not Updated'}</Text>
             </View>
           </View>
 
@@ -176,22 +173,22 @@ const Profile = () => {
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Chronic conditions</Text>
-              <Text className='text-white'>{user?.chronic_conditions || 'None'}</Text>
+              <Text className={`text-white ${!user?.chronic_conditions && 'italic'} `}>{user?.chronic_conditions || 'Not Updated'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Current medications</Text>
-              <Text className='text-white'>{user?.current_medications || 'None'}</Text>
+              <Text className={`text-white ${!user?.current_medications && 'italic'} `}>{user?.current_medications || 'Not Updated'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Known allergies</Text>
-              <Text className='text-white'>{user?.known_allergies || 'None'}</Text>
+              <Text className={`text-white ${!user?.known_allergies && 'italic'} `}>{user?.known_allergies || 'Not Updated'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Family Medical History</Text>
-              <Text className='text-white'>{user?.family_medical_history || 'None'}</Text>
+              <Text className={`text-white ${!user?.family_medical_history && 'italic'} `}>{user?.family_medical_history || 'Not Updated'}</Text>
             </View>
           </View>
 
@@ -208,17 +205,17 @@ const Profile = () => {
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Symptoms pattern</Text>
-              <Text className='text-white'>{user?.symptom_pattern || 'None'}</Text>
+              <Text className={`text-white ${!user?.symptom_pattern && 'italic'} `}>{user?.symptom_pattern || 'Not Updated'}</Text>
             </View>
 
             <View className='flex-row gap-2 w-full border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Sleep quality</Text>
-              <Text className='text-white'>{user?.sleep_quality || 'None'}</Text>
+              <Text className={`text-white ${!user?.sleep_quality && 'italic'} `}>{user?.sleep_quality || 'Not Updated'}</Text>
             </View>
 
             <View className='flex-row gap-2 w-full border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Diet type</Text>
-              <Text className='text-white'>{user?.diet_type || 'None'}</Text>
+              <Text className={`text-white ${!user?.diet_type && 'italic'} `}>{user?.diet_type || 'Not Updated'}</Text>
             </View>
           </View>
 
@@ -235,12 +232,13 @@ const Profile = () => {
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Lifestyle habits</Text>
-              <Text className='text-white'>{user?.lifestyle_type || 'Active'}</Text>
+              <Text className={`text-white ${!user?.lifestyle_type && 'italic'} `}>{user?.lifestyle_type || 'Not Updated'}</Text>
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
               <Text className='text-white font-bold w-[50%]'>Occupation</Text>
-              <Text className='text-white'>{user?.occupation || 'Student'}</Text>
+              <Text className={`text-white ${!user?.occupation && 'italic'} `}>{user?.occupation || 'Not Updated'}</Text>
+
             </View>
 
             <View className='flex-row gap-2 border border-b-zinc-700 mb-2 px-2'>
