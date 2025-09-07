@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
 import React from "react";
 import KeyboardAvoidingContainer from "../components/KeyboardAvoidingContainer";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -7,7 +7,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { availableTags, colors } from "../utils/constants";
 import DefaultButton from "../components/DefaultButton";
-import { updateField } from "../redux/slices/userSlice";
+import { updateField, updateUserProfile } from "../redux/slices/userSlice";
 
 const PersonalGoals = () => {
   const navigation = useNavigation();
@@ -16,6 +16,27 @@ const PersonalGoals = () => {
 
   const profileImage = useSelector((state) => state.user.image);
   const selectedTags = useSelector((state) => state.user.personal_goals || []);
+  const user = useSelector((state) => state.user);
+  const payload = {
+    email: user.email,
+    name: user.name,
+    age: user.age,
+    date_of_birth: user.date_of_birth,
+    image: user.image,
+    gender: user.gender,
+    city: user.city,
+    chronic_conditions: user.chronic_conditions,
+    current_medications: user.current_medications,
+    known_allergies: user.known_allergies,
+    family_medical_history: user.family_medical_history,
+    symptom_pattern: user.symptom_pattern,
+    sleep_quality: user.sleep_quality,
+    diet_type: user.diet_type,
+    lifestyle_type: user.lifestyle_type,
+    occupation: user.occupation,
+    smoking: user.smoking,
+    alcohol: user.alcohol,
+  };
 
   const toggleTag = (tag) => {
     let updated;
@@ -36,6 +57,24 @@ const PersonalGoals = () => {
         index: 0,
         routes: [{ name: "MainScreen", from: "PersonalGoals" }],
       });
+
+      dispatch(updateUserProfile(payload))
+        .unwrap()
+        .then((res) => {
+          console.log("✅Successfully Saved Profile:", res);
+          Alert.alert("Success", "Profile saved successfully!");
+        })
+        .catch((err) => {
+          console.error("❌ save failed:", err);
+
+          Alert.alert(
+            "Failed Saving Profile",
+            typeof err === "string"
+              ? err
+              : err?.detail || "Something went wrong. Update personal information in profile tab."
+          );
+        });
+
     } else {
       navigation.goBack();
     }
@@ -83,9 +122,8 @@ const PersonalGoals = () => {
                 <TouchableOpacity
                   key={tag.value}
                   onPress={() => toggleTag(tag)}
-                  className={`${
-                    isSelected ? "bg-blue1" : "bg-darkGrey"
-                  } rounded-xl p-2`}
+                  className={`${isSelected ? "bg-blue1" : "bg-darkGrey"
+                    } rounded-xl p-2`}
                 >
                   <Text
                     style={{
