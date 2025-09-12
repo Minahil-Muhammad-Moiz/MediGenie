@@ -3,8 +3,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { register } from "../slices/authSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {API_URL} from '@env';
 
-const API_URL = "https://medigenie-1.onrender.com/api/auth";
+// const API_URL = {`${API_URL}/auth`};
 
 // 🔹 Register User
 export const registerUser = createAsyncThunk(
@@ -12,7 +13,7 @@ export const registerUser = createAsyncThunk(
   async (formData, { dispatch, rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${API_URL}/registration/`,
+        `${API_URL}/auth/registration/`,
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -33,7 +34,7 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${API_URL}/log-in/`,
+        `${API_URL}/auth/log-in/`,
         { email, password },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -61,7 +62,7 @@ export const verifyOtp = createAsyncThunk(
   async ({ email, code }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${API_URL}/verify-code/`,
+        `${API_URL}/auth/verify-code/`,
         {
           email,
           verification_code: code,

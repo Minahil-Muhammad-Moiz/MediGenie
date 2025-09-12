@@ -2,6 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { API_URL } from '@env';
 
 /* ---------------- FETCH USER ---------------- */
 export const fetchUser = createAsyncThunk(
@@ -18,7 +19,7 @@ export const fetchUser = createAsyncThunk(
       if (!token) return thunkAPI.rejectWithValue("No token");
 
       const res = await axios.get(
-        "https://medigenie-1.onrender.com/api/auth/user/",
+        `${API_URL}/auth/user/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -48,7 +49,7 @@ export const updateUserProfile = createAsyncThunk(
       if (!token) return thunkAPI.rejectWithValue("No token");
 
       const res = await axios.put(
-        "https://medigenie-1.onrender.com/api/profiles/update/",
+        `${API_URL}/profiles/update/`,
         updatedData,
         {
           headers: {
