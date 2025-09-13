@@ -17,7 +17,7 @@ import { colors } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { createSession, sendMessage } from "../redux/slices/mediLensSlice";
 
-// 🔹 Message bubble component (safe hooks)
+// 🔹 Message bubble component
 const MessageBubble = ({ item }) => {
   const [showCursor, setShowCursor] = useState(true);
 
@@ -32,9 +32,8 @@ const MessageBubble = ({ item }) => {
 
   return (
     <View
-      className={`px-4 py-2 rounded-2xl max-w-[75%] my-2 shadow-md ${
-        item.isUser ? "self-end bg-blue1" : "self-start bg-gray-200"
-      }`}
+      className={`px-4 py-2 rounded-2xl max-w-[75%] my-2 shadow-md ${item.isUser ? "self-end bg-blue1" : "self-start bg-gray-200"
+        }`}
     >
       <Text className="text-base text-black">
         {item.text}
@@ -48,12 +47,20 @@ export default function MediLens() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { sessionId, messages } = useSelector((state) => state.mediLens);
-// console.log(sessionId);
 
   const [inputText, setInputText] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [pdfUploaded, setPdfUploaded] = useState(false);
   const [pdfFile, setPdfFile] = useState(null);
+
+  // 🔹 Side menu state
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [sessions, setSessions] = useState([
+    { id: "1", title: "Diabetes Report.pdf" },
+    { id: "2", title: "Heart Checkup.pdf" },
+    { id: "3", title: "Blood Test.pdf" },
+  ]);
+  const [activeSessionId, setActiveSessionId] = useState("1");
 
   // 📂 PDF Upload
   const handleUpload = async () => {
@@ -90,7 +97,7 @@ export default function MediLens() {
     }
   };
 
-  // 💬 Send message via slice
+  // 💬 Send message
   const handleSendMessage = () => {
     if (!inputText.trim()) return;
     dispatch(sendMessage({ sessionId, content: inputText }));
@@ -98,26 +105,49 @@ export default function MediLens() {
   };
 
   return (
-    <>
+    <SafeAreaView className="flex-1 bg-black1 relative">
       {/* Header */}
-      <View className="p-4 w-full bg-black1 absolute top-0 z-10">
-        <View className="flex-row items-center">
-          <TouchableOpacity
-            className="bg-darkGrey p-2 rounded-full items-center justify-center w-12 h-12"
-            onPress={() => navigation.goBack()}
-          >
-            <Ionicons name="arrow-back-outline" color={colors.lightText} size={22} />
-          </TouchableOpacity>
-          <Text className="font-bold text-2xl text-white ml-4">MediLens</Text>
-        </View>
-        {!isUploading && pdfFile && pdfUploaded && (
-          <Text className="text-black w-full bg-blue1 rounded-full font-bold text-center text-sm p-1 mt-2">
-            📄 {pdfFile?.name}
-          </Text>
-        )}
+      <View className="p-4 w-full bg-black1 flex-row items-center z-10">
+        <TouchableOpacity
+          className="bg-darkGrey p-2 rounded-full items-center justify-center w-12 h-12"
+          onPress={() => setMenuOpen(!menuOpen)}
+        >
+          <Ionicons name="menu-outline" color={colors.lightText} size={22} />
+        </TouchableOpacity>
+        <Text className="font-bold text-2xl text-white ml-4">MediLens</Text>
       </View>
 
-      <SafeAreaView className="flex-1 bg-black1 relative pt-20">
+      {/* Side Menu */}
+      {menuOpen && (
+        <View className="absolute top-0 left-0 bottom-0 w-64 bg-[#222] z-20 p-4">
+          <TouchableOpacity
+            className="bg-darkGrey p-2 rounded-full items-center justify-center w-12 h-12"
+            onPress={() => setMenuOpen(!menuOpen)}
+          >
+            <Ionicons name="close" color={colors.lightText} size={22} />
+          </TouchableOpacity>
+          <Text className="text-white font-bold text-xl my-4">Sessions</Text>
+          <FlatList
+            data={sessions}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                className={`p-3 rounded-lg mb-2 ${item.id === activeSessionId ? "bg-blue1" : "bg-gray-700"
+                  }`}
+                onPress={() => {
+                  setActiveSessionId(item.id);
+                  setMenuOpen(false);
+                }}
+              >
+                <Text className="text-white">{item.title}</Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+      )}
+
+      {/* Main Content */}
+      <SafeAreaView className="flex-1 pt-2">
         <MainContainer>
           {/* Upload Button */}
           {!pdfUploaded && !isUploading && (
@@ -157,9 +187,8 @@ export default function MediLens() {
             placeholder={pdfUploaded ? "Type your message" : "Upload a PDF to start chatting"}
             placeholderTextColor="#888"
             editable={pdfUploaded}
-            className={`flex-1 rounded-3xl mx-2 py-2 px-4 text-base text-black ${
-              pdfUploaded ? "bg-lightText" : "bg-gray-400"
-            }`}
+            className={`flex-1 rounded-3xl mx-2 py-2 px-4 text-base text-black ${pdfUploaded ? "bg-lightText" : "bg-gray-400"
+              }`}
           />
           <TouchableOpacity onPress={handleSendMessage} disabled={!pdfUploaded} className="ml-2">
             <Ionicons
@@ -170,6 +199,6 @@ export default function MediLens() {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-    </>
+    </SafeAreaView>
   );
 }
