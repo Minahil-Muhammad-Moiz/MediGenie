@@ -14,9 +14,15 @@ import { useNavigation } from '@react-navigation/native';
 import { pick, keepLocalCopy } from '@react-native-documents/picker'; // ✅ for picking & saving files
 import MainContainer from '../components/MainContainer';
 import { colors } from '../utils/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { createSession } from '../redux/slices/mediLensSlice';
+// import { createSession } from "../redux/slices/mediLensSlice";
 
 export default function MediLens() {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const { sessionId, loading, error } = useSelector((state) => state.mediLens);
+
 
     const [messages, setMessages] = useState([]);
     const [inputText, setInputText] = useState('');
@@ -27,45 +33,45 @@ export default function MediLens() {
     // 📂 Actual PDF Upload
     const handleUpload = async () => {
         try {
-            const [file] = await pick({ type: 'application/pdf' }); // only PDF
+            const [file] = await pick({ type: "application/pdf" });
             if (!file) return;
 
             setIsUploading(true);
 
-            // create local copy
             const [localCopy] = await keepLocalCopy({
                 files: [
                     {
                         uri: file.uri,
-                        fileName: file.name ?? 'document.pdf',
+                        fileName: file.name ?? "document.pdf",
                     },
                 ],
-                destination: 'documentDirectory',
+                destination: "documentDirectory",
             });
-
-            setIsUploading(false);
 
             const savedFile = {
                 uri: localCopy.localUri,
-                name: localCopy.localUri.split('/').pop(), // extract filename
+                name: localCopy.localUri.split("/").pop(),
             };
 
             setPdfFile(savedFile);
-            console.log('Saved file:', savedFile);
+
+            // 🔹 Dispatch API call
+            await dispatch(createSession({ file: savedFile, title: savedFile.name }));
 
             setPdfUploaded(true);
+            setIsUploading(false);
+
             Alert.alert(
-                '✅ Success',
-                `Your PDF "${file.name}" has been analyzed. You can now chat with the bot!`
+                `Ready to Chat!`,
+                `PDF "${file.name}" has been uploaded`
             );
-
-
         } catch (err) {
-            console.log('Upload Error:', err);
-            Alert.alert('❌ Failed', 'Could not upload file.');
+            console.log("Upload Error:", err);
+            Alert.alert("❌ Failed", "Could not upload file.");
             setIsUploading(false);
         }
     };
+
 
     // 💬 Send message with dummy bot reply
     const sendMessage = () => {
@@ -112,7 +118,7 @@ export default function MediLens() {
                     </TouchableOpacity>
                     <Text className="font-bold text-2xl text-white ml-4">MediLens</Text>
                 </View>
-                {pdfFile && (
+                {!isUploading && pdfFile && (
                     <Text className="text-black w-full bg-blue1 rounded-full font-bold text-center text-sm p-1">
                         📄 {pdfFile?.name}
                     </Text>
