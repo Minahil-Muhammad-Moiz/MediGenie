@@ -21,7 +21,9 @@ import {
   fetchSessions,
   retrieveSession,
   fetchMessages,
-  deleteSession,   // ✅ new import
+  deleteSession,
+  updateSession,
+  updateSessionTitle,   // ✅ new import
 } from "../redux/slices/mediLensSlice";
 
 // 🔹 Message bubble
@@ -53,7 +55,7 @@ const MessageBubble = ({ item }) => {
 export default function MediLens() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { sessionId, messages, sessions, loading, title } = useSelector(
+  const { sessionId, messages, sessions, loading, title, pdfFile } = useSelector(
     (state) => state.mediLens
   );
 
@@ -118,8 +120,8 @@ export default function MediLens() {
         { text: "Delete", style: "destructive", onPress: () => dispatch(deleteSession(id)) }
       ]
     );
-
   }
+
   return (
     <SafeAreaView className="flex-1 bg-black1 relative">
       {/* Header */}
@@ -153,33 +155,95 @@ export default function MediLens() {
               data={sessions}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                <TouchableOpacity
+                <View
                   className={`p-3 rounded-lg flex flex-row items-center justify-between mb-2 ${item.id === sessionId ? "bg-blue1" : "bg-gray-700"
                     }`}
-                  onPress={() => {
-                    // ✅ When clicking a session: retrieve details + fetch messages
-                    dispatch(retrieveSession(item.id)).then(() => {
-                      // console.log(dispatch(fetchMessages(item.id)));
-                      dispatch(fetchMessages(item.id));
-
-                    });
-
-                    setPdfUploaded(true);
-                    setMenuOpen(false);
-                  }}
                 >
-                  <Text className="text-white">{item.title}</Text>
+                  {/* Left side: title OR input */}
+                  <TouchableOpacity
+                    className="flex-1"
+                    onPress={() => {
+                      // ✅ When clicking a session: retrieve details + fetch messages
+                      dispatch(retrieveSession(item.id)).then(() => {
+                        dispatch(fetchMessages(item.id));
+                      });
+                      setPdfUploaded(true);
+                      setMenuOpen(false);
+                    }}
+                    disabled={item.editing} // prevent chat open when editing
+                  >
+                    {item.editing ? (
+                      <View className="flex-row items-center">
+                        <TextInput
+                          value={item.tempTitle || ''}
+                          onChangeText={(text) =>
+                            dispatch({
+                              type: "mediLens/setTempTitle",
+                              payload: { id: item.id, title: text },
+                            })
+                          }
+                          autoFocus
+                          className="flex-1 bg-white text-black rounded px-2 py-1"
+                        />
+                        <TouchableOpacity
+                          className="ml-2 bg-green-500 p-2 rounded"
+                          onPress={() => {
+                            
+                            dispatch(retrieveSession(item.id)).then(() => {
+                              // console.log(pdfFile);
+                              dispatch(
+                                updateSessionTitle({
+                                  sessionId: item.id,
+                                  title: item.tempTitle || '',
+                                  file: pdfFile, // must be a file object
+                                })
+                              )
+                            }).then((res) => {
+                              // if (res.meta.requestStatus === "fulfilled") {
+                              //   // ✅ close editing mode after successful update
+                              dispatch({ type: "mediLens/stopEditingTitle", payload: { id: item.id } });
+                              // }
+                            });
+                          }}
+                        >
+                          <Ionicons name="checkmark" color="white" size={18} />
+                        </TouchableOpacity>
+
+                      </View>
+                    ) : (
+                      <Text className="text-white">{item.title}</Text>
+                    )}
+                  </TouchableOpacity>
+
+                  {/* Edit button (only when not editing) */}
+                  {!item.editing && (
+                    <TouchableOpacity
+                      className="bg-yellow-300 mr-1 p-2 rounded-full items-center justify-center w-8 h-8"
+                      onPress={() =>
+                        dispatch({
+                          type: "mediLens/startEditingTitle",
+                          payload: { id: item.id },
+                        })
+                      }
+                    >
+                      <Ionicons name="pencil-outline" color="black" size={15} />
+                    </TouchableOpacity>
+                  )}
+
+                  {/* Delete button */}
                   <TouchableOpacity
                     className="bg-red-200 mr-1 p-2 rounded-full items-center justify-center w-8 h-8"
                     onPress={() => handleDeleteSession(item?.id)}
                   >
                     <Ionicons name="trash-outline" color={colors.fail} size={15} />
                   </TouchableOpacity>
-                </TouchableOpacity>
-              )}
+                </View>
+              )
+              }
             />
+
           )}
-        </View>
+        </View >
       )}
 
       {/* Main Content */}
@@ -246,6 +310,6 @@ export default function MediLens() {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }

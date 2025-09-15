@@ -37,6 +37,7 @@ export const retrieveSession = createAsyncThunk(
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      // console.log(response.data);
 
       return response.data;
     } catch (error) {
@@ -164,6 +165,50 @@ export const fetchMessages = createAsyncThunk(
   }
 );
 
+export const updateSessionTitle = createAsyncThunk(
+  "mediLens/updateSessionTitle",
+  async ({ sessionId, title }, { getState, rejectWithValue }) => {
+    try {
+      const token = await AsyncStorage.getItem("access");
+      if (!token) return rejectWithValue({ error: "No auth token found" });
+
+      const state = getState().mediLens;
+      const session = state.sessions.find(s => s.id === sessionId);
+      if (!session) return rejectWithValue({ error: "Session not found" });
+
+      const formData = new FormData();
+      formData.append("title", title);
+
+      // 🔹 re-use old file (must be converted into { uri, name, type })
+      formData.append("file", {
+        uri: session.fileUri || state.pdfFile?.uri, // store local fileUri when uploading
+        name: session.fileName || state.pdfFile?.name || "document.pdf",
+        type: "application/pdf",
+      });
+
+      // 🔹 re-use old index_dir and embedding_model
+      if (session.index_dir) formData.append("index_dir", session.index_dir);
+      if (session.embedding_model) formData.append("embedding_model", session.embedding_model);
+
+      const response = await axios.put(
+        `${API_URL}/rag/session/${sessionId}/update/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.log("Update Session Error:", error.response?.data || error.message);
+      return rejectWithValue(error.response?.data || { error: "Failed to update session" });
+    }
+  }
+);
+
 export const deleteSession = createAsyncThunk(
   "mediLens/deleteSession",
   async (sessionId, { rejectWithValue }) => {
@@ -224,6 +269,26 @@ const mediLensSlice = createSlice({
     clearMessages: (state) => {
       state.messages = [];
     },
+    startEditingTitle: (state, action) => {
+      const session = state.sessions.find(s => s.id === action.payload.id);
+      if (session) {
+        session.editing = true;
+        session.tempTitle = session.title;
+      }
+    },
+    setTempTitle: (state, action) => {
+      const session = state.sessions.find(s => s.id === action.payload.id);
+      if (session) {
+        session.tempTitle = action.payload.title;
+      }
+    },
+    stopEditingTitle: (state, action) => {
+      const session = state.sessions.find(s => s.id === action.payload.id);
+      if (session) {
+        session.editing = false;
+        session.tempTitle = undefined;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -265,6 +330,16 @@ const mediLensSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(updateSessionTitle.fulfilled, (state, action) => {
+        state.sessions = state.sessions.map((s) =>
+          s.id === action.payload.id
+            ? { ...s, title: action.payload.title, editing: false, tempTitle: undefined }
+            : s
+        );
+        if (state.sessionId === action.payload.id) {
+          state.title = action.payload.title;
+        }
+      })
       .addCase(deleteSession.fulfilled, (state, action) => {
         state.sessions = state.sessions.filter(
           (s) => s.id !== action.payload
@@ -280,5 +355,5 @@ const mediLensSlice = createSlice({
   },
 });
 
-export const { clearSession, addMessage, updateMessage, clearMessages } = mediLensSlice.actions;
+export const { clearSession, addMessage, updateMessage, clearMessages, startEditingTitle, setTempTitle, stopEditingTitle } = mediLensSlice.actions;
 export default mediLensSlice.reducer;
