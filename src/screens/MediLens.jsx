@@ -20,7 +20,8 @@ import {
   sendMessage,
   fetchSessions,
   retrieveSession,
-  fetchMessages,   // ✅ new import
+  fetchMessages,
+  deleteSession,   // ✅ new import
 } from "../redux/slices/mediLensSlice";
 
 // 🔹 Message bubble
@@ -108,6 +109,17 @@ export default function MediLens() {
     setInputText("");
   };
 
+  const handleDeleteSession = (id) => {
+    Alert.alert(
+      "Delete Session",
+      "Are you sure you want to delete this session?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Delete", style: "destructive", onPress: () => dispatch(deleteSession(id)) }
+      ]
+    );
+
+  }
   return (
     <SafeAreaView className="flex-1 bg-black1 relative">
       {/* Header */}
@@ -149,7 +161,7 @@ export default function MediLens() {
                     dispatch(retrieveSession(item.id)).then(() => {
                       // console.log(dispatch(fetchMessages(item.id)));
                       dispatch(fetchMessages(item.id));
-                      
+
                     });
 
                     setPdfUploaded(true);
@@ -159,7 +171,7 @@ export default function MediLens() {
                   <Text className="text-white">{item.title}</Text>
                   <TouchableOpacity
                     className="bg-red-200 mr-1 p-2 rounded-full items-center justify-center w-8 h-8"
-                    // onPress={}
+                    onPress={() => handleDeleteSession(item?.id)}
                   >
                     <Ionicons name="trash-outline" color={colors.fail} size={15} />
                   </TouchableOpacity>

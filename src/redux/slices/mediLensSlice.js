@@ -150,7 +150,7 @@ export const fetchMessages = createAsyncThunk(
 
       const data = await response.json();
       // console.log(data);
-      
+
       // Normalize to match UI format
       return data.map((msg) => ({
         id: msg.id,
@@ -159,6 +159,33 @@ export const fetchMessages = createAsyncThunk(
       }));
     } catch (err) {
       // console.log(err);
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const deleteSession = createAsyncThunk(
+  "mediLens/deleteSession",
+  async (sessionId, { rejectWithValue }) => {
+    try {
+      const token = await AsyncStorage.getItem("access");
+      if (!token) return rejectWithValue("No auth token found");
+
+      const response = await fetch(`${API_URL}/rag/session/${sessionId}/delete/`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const err = await response.text();
+        throw new Error(err || "Failed to delete a Session");
+      }
+
+      return sessionId;
+    } catch (err) {
+      console.log(err);
       return rejectWithValue(err.message);
     }
   }
@@ -237,6 +264,17 @@ const mediLensSlice = createSlice({
       .addCase(fetchMessages.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(deleteSession.fulfilled, (state, action) => {
+        state.sessions = state.sessions.filter(
+          (s) => s.id !== action.payload
+        );
+        if (state.sessionId === action.payload) {
+          // Clear current chat if the deleted session was open
+          state.sessionId = null;
+          state.messages = [];
+          state.title = "";
+        }
       });
 
   },
