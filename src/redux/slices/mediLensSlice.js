@@ -1,4 +1,3 @@
-// redux/slices/mediLensSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { API_URL } from "@env";
@@ -16,10 +15,33 @@ export const fetchSessions = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      return response.data; // array of sessions
+      return response.data;
     } catch (error) {
       console.log("Fetch Sessions Error:", error.response?.data || error.message);
       return rejectWithValue(error.response?.data || { error: "Failed to load sessions" });
+    }
+  }
+);
+
+// 🔹 Retrieve Session (on click from list)
+export const retrieveSession = createAsyncThunk(
+  "mediLens/retrieveSession",
+  async (sessionId, { rejectWithValue }) => {
+    try {
+      const token = await AsyncStorage.getItem("access");
+      if (!token) return rejectWithValue({ error: "No auth token found" });
+
+      const response = await axios.get(
+        `${API_URL}/rag/session/${sessionId}/retrieve/`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.log("Retrieve Session Error:", error.response?.data || error.message);
+      return rejectWithValue(error.response?.data || { error: "Failed to retrieve session" });
     }
   }
 );
@@ -63,15 +85,12 @@ export const sendMessage = createAsyncThunk(
       const token = await AsyncStorage.getItem("access");
       if (!token) return rejectWithValue({ error: "No auth token found" });
 
-      // Add user message immediately
       const userMessage = { id: Date.now().toString(), text: content, isUser: true };
       dispatch(addMessage(userMessage));
 
-      // Create placeholder bot message
       const botId = `${Date.now()}-bot`;
       dispatch(addMessage({ id: botId, text: "...", isUser: false, streaming: false }));
 
-      // Call API
       const response = await fetch(`${API_URL}/rag/message/create/`, {
         method: "POST",
         headers: {
@@ -86,7 +105,6 @@ export const sendMessage = createAsyncThunk(
         throw new Error(errText || "Message failed");
       }
 
-      // Parse response
       let botReply;
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {
@@ -95,7 +113,6 @@ export const sendMessage = createAsyncThunk(
         botReply = await response.text();
       }
 
-      // Clean SSE "data:" chunks
       const cleanedBotReply = botReply
         .split("\n")
         .map((line) => line.replace(/^data:\s?/, "").trim())
@@ -120,24 +137,19 @@ const mediLensSlice = createSlice({
     loading: false,
     error: null,
     messages: [],
+    pdfFile: null,
+    title: null,
   },
   reducers: {
     clearSession: (state) => {
       state.sessionId = null;
       state.error = null;
       state.messages = [];
+      state.pdfFile = null;
+      state.title = null;
     },
     addMessage: (state, action) => {
       state.messages.push(action.payload);
-    },
-    appendStreamingChunk: (state, action) => {
-      const { id, chunk } = action.payload;
-      const msg = state.messages.find((m) => m.id === id);
-      if (msg) msg.text += chunk;
-    },
-    finishStreaming: (state, action) => {
-      const msg = state.messages.find((m) => m.id === action.payload);
-      if (msg) msg.streaming = false;
     },
     updateMessage: (state, action) => {
       const { id, text } = action.payload;
@@ -163,15 +175,22 @@ const mediLensSlice = createSlice({
       })
       .addCase(createSession.fulfilled, (state, action) => {
         state.sessionId = action.payload.id;
+        state.title = action.payload.title;
+        state.pdfFile = action.payload.file;
+      })
+      .addCase(retrieveSession.fulfilled, (state, action) => {
+        state.sessionId = action.payload.id;
+        state.title = action.payload.title;
+        state.pdfFile = action.payload.file;
+        state.messages =
+          action.payload.recent_messages?.reverse().map((m) => ({
+            id: m.id,
+            text: m.content,
+            isUser: m.role === "User",
+          })) || [];
       });
   },
 });
 
-export const {
-  clearSession,
-  addMessage,
-  appendStreamingChunk,
-  finishStreaming,
-  updateMessage,
-} = mediLensSlice.actions;
+export const { clearSession, addMessage, updateMessage } = mediLensSlice.actions;
 export default mediLensSlice.reducer;

@@ -15,7 +15,12 @@ import { pick, keepLocalCopy } from "@react-native-documents/picker";
 import MainContainer from "../components/MainContainer";
 import { colors } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { createSession, sendMessage, fetchSessions } from "../redux/slices/mediLensSlice";
+import {
+  createSession,
+  sendMessage,
+  fetchSessions,
+  retrieveSession,
+} from "../redux/slices/mediLensSlice";
 
 // 🔹 Message bubble
 const MessageBubble = ({ item }) => {
@@ -30,9 +35,8 @@ const MessageBubble = ({ item }) => {
 
   return (
     <View
-      className={`px-4 py-2 rounded-2xl max-w-[75%] my-2 shadow-md ${
-        item.isUser ? "self-end bg-blue1" : "self-start bg-gray-200"
-      }`}
+      className={`px-4 py-2 rounded-2xl max-w-[75%] my-2 shadow-md ${item.isUser ? "self-end bg-blue1" : "self-start bg-gray-200"
+        }`}
     >
       <Text className="text-base text-black">
         {item.text}
@@ -45,17 +49,17 @@ const MessageBubble = ({ item }) => {
 export default function MediLens() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { sessionId, messages, sessions, loading } = useSelector(
+  const { sessionId, messages, sessions, loading, title } = useSelector(
     (state) => state.mediLens
   );
+
+
 
   const [inputText, setInputText] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [pdfUploaded, setPdfUploaded] = useState(false);
-  const [pdfFile, setPdfFile] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Load sessions on mount
   useEffect(() => {
     dispatch(fetchSessions());
   }, [dispatch]);
@@ -78,14 +82,12 @@ export default function MediLens() {
         name: localCopy.localUri.split("/").pop(),
       };
 
-      setPdfFile(savedFile);
-
       const result = await dispatch(createSession({ file: savedFile, title: savedFile.name }));
 
       if (result.meta.requestStatus === "fulfilled") {
         setPdfUploaded(true);
         Alert.alert("✅ Ready to Chat!", `PDF "${savedFile.name}" uploaded`);
-        dispatch(fetchSessions()); // refresh list
+        dispatch(fetchSessions());
       } else {
         throw new Error(result.payload?.error || "Upload failed");
       }
@@ -113,7 +115,9 @@ export default function MediLens() {
         >
           <Ionicons name="menu-outline" color={colors.lightText} size={22} />
         </TouchableOpacity>
-        <Text className="font-bold text-2xl text-white ml-4">MediLens</Text>
+        <Text className="font-bold text-2xl text-white ml-4">
+          {title || "MediLens"}
+        </Text>
       </View>
 
       {/* Side Menu */}
@@ -135,13 +139,14 @@ export default function MediLens() {
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  className={`p-3 rounded-lg mb-2 ${
-                    item.id === sessionId ? "bg-blue1" : "bg-gray-700"
-                  }`}
+                  className={`p-3 rounded-lg mb-2 ${item.id === sessionId ? "bg-blue1" : "bg-gray-700"
+                    }`}
                   onPress={() => {
-                    // set active session from list
-                    // you can fetch messages for this session if API exists
+                    dispatch(retrieveSession(item.id));
+                    setPdfUploaded(true);
                     setMenuOpen(false);
+                    console.log(sessionId, title);
+
                   }}
                 >
                   <Text className="text-white">{item.title}</Text>
@@ -193,9 +198,8 @@ export default function MediLens() {
             placeholder={pdfUploaded ? "Type your message" : "Upload a PDF to start chatting"}
             placeholderTextColor="#888"
             editable={pdfUploaded}
-            className={`flex-1 rounded-3xl mx-2 py-2 px-4 text-base text-black ${
-              pdfUploaded ? "bg-lightText" : "bg-gray-400"
-            }`}
+            className={`flex-1 rounded-3xl mx-2 py-2 px-4 text-base text-black ${pdfUploaded ? "bg-lightText" : "bg-gray-400"
+              }`}
           />
           <TouchableOpacity onPress={handleSendMessage} disabled={!pdfUploaded} className="ml-2">
             <Ionicons
