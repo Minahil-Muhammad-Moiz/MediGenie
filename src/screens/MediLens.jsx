@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,25 +15,24 @@ import { pick, keepLocalCopy } from "@react-native-documents/picker";
 import MainContainer from "../components/MainContainer";
 import { colors } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { createSession, sendMessage } from "../redux/slices/mediLensSlice";
+import { createSession, sendMessage, fetchSessions } from "../redux/slices/mediLensSlice";
 
-// 🔹 Message bubble component
+// 🔹 Message bubble
 const MessageBubble = ({ item }) => {
   const [showCursor, setShowCursor] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (item.streaming) {
-      const interval = setInterval(() => {
-        setShowCursor((prev) => !prev);
-      }, 500);
+      const interval = setInterval(() => setShowCursor((prev) => !prev), 500);
       return () => clearInterval(interval);
     }
   }, [item.streaming]);
 
   return (
     <View
-      className={`px-4 py-2 rounded-2xl max-w-[75%] my-2 shadow-md ${item.isUser ? "self-end bg-blue1" : "self-start bg-gray-200"
-        }`}
+      className={`px-4 py-2 rounded-2xl max-w-[75%] my-2 shadow-md ${
+        item.isUser ? "self-end bg-blue1" : "self-start bg-gray-200"
+      }`}
     >
       <Text className="text-base text-black">
         {item.text}
@@ -46,23 +45,22 @@ const MessageBubble = ({ item }) => {
 export default function MediLens() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { sessionId, messages } = useSelector((state) => state.mediLens);
+  const { sessionId, messages, sessions, loading } = useSelector(
+    (state) => state.mediLens
+  );
 
   const [inputText, setInputText] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [pdfUploaded, setPdfUploaded] = useState(false);
   const [pdfFile, setPdfFile] = useState(null);
-
-  // 🔹 Side menu state
   const [menuOpen, setMenuOpen] = useState(false);
-  const [sessions, setSessions] = useState([
-    { id: "1", title: "Diabetes Report.pdf" },
-    { id: "2", title: "Heart Checkup.pdf" },
-    { id: "3", title: "Blood Test.pdf" },
-  ]);
-  const [activeSessionId, setActiveSessionId] = useState("1");
 
-  // 📂 PDF Upload
+  // Load sessions on mount
+  useEffect(() => {
+    dispatch(fetchSessions());
+  }, [dispatch]);
+
+  // 📂 Upload PDF
   const handleUpload = async () => {
     try {
       const [file] = await pick({ type: "application/pdf" });
@@ -86,7 +84,8 @@ export default function MediLens() {
 
       if (result.meta.requestStatus === "fulfilled") {
         setPdfUploaded(true);
-        Alert.alert("✅ Ready to Chat!", `PDF "${savedFile.name}" has been uploaded`);
+        Alert.alert("✅ Ready to Chat!", `PDF "${savedFile.name}" uploaded`);
+        dispatch(fetchSessions()); // refresh list
       } else {
         throw new Error(result.payload?.error || "Upload failed");
       }
@@ -122,43 +121,51 @@ export default function MediLens() {
         <View className="absolute top-0 left-0 bottom-0 w-64 bg-[#222] z-20 p-4">
           <TouchableOpacity
             className="bg-darkGrey p-2 rounded-full items-center justify-center w-12 h-12"
-            onPress={() => setMenuOpen(!menuOpen)}
+            onPress={() => setMenuOpen(false)}
           >
             <Ionicons name="close" color={colors.lightText} size={22} />
           </TouchableOpacity>
           <Text className="text-white font-bold text-xl my-4">Sessions</Text>
-          <FlatList
-            data={sessions}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                className={`p-3 rounded-lg mb-2 ${item.id === activeSessionId ? "bg-blue1" : "bg-gray-700"
+
+          {loading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <FlatList
+              data={sessions}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  className={`p-3 rounded-lg mb-2 ${
+                    item.id === sessionId ? "bg-blue1" : "bg-gray-700"
                   }`}
-                onPress={() => {
-                  setActiveSessionId(item.id);
-                  setMenuOpen(false);
-                }}
-              >
-                <Text className="text-white">{item.title}</Text>
-              </TouchableOpacity>
-            )}
-          />
+                  onPress={() => {
+                    // set active session from list
+                    // you can fetch messages for this session if API exists
+                    setMenuOpen(false);
+                  }}
+                >
+                  <Text className="text-white">{item.title}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          )}
         </View>
       )}
 
       {/* Main Content */}
       <SafeAreaView className="flex-1 pt-2">
         <MainContainer>
-          {/* Upload Button */}
           {!pdfUploaded && !isUploading && (
             <View className="flex-1 items-center justify-center">
-              <TouchableOpacity onPress={handleUpload} className="bg-blue1 px-6 py-3 rounded-2xl">
+              <TouchableOpacity
+                onPress={handleUpload}
+                className="bg-blue1 px-6 py-3 rounded-2xl"
+              >
                 <Text className="text-white text-lg font-semibold">Upload PDF</Text>
               </TouchableOpacity>
             </View>
           )}
 
-          {/* Loader */}
           {isUploading && (
             <View className="flex-1 items-center justify-center">
               <ActivityIndicator size="large" color={colors.blue1} />
@@ -166,7 +173,6 @@ export default function MediLens() {
             </View>
           )}
 
-          {/* Chat */}
           {pdfUploaded && (
             <FlatList
               data={messages.slice().reverse()}
@@ -179,7 +185,7 @@ export default function MediLens() {
           )}
         </MainContainer>
 
-        {/* Input Area */}
+        {/* Input */}
         <View className="flex-row items-center p-4 px-2 bg-[#171717] border-t border-[#171717]">
           <TextInput
             value={inputText}
@@ -187,8 +193,9 @@ export default function MediLens() {
             placeholder={pdfUploaded ? "Type your message" : "Upload a PDF to start chatting"}
             placeholderTextColor="#888"
             editable={pdfUploaded}
-            className={`flex-1 rounded-3xl mx-2 py-2 px-4 text-base text-black ${pdfUploaded ? "bg-lightText" : "bg-gray-400"
-              }`}
+            className={`flex-1 rounded-3xl mx-2 py-2 px-4 text-base text-black ${
+              pdfUploaded ? "bg-lightText" : "bg-gray-400"
+            }`}
           />
           <TouchableOpacity onPress={handleSendMessage} disabled={!pdfUploaded} className="ml-2">
             <Ionicons
