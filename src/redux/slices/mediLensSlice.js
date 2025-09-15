@@ -129,6 +129,41 @@ export const sendMessage = createAsyncThunk(
   }
 );
 
+export const fetchMessages = createAsyncThunk(
+  "mediLens/fetchMessages",
+  async (sessionId, { rejectWithValue }) => {
+    try {
+      const token = await AsyncStorage.getItem("access");
+      if (!token) return rejectWithValue("No auth token found");
+
+      const response = await fetch(`${API_URL}/rag/message/${sessionId}/list/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const err = await response.text();
+        throw new Error(err || "Failed to fetch messages");
+      }
+
+      const data = await response.json();
+      // console.log(data);
+      
+      // Normalize to match UI format
+      return data.map((msg) => ({
+        id: msg.id,
+        text: msg.content,
+        isUser: msg.role === "User",
+      }));
+    } catch (err) {
+      // console.log(err);
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
 const mediLensSlice = createSlice({
   name: "mediLens",
   initialState: {
@@ -159,6 +194,9 @@ const mediLensSlice = createSlice({
         msg.streaming = false;
       }
     },
+    clearMessages: (state) => {
+      state.messages = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -188,9 +226,21 @@ const mediLensSlice = createSlice({
             text: m.content,
             isUser: m.role === "User",
           })) || [];
+      })
+      .addCase(fetchMessages.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchMessages.fulfilled, (state, action) => {
+        state.loading = false;
+        state.messages = action.payload;
+      })
+      .addCase(fetchMessages.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
+
   },
 });
 
-export const { clearSession, addMessage, updateMessage } = mediLensSlice.actions;
+export const { clearSession, addMessage, updateMessage, clearMessages } = mediLensSlice.actions;
 export default mediLensSlice.reducer;

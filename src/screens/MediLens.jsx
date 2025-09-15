@@ -20,6 +20,7 @@ import {
   sendMessage,
   fetchSessions,
   retrieveSession,
+  fetchMessages,   // ✅ new import
 } from "../redux/slices/mediLensSlice";
 
 // 🔹 Message bubble
@@ -40,7 +41,9 @@ const MessageBubble = ({ item }) => {
     >
       <Text className="text-base text-black">
         {item.text}
-        {item.streaming && showCursor && <Text className="text-gray-500">▌</Text>}
+        {item.streaming && showCursor && (
+          <Text className="text-gray-500">▌</Text>
+        )}
       </Text>
     </View>
   );
@@ -52,8 +55,6 @@ export default function MediLens() {
   const { sessionId, messages, sessions, loading, title } = useSelector(
     (state) => state.mediLens
   );
-
-
 
   const [inputText, setInputText] = useState("");
   const [isUploading, setIsUploading] = useState(false);
@@ -82,7 +83,9 @@ export default function MediLens() {
         name: localCopy.localUri.split("/").pop(),
       };
 
-      const result = await dispatch(createSession({ file: savedFile, title: savedFile.name }));
+      const result = await dispatch(
+        createSession({ file: savedFile, title: savedFile.name })
+      );
 
       if (result.meta.requestStatus === "fulfilled") {
         setPdfUploaded(true);
@@ -139,17 +142,27 @@ export default function MediLens() {
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  className={`p-3 rounded-lg mb-2 ${item.id === sessionId ? "bg-blue1" : "bg-gray-700"
+                  className={`p-3 rounded-lg flex flex-row items-center justify-between mb-2 ${item.id === sessionId ? "bg-blue1" : "bg-gray-700"
                     }`}
                   onPress={() => {
-                    dispatch(retrieveSession(item.id));
+                    // ✅ When clicking a session: retrieve details + fetch messages
+                    dispatch(retrieveSession(item.id)).then(() => {
+                      // console.log(dispatch(fetchMessages(item.id)));
+                      dispatch(fetchMessages(item.id));
+                      
+                    });
+
                     setPdfUploaded(true);
                     setMenuOpen(false);
-                    console.log(sessionId, title);
-
                   }}
                 >
                   <Text className="text-white">{item.title}</Text>
+                  <TouchableOpacity
+                    className="bg-red-200 mr-1 p-2 rounded-full items-center justify-center w-8 h-8"
+                    // onPress={}
+                  >
+                    <Ionicons name="trash-outline" color={colors.fail} size={15} />
+                  </TouchableOpacity>
                 </TouchableOpacity>
               )}
             />
@@ -166,7 +179,9 @@ export default function MediLens() {
                 onPress={handleUpload}
                 className="bg-blue1 px-6 py-3 rounded-2xl"
               >
-                <Text className="text-white text-lg font-semibold">Upload PDF</Text>
+                <Text className="text-white text-lg font-semibold">
+                  Upload PDF
+                </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -185,7 +200,10 @@ export default function MediLens() {
               renderItem={({ item }) => <MessageBubble item={item} />}
               className="flex-1 px-4"
               inverted
-              contentContainerStyle={{ flexGrow: 1, justifyContent: "flex-end" }}
+              contentContainerStyle={{
+                flexGrow: 1,
+                justifyContent: "flex-end",
+              }}
             />
           )}
         </MainContainer>
@@ -195,13 +213,19 @@ export default function MediLens() {
           <TextInput
             value={inputText}
             onChangeText={setInputText}
-            placeholder={pdfUploaded ? "Type your message" : "Upload a PDF to start chatting"}
+            placeholder={
+              pdfUploaded ? "Type your message" : "Upload a PDF to start chatting"
+            }
             placeholderTextColor="#888"
             editable={pdfUploaded}
             className={`flex-1 rounded-3xl mx-2 py-2 px-4 text-base text-black ${pdfUploaded ? "bg-lightText" : "bg-gray-400"
               }`}
           />
-          <TouchableOpacity onPress={handleSendMessage} disabled={!pdfUploaded} className="ml-2">
+          <TouchableOpacity
+            onPress={handleSendMessage}
+            disabled={!pdfUploaded}
+            className="ml-2"
+          >
             <Ionicons
               name="paper-plane-outline"
               size={24}
